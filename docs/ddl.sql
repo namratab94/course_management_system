@@ -1,0 +1,281 @@
+/* =============================== */
+/* Database used: PostgreSQL */
+/* =============================== */
+/* Definitions for USER */
+
+CREATE TABLE User
+(
+	ID INT PRIMARY KEY,
+	FName VARCHAR (30),
+	LName VARCHAR (30),
+	Street VARCHAR (30),
+	City VARCHAR (30),
+	PCode VARCHAR (30),
+	Country VARCHAR (30),
+	Email UNIQUE,
+	PW VARCHAR (30),
+	ProfilePicture LONGBLOB,
+	S_Flag BOOLEAN,
+	A_Flag BOOLEAN,
+	F_Flag BOOLEAN,
+	fTitle VARCHAR (30),
+	fWebsite VARCHAR (30),
+	fAffiliation VARCHAR (30)
+);
+
+/* User Relations */
+
+CREATE TABLE ContactInfo(
+	UID INT,
+	MobileNo VARCHAR(10),
+	
+	PRIMARY KEY (UID, MobileNo),
+	
+	CONSTRAINT fk1 FOREIGN KEY (UID) 
+		REFERENCES User(ID)
+);
+
+/* User-to-User Relations */
+
+CREATE TABLE Grants(
+	GranteeID INT PRIMARY KEY,
+	GrantorID INT,
+	date DATE,
+	time TIME (0),
+	CONSTRAINT fk1 FOREIGN KEY (GranteeID) 
+		REFERENCES User(ID),
+	CONSTRAINT fk2 FOREIGN KEY (GrantorID) 
+		REFERENCES User(ID)
+);
+
+CREATE TABLE Validates(
+	FID INT PRIMARY KEY,
+	AID INT,
+	date DATE,
+	time TIME (0),
+	
+	CONSTRAINT fk1 FOREIGN KEY (AID) 
+		REFERENCES User(ID),
+	CONSTRAINT fk2 FOREIGN KEY (FID) 
+		REFERENCES User(ID)
+);
+
+/* User-to-Course Relations */
+
+CREATE TABLE IsInterested(
+	SID INT,
+	CID INT,
+	
+	PRIMARY KEY (SID, CID),
+	CONSTRAINT fk1 FOREIGN KEY (SID) 
+		REFERENCES User(ID),
+	CONSTRAINT fk2 FOREIGN KEY (CID) 
+		REFERENCES Course(ID)
+);
+
+CREATE TABLE Enrolls(
+	SID INT,
+	CID INT,
+	
+	PRIMARY KEY (SID, CID),
+	CONSTRAINT fk1 FOREIGN KEY (SID) 
+		REFERENCES User(ID),
+	CONSTRAINT fk2 FOREIGN KEY (CID) 
+		REFERENCES Course(ID)
+);
+
+CREATE TABLE Pays(
+	SID INT,
+	CID INT,
+	code VARCHAR(30),
+	date DATE,
+	time TIME (0),
+	
+	PRIMARY KEY (SID, CID),
+	CONSTRAINT fk1 FOREIGN KEY (SID) 
+		REFERENCES User(ID),
+	CONSTRAINT fk2 FOREIGN KEY (CID) 
+		REFERENCES Course(ID)
+);
+
+CREATE TABLE Teaches(
+	FID INT,
+	CID INT,
+	date DATE,
+	time TIME (0),
+	
+	PRIMARY KEY(FID, CID),
+	
+	CONSTRAINT fk1 FOREIGN KEY (FID) 
+		REFERENCES User(ID),
+	CONSTRAINT fk2 FOREIGN KEY (CID) 
+		REFERENCES Course(ID)
+);
+
+/* User-to-Others */
+
+CREATE TABLE CompletesMaterial(
+	SID INT,
+	MID INT,
+	date DATE,
+	time TIME (0),
+	
+	PRIMARY KEY(SID, MID),
+	
+	CONSTRAINT fk1 FOREIGN KEY (SID) 
+		REFERENCES User(ID),
+	CONSTRAINT fk2 FOREIGN KEY (MID) 
+		REFERENCES Material(ID)
+);
+
+CREATE TABLE CompletesCourse(
+	SID INT,
+	CID INT,
+	date DATE,
+	time TIME (0),
+	rating INT,
+	comment LONGBLOB,
+	
+	PRIMARY KEY(SID, CID, comment),
+	
+	CONSTRAINT fk1 FOREIGN KEY (SID) 
+		REFERENCES User(ID),
+	CONSTRAINT fk2 FOREIGN KEY (CID) 
+		REFERENCES Course(ID)
+);
+
+/* ============================== */
+/* Course */
+
+CREATE TABLE Course(
+	ID INT PRIMARY KEY,
+	name VARCHAR(30),
+	icon LONGBLOB,
+	cost INT,
+	creationDate DATE,
+	description LONGBLOB,
+	primaryTopic INT,
+	
+	CONSTRAINT fk1 FOREIGN KEY (primaryTopic)
+		REFERENCES Topic(ID)
+);
+
+CREATE TABLE Topic(
+	ID INT PRIMARY KEY,
+	Name VARCHAR(30)
+);
+
+CREATE TABLE SecondaryTopic(
+	TID INT,
+	CID INT,
+	PRIMARY KEY (TID,CID)
+	CONSTRAINT fk1 FOREIGN KEY (TID)
+		REFERENCES Topic(ID),
+	CONSTRAINT fk2 FOREIGN KEY (CID)
+		REFERENCES Course(ID)
+);
+
+CREATE TABLE Material(
+	ID INT,
+	CID INT,
+	Name VARCHAR(30),
+	PRIMARY KEY (ID, CID),
+	CONSTRAINT fk1 FOREIGN KEY (CID)
+		REFERENCES Course(ID)
+);
+
+/* These are subclasses of materials, with the same
+primary keys of MID, CID */
+
+CREATE TABLE File(
+	MID INT,
+	CID INT,
+	Path VARCHAR(128),
+	Size INT,
+	Type VARCHAR(10),
+	
+	PRIMARY KEY (MID, CID),
+	CONSTRAINT fk1 FOREIGN KEY (MID)
+		REFERENCES Material(ID),
+	CONSTRAINT fk2 FOREIGN KEY (CID)
+		REFERENCES Material(CID)
+);
+
+CREATE TABLE Link(
+	MID INT,
+	CID INT,
+	url VARCHAR(128),
+	IsVideo BOOLEAN,
+	
+	PRIMARY KEY (MID, CID),
+	CONSTRAINT fk1 FOREIGN KEY (MID)
+		REFERENCES Material(ID),
+	CONSTRAINT fk2 FOREIGN KEY (CID)
+		REFERENCES Material(CID)
+);
+
+CREATE TABLE Post(
+	MID INT,
+	CID INT,
+	Text LONGBLOB,
+	
+	PRIMARY KEY (MID, CID),
+	CONSTRAINT fk1 FOREIGN KEY (MID)
+		REFERENCES Material(ID),
+	CONSTRAINT fk2 FOREIGN KEY (CID)
+		REFERENCES Material(CID)
+);
+
+
+/* ============================== */
+/* Question Entity and its Relations */
+
+CREATE TABLE Question(
+	ID INT PRIMARY KEY,
+	IsVisible BOOLEAN,
+	Answer LONGBLOB,
+	QuestionText LONGBLOB
+);
+
+CREATE TABLE RelatesToMaterial(
+	MID INT,
+	QID INT,
+	PRIMARY KEY (MID, QID),
+	CONSTRAINT fk1 FOREIGN KEY (MID)
+		REFERENCES Material(ID),
+	CONSTRAINT fk2 FOREIGN KEY (QID)
+		REFERENCES Question(ID)
+);
+
+/* Question-to-User Relations */
+
+CREATE TABLE LikesQuestion(
+	SID INT,
+	QID INT,
+	PRIMARY KEY (SID, QID),
+	CONSTRAINT fk1 FOREIGN KEY (SID)
+		REFERENCES User(ID),
+	CONSTRAINT fk2 FOREIGN KEY (QID)
+		REFERENCES Question(ID)
+);
+
+CREATE TABLE Asks(
+	SID INT,
+	QID INT,
+	PRIMARY KEY (SID, QID),
+	CONSTRAINT fk1 FOREIGN KEY (SID)
+		REFERENCES User(ID),
+	CONSTRAINT fk2 FOREIGN KEY (QID)
+		REFERENCES Question(ID)
+);
+
+CREATE TABLE Answers(
+	FID INT,
+	QID INT,
+	PRIMARY KEY (FID, QID),
+	CONSTRAINT fk1 FOREIGN KEY (FID)
+		REFERENCES User(ID),
+	CONSTRAINT fk2 FOREIGN KEY (QID)
+		REFERENCES Question(ID)
+);
+
