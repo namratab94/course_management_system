@@ -72,11 +72,17 @@ WSGI_APPLICATION = 'cmsproject.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': 'herokuDB',
+        'USER': 'lrqcbebdjwpdgt',
+        'PASSWORD': 'e30b80a923d162f2f4aefad5f9e21f1725f923204196dc026ad00f225efad3ec',
+        'HOST': 'ec2-107-22-167-179.compute-1.amazonaws.com',
+        'PORT': '5432',
+    },
+    'local': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'cmsproject',
         'USER': '',
         'PASSWORD': 'password',
