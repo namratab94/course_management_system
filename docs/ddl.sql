@@ -1,26 +1,44 @@
 /* =============================== */
 /* Database used: PostgreSQL */
 /* =============================== */
-/* Definitions for USER */
+/* Definitions for USER, FACULTY, ADMIN */
 
 CREATE TABLE User
 (
-	ID INT PRIMARY KEY,
+	ID INT (2) PRIMARY KEY,
 	FName VARCHAR (30),
 	LName VARCHAR (30),
 	Street VARCHAR (30),
 	City VARCHAR (30),
 	PCode VARCHAR (30),
 	Country VARCHAR (30),
-	Email UNIQUE,
-	PW VARCHAR (30),
-	ProfilePicture LONGBLOB,
-	S_Flag BOOLEAN,
-	A_Flag BOOLEAN,
-	F_Flag BOOLEAN,
-	fTitle VARCHAR (30),
-	fWebsite VARCHAR (30),
-	fAffiliation VARCHAR (30)
+	Email VARCHAR (50),
+	ProfilePicture LONGBLOB
+);
+
+CREATE TABLE Faculty
+(
+	FID INT PRIMARY KEY,
+	Title VARCHAR (30),
+	Affiliation VARCHAR (30),
+	Website VARCHAR (30),
+	AdminID INT,
+	AuthDate DATE,
+	AuthTime TIME (0),
+	CONSTRAINT fk1 FOREIGN KEY (FID)
+		REFERENCES User(ID) 
+);
+
+CREATE TABLE Admin
+(
+	AID INT PRIMARY KEY,
+	GrantorID INT,
+	AuthDate DATE,
+	AuthTime TIME (0),
+	CONSTRAINT fk1 FOREIGN KEY (AID)
+		REFERENCES User(ID),
+	CONSTRAINT fk2 FOREIGN KEY (GrantorID)
+		REFERENCES User(ID)
 );
 
 /* User Relations */
@@ -35,34 +53,10 @@ CREATE TABLE ContactInfo(
 		REFERENCES User(ID)
 );
 
-/* User-to-User Relations */
-
-CREATE TABLE Grants(
-	GranteeID INT PRIMARY KEY,
-	GrantorID INT,
-	date DATE,
-	time TIME (0),
-	CONSTRAINT fk1 FOREIGN KEY (GranteeID) 
-		REFERENCES User(ID),
-	CONSTRAINT fk2 FOREIGN KEY (GrantorID) 
-		REFERENCES User(ID)
-);
-
-CREATE TABLE Validates(
-	FID INT PRIMARY KEY,
-	AID INT,
-	date DATE,
-	time TIME (0),
-	
-	CONSTRAINT fk1 FOREIGN KEY (AID) 
-		REFERENCES User(ID),
-	CONSTRAINT fk2 FOREIGN KEY (FID) 
-		REFERENCES User(ID)
-);
 
 /* User-to-Course Relations */
 
-CREATE TABLE IsInterested(
+CREATE TABLE IsInterest(
 	SID INT,
 	CID INT,
 	
@@ -73,9 +67,11 @@ CREATE TABLE IsInterested(
 		REFERENCES Course(ID)
 );
 
-CREATE TABLE Enrolls(
+CREATE TABLE Enroll(
 	SID INT,
 	CID INT,
+	date DATE,
+	time TIME (0),
 	
 	PRIMARY KEY (SID, CID),
 	CONSTRAINT fk1 FOREIGN KEY (SID) 
@@ -84,7 +80,7 @@ CREATE TABLE Enrolls(
 		REFERENCES Course(ID)
 );
 
-CREATE TABLE Pays(
+CREATE TABLE Payment(
 	SID INT,
 	CID INT,
 	code VARCHAR(30),
@@ -98,7 +94,7 @@ CREATE TABLE Pays(
 		REFERENCES Course(ID)
 );
 
-CREATE TABLE Teaches(
+CREATE TABLE Teach(
 	FID INT,
 	CID INT,
 	date DATE,
@@ -116,26 +112,25 @@ CREATE TABLE Teaches(
 
 CREATE TABLE CompletesMaterial(
 	SID INT,
-	MID INT,
-	date DATE,
 	time TIME (0),
-	
-	PRIMARY KEY(SID, MID),
+	date DATE,
+	MID INT,
+	CCID INT,
+	PRIMARY KEY(SID, MID, CCID),
 	
 	CONSTRAINT fk1 FOREIGN KEY (SID) 
 		REFERENCES User(ID),
-	CONSTRAINT fk2 FOREIGN KEY (MID) 
-		REFERENCES Material(ID)
+	CONSTRAINT fk2 FOREIGN KEY (MID, CCID) 
+		REFERENCES Material(ID, CID)
 );
 
 CREATE TABLE CompletesCourse(
 	SID INT,
-	CID INT,
-	date DATE,
 	time TIME (0),
-	rating INT,
+	date DATE,
+	CID INT,
 	comment LONGBLOB,
-	
+	rating INT,
 	PRIMARY KEY(SID, CID, comment),
 	
 	CONSTRAINT fk1 FOREIGN KEY (SID) 
@@ -148,11 +143,12 @@ CREATE TABLE CompletesCourse(
 /* Course */
 
 CREATE TABLE Course(
-	ID INT PRIMARY KEY,
 	name VARCHAR(30),
 	icon LONGBLOB,
 	cost INT,
+	ID INT PRIMARY KEY,
 	creationDate DATE,
+	creationTime TIME (0),
 	description LONGBLOB,
 	primaryTopic INT,
 	
@@ -165,10 +161,10 @@ CREATE TABLE Topic(
 	Name VARCHAR(30)
 );
 
-CREATE TABLE SecondaryTopic(
+CREATE TABLE Sec_Topic(
 	TID INT,
 	CID INT,
-	PRIMARY KEY (TID,CID)
+	PRIMARY KEY (TID,CID),
 	CONSTRAINT fk1 FOREIGN KEY (TID)
 		REFERENCES Topic(ID),
 	CONSTRAINT fk2 FOREIGN KEY (CID)
@@ -176,9 +172,9 @@ CREATE TABLE SecondaryTopic(
 );
 
 CREATE TABLE Material(
+	Name VARCHAR(30),
 	ID INT,
 	CID INT,
-	Name VARCHAR(30),
 	PRIMARY KEY (ID, CID),
 	CONSTRAINT fk1 FOREIGN KEY (CID)
 		REFERENCES Course(ID)
@@ -188,63 +184,55 @@ CREATE TABLE Material(
 primary keys of MID, CID */
 
 CREATE TABLE File(
-	MID INT,
-	CID INT,
 	Path VARCHAR(128),
 	Size INT,
 	Type VARCHAR(10),
-	
-	PRIMARY KEY (MID, CID),
-	CONSTRAINT fk1 FOREIGN KEY (MID)
-		REFERENCES Material(ID),
-	CONSTRAINT fk2 FOREIGN KEY (CID)
-		REFERENCES Material(CID)
+	FID INT,
+	FCID INT,
+	PRIMARY KEY (FID, FCID),
+	CONSTRAINT fk1 FOREIGN KEY (FID, FCID)
+		REFERENCES Material(ID, CID)
 );
 
 CREATE TABLE Link(
-	MID INT,
-	CID INT,
 	url VARCHAR(128),
 	IsVideo BOOLEAN,
-	
-	PRIMARY KEY (MID, CID),
-	CONSTRAINT fk1 FOREIGN KEY (MID)
-		REFERENCES Material(ID),
-	CONSTRAINT fk2 FOREIGN KEY (CID)
-		REFERENCES Material(CID)
+	LID INT,
+	LCID INT,
+	PRIMARY KEY (LID, LCID),
+	CONSTRAINT fk1 FOREIGN KEY (LID, LCID)
+		REFERENCES Material(ID, CID)
 );
 
 CREATE TABLE Post(
-	MID INT,
-	CID INT,
 	Text LONGBLOB,
-	
-	PRIMARY KEY (MID, CID),
-	CONSTRAINT fk1 FOREIGN KEY (MID)
-		REFERENCES Material(ID),
-	CONSTRAINT fk2 FOREIGN KEY (CID)
-		REFERENCES Material(CID)
+	PID INT,
+	PCID INT,
+	PRIMARY KEY (PID, PCID),
+	CONSTRAINT fk1 FOREIGN KEY (PID, PCID)
+		REFERENCES Material(ID, CID)
 );
 
 
 /* ============================== */
 /* Question Entity and its Relations */
 
-CREATE TABLE Question(
+CREATE TABLE Questions(
+	QuestionText LONGBLOB,
 	ID INT PRIMARY KEY,
 	IsVisible BOOLEAN,
-	Answer LONGBLOB,
-	QuestionText LONGBLOB
+	Answer LONGBLOB
 );
 
-CREATE TABLE RelatesToMaterial(
-	MID INT,
+CREATE TABLE RelateToMaterial(
+	RMID INT,
 	QID INT,
-	PRIMARY KEY (MID, QID),
-	CONSTRAINT fk1 FOREIGN KEY (MID)
-		REFERENCES Material(ID),
+	RCID INT,
+	PRIMARY KEY (RMID, QID, RCID),
+	CONSTRAINT fk1 FOREIGN KEY (RMID, RCID)
+		REFERENCES Material(ID, CID),
 	CONSTRAINT fk2 FOREIGN KEY (QID)
-		REFERENCES Question(ID)
+		REFERENCES Questions(ID) 
 );
 
 /* Question-to-User Relations */
@@ -256,26 +244,57 @@ CREATE TABLE LikesQuestion(
 	CONSTRAINT fk1 FOREIGN KEY (SID)
 		REFERENCES User(ID),
 	CONSTRAINT fk2 FOREIGN KEY (QID)
-		REFERENCES Question(ID)
+		REFERENCES Questions(ID)
 );
 
-CREATE TABLE Asks(
+CREATE TABLE Ask(
 	SID INT,
 	QID INT,
 	PRIMARY KEY (SID, QID),
 	CONSTRAINT fk1 FOREIGN KEY (SID)
 		REFERENCES User(ID),
 	CONSTRAINT fk2 FOREIGN KEY (QID)
-		REFERENCES Question(ID)
+		REFERENCES Questions(ID)
 );
 
 CREATE TABLE Answers(
-	FID INT,
 	QID INT,
-	PRIMARY KEY (FID, QID),
-	CONSTRAINT fk1 FOREIGN KEY (FID)
-		REFERENCES User(ID),
+	AFID INT,
+	PRIMARY KEY (QID, AFID),
+	CONSTRAINT fk1 FOREIGN KEY (AFID)
+		REFERENCES Faculty(FID),
 	CONSTRAINT fk2 FOREIGN KEY (QID)
-		REFERENCES Question(ID)
+		REFERENCES Questions(ID)
 );
 
+CREATE TABLE Quiz(
+	MID INT,
+	QCID INT,
+	P_Score INT,
+	PRIMARY KEY (MID, QCID),
+	CONSTRAINT fk1 FOREIGN KEY (MID, QCID)
+		REFERENCES Material(ID, CID)
+);
+
+CREATE TABLE Quiz_Questions(
+	MID INT,
+	CID INT,
+	NUMBER INT,
+	Text LONGBLOB,
+	PRIMARY KEY (MID, CID, NUMBER),
+	CONSTRAINT fk1 FOREIGN KEY (MID, CID)
+		REFERENCES Quiz(MID, QCID)
+);
+
+CREATE TABLE Quiz_Answers(
+	MID INT,
+	CID INT,
+	NUMBER INT,
+	ID INT,
+	A_Text LONGBLOB,
+	Feedback LONGBLOB,
+	PRIMARY KEY (MID, CID, NUMBER, ID),
+	CONSTRAINT fk1 FOREIGN KEY (MID, CID, NUMBER)
+		REFERENCES Quiz_questions(MID, CID, NUMBER)
+
+);	
