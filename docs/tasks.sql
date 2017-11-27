@@ -7,21 +7,24 @@
 */
 
 /* Insert a new user */
-INSERT INTO User VALUES (11, 'Rob', 'Barron', '10 Smith St.', 'Cambridge',
-'02139', 'USA', 'rbarron@example.com', NULL);
+INSERT INTO User VALUES
+(26, 'Rob', 'Barron', '10 Smith St.', 'Cambridge', '02139',
+'USA', 'rbarron@example.com', NULL);
 
 -- Using 
--- faculty_id = 11
+-- faculty_id = 26
 -- f_title = 'Associate'
 -- f_affiliation = 'WPI'
 -- f_website = 'www.rbarron.com'
 
 /* Insert a Faculty */
-INSERT INTO Faculty VALUES (11, 'Associate', 'WPI', 'www.rbarron.com');
+INSERT INTO Faculty VALUES
+(26, 'Associate', 'WPI', 'www.rbarron.com');
 
 
 /* Insert a admin */ 
-INSERT INTO Admin VALUES (11, 9, '11-1-17', '10:00am');
+INSERT INTO Admin VALUES
+(26, 9, '2017-09-01', '10:00am');
 
 
 /*****************************************************************************/
@@ -32,10 +35,10 @@ affiliation/website/email) or fellow administrator
 */
 
 INSERT INTO User VALUES
-(11, 'Rob', 'Barron', '10 Smith St.', 'Cambridge', '02139', 'USA', 'rbarron@example.com', NULL);
+(27, 'Rob', 'Barron', '10 Smith St.', 'Cambridge', '02139', 'USA', 'rbarron@example.com', NULL);
 
 INSERT INTO Faculty VALUES
-(11, 'Associate', 'WPI', 'www.rob.com');
+(27, 'Associate', 'WPI', 'www.rob.com');
 
 /* Query to find out which faculty need to be authenticated by an admin */
 -- Using faculty_title = 'Associate'
@@ -50,17 +53,17 @@ FROM
 
 /* Insert to Authentication table as faculty has a title */
 INSERT INTO Authentication VALUES
-(11, 9, '10-1-17', '10:00am');
+(27, 9, '10-1-17', '10:00am');
 
 /* The admin can be authenticated by another admin
 	Here user Id with 9 is getting authenticated by user id 10*/
 
 /* An new administrator is authenticated by an existing admin  */
 INSERT INTO User VALUES
-(12, 'Walter', 'White', '11Smith St.', 'Cambridge', '02139', 'USA', 'wwhite@example.com', NULL);
+(28, 'Walter', 'White', '11Smith St.', 'Cambridge', '02139', 'USA', 'wwhite@example.com', NULL);
 
 INSERT INTO Admin VALUES
-(12, 10, '01-1-17', '10:00am');
+(28, 10, '01-1-17', '10:00am');
 
 
 /*****************************************************************************/
@@ -71,7 +74,8 @@ primary/secondary topics, ranked by average evaluation score): currently
 enrolled, completed, of interest
 */
 
-/*Course user with user ID = 1 is interested in*/
+/*Course user with user ID = 2 is interested in*/
+-- Using userID = 2
 
 SELECT 
 	StudentID, StudentName, CourseName, PrimaryTopic, secondaryID AS 
@@ -87,7 +91,7 @@ FROM
 	LEFT JOIN Sec_Topic sec on sec.CID = c.ID
 	LEFT JOIN  CompletesCourse comc on comc.CID = c.ID 
 WHERE 
-	u.ID = 1
+	u.ID = userID
 GROUP BY 
 	c.ID
 ORDER BY 
@@ -96,7 +100,8 @@ ORDER BY
 LEFT JOIN Topic on Topic.ID = secondaryID;
 
 
-/*Course user with user ID = 1 is enrolled in*/
+/*Course user with user ID = 2 is enrolled in*/
+-- Using userID = 2
 
 SELECT StudentID, StudentName, CourseName, PrimaryTopic, secondaryID AS 
 SecondaryID, Topic.Name AS SecondaryTopic, AverageScore
@@ -111,7 +116,7 @@ FROM
 	LEFT JOIN Sec_Topic sec on sec.CID = c.ID
 	LEFT JOIN  CompletesCourse comc on comc.CID = c.ID 
 WHERE 
-	u.ID = 1
+	u.ID = userID
 GROUP BY 
 	c.ID
 ORDER BY 
@@ -120,7 +125,8 @@ ORDER BY
 LEFT JOIN Topic on Topic.ID = secondaryID;
 
 
-/*Course user with user ID = 1 has completed*/
+/*Course user with user ID = 2 has completed*/
+-- Using userID = 2
 
 SELECT 
 	StudentID, StudentName, CourseName, PrimaryTopic, secondaryID AS 
@@ -136,7 +142,7 @@ FROM
 	INNER JOIN Topic t on t.ID = c.primarytopic
 	LEFT JOIN Sec_Topic sec on sec.CID = c.ID
 WHERE
-	u.ID = 1
+	u.ID = userID
 GROUP BY 
 	c.ID
 ORDER BY 
@@ -152,7 +158,7 @@ LEFT JOIN Topic on Topic.ID = secondaryID;
 */
 
 /* Enrolling a student into course with taking student_id and course_id as input */
--- Using student_id = 5, course_id1 = 00, course_id2 = 01
+-- Using student_id = 5, course_id1 = 04, course_id2 = 05
 INSERT INTO Enroll VALUES
 (student_id, course_id1),
 (student_id,course_id2);
@@ -167,7 +173,7 @@ INSERT INTO Enroll VALUES
 
 /*List of course materials completed by the student with the user ID = 1*/
 -- Using user_id = 1
-SELECT 
+SELECT DISTINCT
 	StudentID ,FirstName, LastName, CourseName, MaterialName, 
 	MaterialID, CourseID
 FROM
@@ -180,7 +186,7 @@ FROM
 	INNER JOIN Course c on c.ID = en.CID
 	INNER JOIN Material ma on ma.CID = c.ID
 WHERE 
-	u.ID = user_id
+	u.ID = user_id 
 )
 INNER JOIN CompletesMaterial comma on comma.CCID = CourseID AND 
 comma.MID = MaterialID
@@ -191,7 +197,7 @@ ORDER BY
 /*List of course materials that have not been completed by the student with the
 user ID = 1*/
 -- Using user_id = 1
-SELECT 
+SELECT DISTINCT
 	StudentID ,FirstName, LastName, CourseName, MaterialName,
 	MaterialID, CourseID
 FROM
@@ -221,12 +227,14 @@ ORDER BY
 
 /* SID 3, MID 00, CCID 000 */
 INSERT INTO CompletesMaterial VALUES
-(3, '12:02pm', '2017-11-26', 00, 000);
+(3, '12:02pm', '2017-11-26', 0, 08),
+(3, '01:02pm', '2017-11-26', 1, 08),
+(3, '02:02pm', '2017-11-26', 2, 08);
 
 
 /* we mark course completion with a separate query here: */
 INSERT INTO CompletesCourse VALUES
-(3, '12:02pm', '2017-11-26', 000, NULL, NULL);
+(3, '02:02pm', '2017-11-26', 08, NULL, NULL);
 
 
 /*****************************************************************************/
@@ -235,7 +243,7 @@ INSERT INTO CompletesCourse VALUES
  -- Task g] Provide a certificate of completion for a student (assuming 
  s/he has successfully completed all materials)
 */
--- Using user_id = 2 and course_id = 0
+-- Using user_id = 1 and course_id = 0
 SELECT printf('Congratulations %s %s! You have completed the %s course on %s.',
 		u.FName,
 		u.LName,
@@ -247,7 +255,7 @@ FROM
 	INNER JOIN User AS u ON u.id=d.sid
 	INNER JOIN Payment As p on u.id = p.sid
 WHERE 
-	d.SID=user_id AND c.ID = course_id
+	d.SID=user_id AND c.ID = course_id;
 
 
 /*****************************************************************************/

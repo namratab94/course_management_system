@@ -147,3 +147,36 @@ ORDER BY
 
 
 /*****************************************************************************/
+
+/* Report f]
+This query gets the question which is most liked by students for each course 
+and respective answer. Also, it gets the name of a student who posted it
+*/
+
+SELECT 
+	Course_Name, Question, Answer, MAX(no_of_likes) AS likes,
+	(User.FName || ' ' || User.FName) AS PostedBy
+FROM 
+	(
+		(SELECT 
+			COUNT(LikesQuestion.QID) AS no_of_likes,
+			Questions.QuestionText AS Question,
+			Questions.Answer AS Answer,	
+			Course.name AS Course_Name,
+			Questions.ID AS QID
+		FROM 
+			((Questions INNER JOIN RelateToMaterial ON Questions.ID = RelateToMaterial.QID)
+			INNER JOIN Course ON RelateToMaterial.RCID = Course.ID)
+			INNER JOIN LikesQuestion ON Questions.ID = LikesQuestion.QID
+			GROUP BY 
+				Questions.ID
+	 ) q1
+	INNER JOIN Ask ON q1.QID = Ask.QID)
+	INNER JOIN User ON Ask.SID = User.ID
+GROUP BY 
+	Course_Name
+ORDER BY 
+	Course_Name ASC, likes DESC;
+
+
+/*****************************************************************************/
