@@ -5,7 +5,7 @@
 
 CREATE TABLE User
 (
-	ID INT (2) PRIMARY KEY,
+	ID INTEGER (2)  PRIMARY KEY,
 	FName VARCHAR (30),
 	LName VARCHAR (30),
 	Street VARCHAR (30),
@@ -13,7 +13,7 @@ CREATE TABLE User
 	PCode VARCHAR (30),
 	Country VARCHAR (30),
 	Email VARCHAR (50),
-	ProfilePicture LONGBLOB
+	ProfilePicture LONGBLOB 
 );
 
 CREATE TABLE Faculty
@@ -22,9 +22,6 @@ CREATE TABLE Faculty
 	Title VARCHAR (30),
 	Affiliation VARCHAR (30),
 	Website VARCHAR (30),
-	AdminID INT,
-	AuthDate DATE,
-	AuthTime TIME (0),
 	CONSTRAINT fk1 FOREIGN KEY (FID)
 		REFERENCES User(ID) 
 );
@@ -40,6 +37,18 @@ CREATE TABLE Admin
 	CONSTRAINT fk2 FOREIGN KEY (GrantorID)
 		REFERENCES User(ID)
 );
+
+CREATE TABLE Authentication
+(
+	FID INT PRIMARY KEY,
+	AID INT DEFAULT '',
+	AuthDate DATE,
+	AuthTime TIME (0),
+	CONSTRAINT fk1 FOREIGN KEY (FID)
+		REFERENCES Faculty(FID),
+	CONSTRAINT fk2 FOREIGN KEY (AID)
+		REFERENCES Admin(AID)
+); 	
 
 /* User Relations */
 
