@@ -7,9 +7,9 @@ INSERT INTO User VALUES
 /* Insert a Faculty */
 
 INSERT INTO Faculty VALUES
-(11, 'Associate', 'WPI', 'www.rbarron.com', 9, '11-1-17', '10:00am')
+(11, 'Associate', 'WPI', 'www.rbarron.com');
 
 
 /* Insert a admin */
 INSERT INTO Admin VALUES
-(11, 9, '11-1-17', '10:00am') 
+(11, 9, '11-1-17', '10:00am');

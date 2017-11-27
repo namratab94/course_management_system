@@ -6,11 +6,11 @@ INSERT INTO Faculty VALUES
 
 /* Query to find out which faculty need to be authenticated by an admin */
 select * from faculty where Faculty.FID = (select Faculty.FID as FID from Faculty left join Authentication on Authentication.FID = Faculty.FID
-where Authentication.AuthDate is null and Faculty.Title = 'Associate')
+where Authentication.AuthDate is null and Faculty.Title = 'Associate');
 
 /* DO Insert to Authentication table as faculty has a title */
 INSERT INTO Authentication VALUES
-(11, 9, '10-1-17', '10:00am')
+(11, 9, '10-1-17', '10:00am');
 
 /* The admin can be authenticated by another admin
 	Here user Id with 9 is getting authenticated by user id 10*/

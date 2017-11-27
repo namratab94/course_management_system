@@ -1,4 +1,6 @@
-/*Total Cost for students who have enrolled course and do payment on the course and course level is 'Intro Level'*/
+/*
+Total Cost for students who have enrolled course and do payment on the course and course level is 'Intro Level'
+*/
 Select StudentID, CourseID, StudentFirstName, StudentLastName, sum(CoursePrice) as StudentCost
 From(
 Select e.SID as StudentID, e.CID as CourseID, u.FName as StudentFirstName, u.LName as StudentLastName, c.cost as CoursePrice

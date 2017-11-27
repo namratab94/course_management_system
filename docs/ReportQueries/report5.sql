@@ -1,4 +1,4 @@
-/* Report Query 4 */
+/* Report Query 5 */
 /*
 
 Calculate the average amount of time it takes for students to complete course
@@ -11,3 +11,4 @@ FROM User u
 	LEFT JOIN CompletesCourse cc ON cc.CID=u.ID
 	INNER JOIN Course c ON p.CID=c.ID
 GROUP BY u.ID,p.CID
+ORDER BY u.FName, u.LName
