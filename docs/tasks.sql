@@ -247,7 +247,7 @@ FROM
 	INNER JOIN User AS u ON u.id=d.sid
 	INNER JOIN Payment As p on u.id = p.sid
 WHERE 
-	d.SID=user_id AND p.cid = course_id
+	d.SID=user_id AND c.ID = course_id
 
 
 /*****************************************************************************/
