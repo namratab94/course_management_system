@@ -25,7 +25,8 @@ SECRET_KEY = 's_5l$px18s=)0s)9d*()m78(!_050ne(q%(s6^k6(i)qe8dx_y'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1']
+# ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -77,13 +78,16 @@ WSGI_APPLICATION = 'cmsproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': '/Users/namratabilurkar/Desktop/foobar.sqlite'
+        'NAME': '/Users/namratabilurkar/Projects/course_management_system/cms_db.db'
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'NAME': 'cmsproject',
-        'USER': '',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '',
+        # 'NAME': 'cmsproject',
+        # 'USER': '',
+        # 'PASSWORD': 'password',
+        # 'HOST': 'localhost',
+        # 'PORT': '',
     }
 }
 
