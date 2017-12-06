@@ -13,6 +13,7 @@ CREATE TABLE User
 	PCode VARCHAR (30),
 	Country VARCHAR (30),
 	Email VARCHAR (50),
+	Password VARCHAR(25), 
 	ProfilePicture LONGBLOB 
 );
 
@@ -137,7 +138,7 @@ CREATE TABLE CompletesCourse(
 	date DATE,
 	CID INT,
 	comment LONGBLOB,
-	rating INT,
+	rating INT DEFAULT 5,
 	PRIMARY KEY(SID, CID, comment),
 	
 	CONSTRAINT fk1 FOREIGN KEY (SID) 
@@ -152,7 +153,7 @@ CREATE TABLE CompletesCourse(
 CREATE TABLE Course(
 	name VARCHAR(30),
 	icon LONGBLOB,
-	cost INT,
+	cost INT DEFAULT 0,
 	ID INT PRIMARY KEY,
 	creationDate DATE,
 	creationTime TIME (0),
@@ -192,7 +193,7 @@ primary keys of MID, CID */
 
 CREATE TABLE File(
 	Path VARCHAR(128),
-	Size INT,
+	Size INT DEFAULT 0,
 	Type VARCHAR(10),
 	FID INT,
 	FCID INT,
@@ -277,7 +278,7 @@ CREATE TABLE Answers(
 CREATE TABLE Quiz(
 	MID INT,
 	QCID INT,
-	P_Score INT,
+	P_Score INT DEFAULT 0,
 	PRIMARY KEY (MID, QCID),
 	CONSTRAINT fk1 FOREIGN KEY (MID, QCID)
 		REFERENCES Material(ID, CID)
