@@ -13,6 +13,7 @@ CREATE TABLE User
 	PCode VARCHAR (30),
 	Country VARCHAR (30),
 	Email VARCHAR (50),
+	Password VARCHAR(25), 
 	ProfilePicture LONGBLOB 
 );
 
