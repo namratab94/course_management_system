@@ -138,7 +138,7 @@ CREATE TABLE CompletesCourse(
 	date DATE,
 	CID INT,
 	comment LONGBLOB,
-	rating INT,
+	rating INT 5,
 	PRIMARY KEY(SID, CID, comment),
 	
 	CONSTRAINT fk1 FOREIGN KEY (SID) 
@@ -193,7 +193,7 @@ primary keys of MID, CID */
 
 CREATE TABLE File(
 	Path VARCHAR(128),
-	Size INT,
+	Size INT DEFAULT 0,
 	Type VARCHAR(10),
 	FID INT,
 	FCID INT,
@@ -278,7 +278,7 @@ CREATE TABLE Answers(
 CREATE TABLE Quiz(
 	MID INT,
 	QCID INT,
-	P_Score INT,
+	P_Score INT 0,
 	PRIMARY KEY (MID, QCID),
 	CONSTRAINT fk1 FOREIGN KEY (MID, QCID)
 		REFERENCES Material(ID, CID)
