@@ -153,7 +153,7 @@ CREATE TABLE CompletesCourse(
 CREATE TABLE Course(
 	name VARCHAR(30),
 	icon LONGBLOB,
-	cost INT,
+	cost INT DEFAULT 0,
 	ID INT PRIMARY KEY,
 	creationDate DATE,
 	creationTime TIME (0),
