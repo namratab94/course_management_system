@@ -1,9 +1,9 @@
 INSERT INTO User VALUES
 (0,		'Alice',		'Wonder', 		'17 Elmer St.', 'Cambridge', '02139', 'USA', 'awonder@thor.com',	'1234', NULL),
 (1,		'Bob',			'Smith',  		'90 John Ave.', 'Winthrop', '02152', 'USA', 'bsmith@example.com',	'password1234', NULL),
-(2,		'Charlotte',	        'Chambers', 	        '34 Merry St.', 'Winthrop', '02153', 'USA', 'cchambers@plants.com',	'pa55word' NULL),
-(3,		'Devin',		'Smith',  		'17 Light St.', 'Boston', '02155', 'USA', 'dsmith01@example.com',	'bunny' NULL),
-(4,		'Evelyn',		'Adams',  		'55 Rivera St.', 'Rio', '15673', 'Brazil', 'eadamsbest@barbs.com','kdfjaweroifhi2830dc' NULL),
+(2,		'Charlotte',	'Chambers', 	'34 Merry St.', 'Winthrop', '02153', 'USA', 'cchambers@plants.com',	'pa55word', NULL),
+(3,		'Devin',		'Smith',  		'17 Light St.', 'Boston', '02155', 'USA', 'dsmith01@example.com',	'bunny', NULL),
+(4,		'Evelyn',		'Adams',  		'55 Rivera St.', 'Rio', '15673', 'Brazil', 'eadamsbest@barbs.com','kdfjaweroifhi2830dc', NULL),
 (5,		'Fiona',		'Levinson',  	        '17 Jenkins St.', 'Boston', '02155', 'USA', 'support@sample.com',	'ShortBicycleLeafMoleculeFuji', NULL),
 
 /* Faculty */
