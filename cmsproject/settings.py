@@ -81,7 +81,7 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': '/Users/namratabilurkar/Desktop/foobar.sqlite'
-        'NAME': '/Users/namratabilurkar/Projects/course_management_system/cms_db.db'
+        'NAME': '../cms_db.db'
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         # 'NAME': 'cmsproject',
         # 'USER': '',
