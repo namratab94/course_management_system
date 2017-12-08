@@ -20,5 +20,13 @@ def list(request):
 def new(request):
     return HttpResponse("Creating a new user! Please fill out the form below.")
 
+
+def history(request, user_id):
+    return HttpResponse("Here is the history of transactions for user %s." % user_id)
+
+
+def grant(request, grantor_id, grantee_id):
+    return HttpResponse("User %s authenticating user %s." % (grantor_id,grantee_id))
+
 def course(request, user_id):
     return HttpResponse("Displaying all courses for user %s." % user_id)

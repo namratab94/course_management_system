@@ -17,6 +17,13 @@ urlpatterns = [
     #url(r'^user/', include('tUser.urls')),
 
 
+    #/user/uid/history - display a list of enrollment/payment/completion for specific student
+    url(r'^(?P<user_id>[0-9]+)/history', views.history, name='history'),
+	
+
+
+    #/user/<uid>/grant - form to authenticate faculty/admin
+    url(r'^(?P<grantor_id>[0-9]+)/grant/(?P<grantee_id>[0-9]+)', views.grant, name='grant'),
 
 
 

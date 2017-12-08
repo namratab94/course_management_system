@@ -1,9 +1,8 @@
-Start of tuser template.
-
+Users:
 {% if latest_user_list %}
     <ul>
     {% for user in latest_user_list %}
-        <li>Here's a user! User {{user.id }}, <a href="/user/{{ user.id }}/">{{ user.name }}</a></li>
+        <li>User {{user.id }}, <a href="/user/{{ user.id }}/">{{ user.name }}</a></li>
     {% endfor %}
     </ul>
 
@@ -13,5 +12,3 @@ Start of tuser template.
 
 {% endif %}
 
-
-End of tuser template.
