@@ -1,13 +1,17 @@
 from django.http import HttpResponse
 from django.template import loader
 
+from databaseService import *
+
+
+
 
 # For SQL Queries
 from django.db import connection
 
 def list(request):
     page = "List of all the users: (hint, it's empty right now)"
-    latest_user_list = getUsers()
+    latest_user_list = test()
 
     # I made a template at cmsproject/templates/tUser/list.html
     template = loader.get_template('tUser/list.html')
@@ -36,9 +40,3 @@ def course(request, user_id):
 
 
 
-def getUsers():
-	with connection.cursor() as cursor:
-		cursor.execute("SELECT * FROM User")
-		row = cursor.fetchone()
-		
-	return row
