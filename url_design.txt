@@ -1,0 +1,25 @@
+* - this denotes a url view that isn't explicity required but could make sense to have.
+
+
+/ - root domain - redirects to /index
+
+
+
+
+*/course/ - lists all courses (may have to become /user/uid/course/list)
+
+/user/ - lists all users
+/user/new - form to create new user
+
+/user/uid/history - display a list of enrollment/payment/completion for specific student
+/user/<uid>/grant - form to authenticate faculty/admin
+/user/<uid>/course/ - list all courses for specific user (only interested/enrolled/paid/completed courses)
+
+/user/<uid>/course/<cid> - detail and form to enroll/pay for specific course for given user
+/user/<uid>/course/<cid>/certificate - displays certificate of completion for specific course for specific user
+
+
+/user/<uid>/course/<cid>/material - list all the materials for specific course for specific user
+*/user/<uid>/course/<cid>/material/<mid> - display the material (this might need to be broken up for the four types but it's too early to tell).
+
+
