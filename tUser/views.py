@@ -2,9 +2,12 @@ from django.http import HttpResponse
 from django.template import loader
 
 
+# For SQL Queries
+from django.db import connection
+
 def list(request):
     page = "List of all the users: (hint, it's empty right now)"
-    latest_user_list = [{'id': 0, 'name': "jerry"}, {'id': 1, 'name': "tim"}]
+    latest_user_list = getUsers()
 
     # I made a template at cmsproject/templates/tUser/list.html
     template = loader.get_template('tUser/list.html')
@@ -30,3 +33,12 @@ def grant(request, grantor_id, grantee_id):
 
 def course(request, user_id):
     return HttpResponse("Displaying all courses for user %s." % user_id)
+
+
+
+def getUsers():
+	with connection.cursor() as cursor:
+		cursor.execute("SELECT * FROM User")
+		row = cursor.fetchone()
+		
+	return row
