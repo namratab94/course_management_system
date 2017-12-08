@@ -11,7 +11,7 @@ from django.db import connection
 
 def list(request):
     page = "List of all the users: (hint, it's empty right now)"
-    latest_user_list = test()
+    latest_user_list = getUsers()
 
     # I made a template at cmsproject/templates/tUser/list.html
     template = loader.get_template('tUser/list.html')

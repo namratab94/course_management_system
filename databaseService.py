@@ -6,6 +6,17 @@ from django.db import connection
 def test():
 	return "HI"
 
+def getUsers():
+	query="""
+	SELECT * FROM User
+	"""
+
+	with connection.cursor() as cursor:
+		cursor.execute(query)
+		row = cursor.fetchone()
+		
+	return row
+
 
 # Insert User
 def taskA_user():
