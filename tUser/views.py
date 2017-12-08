@@ -8,3 +8,5 @@ def list(request):
 def new(request):
     return HttpResponse("Creating a new user! Please fill out the form below.")
 
+def course(request, user_id):
+    return HttpResponse("Displaying all courses for user %s." % user_id)

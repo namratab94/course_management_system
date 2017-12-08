@@ -10,6 +10,9 @@ urlpatterns = [
     # /user/new - create a new user
     url(r'^$/new', views.new, name='new'),
 
+    # /user/uid/course
+    url(r'^(?P<user_id>[0-9]+)/course/$', views.course, name='course'),
+
 
 
 
