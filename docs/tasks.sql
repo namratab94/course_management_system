@@ -74,81 +74,43 @@ primary/secondary topics, ranked by average evaluation score): currently
 enrolled, completed, of interest
 */
 
-/*Course user with user ID = 2 is interested in*/
--- Using userID = 2
+/*Course user with user ID = 1 is Completed, Interested & Enrolled, ordered by Course_Rating */
+-- Using userID = 1
 
-SELECT 
-	StudentID, StudentName, CourseName, PrimaryTopic, secondaryID AS 
-	SecondaryID, Topic.Name AS SecondaryTopic, AverageScore
-FROM
-(SELECT 
-	u.ID AS StudentID, u.FName AS StudentName, c.name AS CourseName,t.Name AS
-	PrimaryTopic, sec.TID AS secondaryID, AVG(comc.rating) AS AverageScore
-FROM
-	Course c INNER JOIN IsInterest isin on isin.CID = c.ID
-	INNER JOIN user u on u.ID = isin.SID
-	INNER JOIN Topic t on t.ID = c.primarytopic
-	LEFT JOIN Sec_Topic sec on sec.CID = c.ID
-	LEFT JOIN  CompletesCourse comc on comc.CID = c.ID 
-WHERE 
-	u.ID = userID
-GROUP BY 
-	c.ID
-ORDER BY 
-	AverageScore DESC
-)
-LEFT JOIN Topic on Topic.ID = secondaryID;
-
-
-/*Course user with user ID = 2 is enrolled in*/
--- Using userID = 2
-
-SELECT StudentID, StudentName, CourseName, PrimaryTopic, secondaryID AS 
-SecondaryID, Topic.Name AS SecondaryTopic, AverageScore
-FROM
-(SELECT
-	u.ID AS StudentID, u.FName AS StudentName, c.name AS CourseName,t.Name AS
-	PrimaryTopic, sec.TID AS secondaryID, AVG(comc.rating) AS AverageScore
-FROM
-	Course c INNER JOIN Enroll en on en.CID = c.ID
-	INNER JOIN user u on u.ID = en.SID
-	INNER JOIN Topic t on t.ID = c.primarytopic
-	LEFT JOIN Sec_Topic sec on sec.CID = c.ID
-	LEFT JOIN  CompletesCourse comc on comc.CID = c.ID 
-WHERE 
-	u.ID = userID
-GROUP BY 
-	c.ID
-ORDER BY 
-	AverageScore DESC
-)
-LEFT JOIN Topic on Topic.ID = secondaryID;
-
-
-/*Course user with user ID = 2 has completed*/
--- Using userID = 2
-
-SELECT 
-	StudentID, StudentName, CourseName, PrimaryTopic, secondaryID AS 
-	SecondaryID, Topic.Name AS SecondaryTopic, AverageScore
-FROM
-(SELECT
-	u.ID AS StudentID, u.FName AS StudentName, c.name AS CourseName,
-	t.Name AS PrimaryTopic, sec.TID AS secondaryID,
-	AVG(comc.rating) AS AverageScore
-FROM
-	Course c INNER JOIN  CompletesCourse comc on comc.CID = c.ID 
-	INNER JOIN user u on u.ID = comc.SID
-	INNER JOIN Topic t on t.ID = c.primarytopic
-	LEFT JOIN Sec_Topic sec on sec.CID = c.ID
-WHERE
-	u.ID = userID
-GROUP BY 
-	c.ID
-ORDER BY 
-	AverageScore DESC
-)
-LEFT JOIN Topic on Topic.ID = secondaryID;
+Select StudentID, CourseName, PrimaryTopic, SecondaryTopic, Rate, Status
+From
+(Select Course.ID as CourseID, Course.name as CourseName, AVG(CompletesCourse.rating) as Rate,Topic.Name as PrimaryTopic, SecondaryTopic
+	From  COURSE
+    Left Join CompletesCourse ON Course.ID = CompletesCourse.CID
+    Left Join Topic ON Course.primaryTopic = Topic.ID
+	
+    INNER JOIN 
+	
+   (Select Course.ID as CourseID, Group_concat(Topic.Name) as SecondaryTopic
+    From Course
+    Left Join Sec_Topic on Sec_Topic.CID = Course.ID
+	Left Join Topic ON Sec_Topic.TID = Topic.ID
+	Group by Course.ID)  As a
+	on a.CourseID = Course.ID
+	Group by CourseID) As b	
+	Inner Join 
+   (Select
+        User.ID as StudentID, CID as CourseID,'complete' as Status
+    From User
+    Inner Join CompletesCourse ON User.ID = CompletesCourse.SID
+    Where
+        User.ID = 1 Union Select
+        User.ID as StudentID, CID as CourseID, 'interest' as Status
+    From User
+    Inner Join IsInterest ON User.ID = IsInterest.SID
+    Where
+        User.ID = 1 Union Select
+        User.ID as StudentID, CID as CourseID, 'enroll' as Status
+    From User
+    Inner Join Enroll on User.ID = Enroll.SID
+    Where User.ID = 1) As c
+	on c.CourseID = b.CourseID
+	order by Rate Desc
 
 
 /*****************************************************************************/
@@ -171,52 +133,30 @@ INSERT INTO Enroll VALUES
  indicating the line of demarcation between completed/not completed
 */
 
-/*List of course materials completed by the student with the user ID = 1*/
+/*List of course materials completed & UnComplete by the student with the user ID = 1*/
 -- Using user_id = 1
-SELECT DISTINCT
-	StudentID ,FirstName, LastName, CourseName, MaterialName, 
-	MaterialID, CourseID
-FROM
-(SELECT 
-	u.ID as StudentID, u.FName as FirstName, u.LName as LastName,
-	c.ID as CourseID, c.name as CourseName, ma.Name as MaterialName,
-	ma.ID as MaterialID
-FROM 
-	user u INNER JOIN Enroll en on u.ID = en.SID
-	INNER JOIN Course c on c.ID = en.CID
-	INNER JOIN Material ma on ma.CID = c.ID
-WHERE 
-	u.ID = user_id 
-)
-INNER JOIN CompletesMaterial comma on comma.CCID = CourseID AND 
-comma.MID = MaterialID
-ORDER BY 
-	MaterialID;
+Select User.ID as UserID, User.FName as FirstName, User.LName as LastName, Course.name as CourseName, 
+       Material.Name as MaterialName, CompletesMaterial.time as CompleteTime, 'Complete' as Status
+   
+From Material 
+Inner Join CompletesMaterial on Material.CID = CompletesMaterial.CCID and Material.ID = CompletesMaterial.MID
+Inner Join Course on Course.ID = Material.CID
+Inner Join Enroll on Enroll.CID = Course.ID and Enroll.SID = CompletesMaterial.SID
+Inner Join User   on User.ID = Enroll.SID
+Where CompletesMaterial.SID = 1
 
+Union 
 
-/*List of course materials that have not been completed by the student with the
-user ID = 1*/
--- Using user_id = 1
-SELECT DISTINCT
-	StudentID ,FirstName, LastName, CourseName, MaterialName,
-	MaterialID, CourseID
-FROM
-(SELECT 
-	u.ID as StudentID, u.FName as FirstName, u.LName as LastName, 
-	c.ID as CourseID, c.name as CourseName, ma.Name as MaterialName,
-	ma.ID as MaterialID
-FROM 
-	user u INNER JOIN Enroll en on u.ID = en.SID
-	INNER JOIN Course c on c.ID = en.CID
-	INNER JOIN Material ma on ma.CID = c.ID
-WHERE 
-	u.ID = user_id
-)
-INNER JOIN CompletesMaterial comma on comma.CCID = CourseID AND 
-comma.MID != MaterialID
-ORDER BY 
-	MaterialID;
+Select User.ID as UserID, User.FName as FirstName, User.LName as LastName, Course.name as CourseName, 
+       Material.Name as MaterialName, CompletesMaterial.time as CompleteTime, 'UnComplete' as Status
+From Material 
+Left  Join CompletesMaterial on Material.CID = CompletesMaterial.CCID and Material.ID = CompletesMaterial.MID
+Inner Join Course on Course.ID = Material.CID
+Left  Join Enroll on Enroll.CID = Course.ID and Enroll.SID = CompletesMaterial.SID
+Inner Join User   on User.ID = Enroll.SID
+Where Enroll.SID = ? and CompletesMaterial.time is Null 
 
+Order by Material.ID 
 
 /*****************************************************************************/
 
