@@ -1,0 +1,17 @@
+Start of tuser template.
+
+{% if latest_user_list %}
+    <ul>
+    {% for user in latest_user_list %}
+        <li>Here's a user! User {{user.id }}, <a href="/user/{{ user.id }}/">{{ user.name }}</a></li>
+    {% endfor %}
+    </ul>
+
+{% else %}
+
+    <p>No users exist! Uh oh. </p>
+
+{% endif %}
+
+
+End of tuser template.

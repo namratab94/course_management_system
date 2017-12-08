@@ -14,6 +14,9 @@ urlpatterns = [
     url(r'^(?P<user_id>[0-9]+)/course/$', views.course, name='course'),
 
 
+    #url(r'^user/', include('tUser.urls')),
+
+
 
 
 
