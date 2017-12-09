@@ -11,7 +11,7 @@ import pdb
 
 
 @app.route('/completeMaterial', methods=['GET'])
-def index():
+def task_f_completeMaterial():
     if flask.session.get('logged_in'):
       try:
         db = sqlite3.connect('project.db')
