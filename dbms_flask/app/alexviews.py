@@ -68,7 +68,6 @@ Where Enroll.SID = {} and CompletesMaterial.time is Null AND Course.ID= {}
 		"""
           cursor.execute(sql, params)
           numberMaterialsLeft = cursor.fetchall()
-		 results = true
    
 
 
