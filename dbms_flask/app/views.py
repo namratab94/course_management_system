@@ -9,6 +9,7 @@ import bcrypt
 import pdb 
 
 import alexviews
+import task_e
 
 @app.route('/enroll', methods=['GET'])
 def index():

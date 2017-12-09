@@ -18,12 +18,32 @@ def task_f_completeMaterial():
         db.row_factory = sqlite3.Row
         with db:
           cursor = db.cursor()
-          sql = "select * from Enroll"
-          cursor.execute(sql)
+          params = (3,'12:02pm','2017-11-26',00,000 )
+
+          sql = 
+		"""
+		INSERT INTO CompletesMaterial VALUES
+		(?, ?, ?, ?);
+		"""
+
+#
+
+
+
+              cursor.execute("INSERT INTO Authentication VALUES (?,?,?,?)", params)
+
+#
+          cursor.execute(sql, params)
           allrows = cursor.fetchall() 
           cursor.close()
           return flask.render_template('task_f_completeMaterial.html',results=allrows)
 
+# if course is completed
+#
+#INSERT INTO CompletesCourse VALUES
+# (3, '12:02pm', '2017-11-26', 000, NULL, NULL);
+#
+#
       except sqlite3.Error as err: 
           flask.abort(500)
 
