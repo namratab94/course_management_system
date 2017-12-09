@@ -25,8 +25,12 @@ class TaskgForm(flask_wtf.Form):
   Input2 = wtforms.TextField('Input2')
   submit = wtforms.SubmitField('Submit')
 
-
 class TaskEForm(flask_wtf.Form):
   InputUser = wtforms.TextField('InputUser')
   InputCourse = wtforms.TextField('InputCourse')
+  submit = wtforms.SubmitField('Submit')
+
+class TaskFForm(flask_wtf.Form):
+  Input1 = wtforms.TextField('InputMaterial')
+  Input2 = wtforms.TextField('InputCourse')
   submit = wtforms.SubmitField('Submit')
