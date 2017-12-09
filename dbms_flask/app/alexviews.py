@@ -19,16 +19,57 @@ def task_f_completeMaterial():
         with db:
           cursor = db.cursor()
 
+	  userParam = 3
+	  courseParam = 2
+
 
 	  # Complete the material
-          params = (3,'12:02pm','2017-11-26',00,000 )
+	  #TODO: use current date and time
+          params = (userParam,'12:02pm','2017-11-26',00,000 )
           sql = """
 		INSERT INTO CompletesMaterial VALUES
 		(?, ?, ?, ?);
 		"""
-          cursor.execute("INSERT INTO Authentication VALUES (?,?,?,?)", params)
           cursor.execute(sql, params)
-          allrows = cursor.fetchall() 
+          materialRows = cursor.fetchall() 
+
+	# Check if all materials for the course are complete
+          params = (userParam, courseParam )
+          sql = """
+Select COUNT(*)
+From Material
+	Left  Join CompletesMaterial 
+		on Material.CID = CompletesMaterial.CCID and Material.ID = CompletesMaterial.MID
+	Inner Join Course on Course.ID = Material.CID
+	Left  Join Enroll  on Enroll.CID = Course.ID and Enroll.SID = CompletesMaterial.SID
+	Inner Join User   on User.ID = Enroll.SID
+Where Enroll.SID = {} and CompletesMaterial.time is Null AND Course.ID= {}
+		"""
+          cursor.execute(sql, params)
+          numberMaterialsLeft = cursor.fetchall()
+
+	  if numberMaterialsLeft > 0
+		 results = true
+
+	  else 
+
+
+	# Check if all materials for the course are complete
+          params = (userParam, courseParam )
+          sql = """
+Select COUNT(*)
+From Material
+	Left  Join CompletesMaterial 
+		on Material.CID = CompletesMaterial.CCID and Material.ID = CompletesMaterial.MID
+	Inner Join Course on Course.ID = Material.CID
+	Left  Join Enroll  on Enroll.CID = Course.ID and Enroll.SID = CompletesMaterial.SID
+	Inner Join User   on User.ID = Enroll.SID
+Where Enroll.SID = {} and CompletesMaterial.time is Null AND Course.ID= {}
+		"""
+          cursor.execute(sql, params)
+          numberMaterialsLeft = cursor.fetchall()
+		 results = true
+   
 
 
 
