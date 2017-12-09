@@ -14,9 +14,9 @@ install:
   # - pip install .
   - pip install -r requirements.txt
 # command to run tests
-script: pytest
-env:
-  - Flask==0.11.1
-  - Flask-WTF==0.13.1
+script: py.test
 virtualenv:
   system_site_packages: true
+# env:
+#   - Flask==0.11.1
+#   - Flask-WTF==0.13.1
