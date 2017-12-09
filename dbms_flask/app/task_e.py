@@ -34,7 +34,7 @@ From Material
 	Inner Join Course on Course.ID = Material.CID
 	Inner Join Enroll on Enroll.CID = Course.ID and Enroll.SID = CompletesMaterial.SID
 	Inner Join User   on User.ID = Enroll.SID
-Where CompletesMaterial.SID = {}
+Where CompletesMaterial.SID = {} AND Course.ID= {}
 
 Union
 
@@ -53,9 +53,9 @@ From Material
 	Inner Join Course on Course.ID = Material.CID
 	Left  Join Enroll  on Enroll.CID = Course.ID and Enroll.SID = CompletesMaterial.SID
 	Inner Join User   on User.ID = Enroll.SID
-Where Enroll.SID = {} and CompletesMaterial.time is Null
+Where Enroll.SID = {} and CompletesMaterial.time is Null AND Course.ID= {}
 Order by Material.ID 
-""".format(int(flask.request.form['InputUser']), int(flask.request.form['InputCourse']))
+""".format(int(flask.request.form['InputUser']), int(flask.request.form['InputCourse']), int(flask.request.form['InputUser']),  int(flask.request.form['InputCourse']))
 					
 					cursor.execute(sql)
 					allrows = cursor.fetchall()
