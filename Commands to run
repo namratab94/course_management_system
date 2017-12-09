@@ -1,0 +1,61 @@
+Commands to run:
+
+1) 
+Run the following command
+	export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/10/bin
+	# The number 10 here refers to the version number
+in the folder 
+	/Applications/Postgres.app/Contents/Versions/10/bin
+after starting the Postgres server and having it running. On a MacOS, it can be done using the application 
+	http://postgresapp.com/
+
+2)
+Navigate to the project folder 
+	cd course_management_system/
+Activate the virtual enviroment using
+	source cms/bin/activate
+If any changes have been made to the project, then run the following two commands:
+	python manage.py makemigrations
+	python manage.py migrate
+If there were no changes made, then running the first command should say "No changes detected".
+Once you see that, run the following 
+	python manage.py runserver
+The above commands runs the server at the following URL
+	http://127.0.0.1:8000/
+In order to access the admin page use the URL below
+	http://127.0.0.1:8000/admin
+
+
+Superuser account details are:
+	Username: admin
+	Email address: cmsadmin@gmail.com
+	pwd: cmspwdt12
+
+
+---
+# Alternative instructions that I used for Ubuntu
+
+## Get python stuff set up
+sudo apt-get update
+sudo apt-get install python
+sudo apt-get install postgresql-client-common
+sudo apt-get install python-pip
+sudo pip install virtualenv
+git clone https://github.com/namratab94/course_management_system.git
+cd course_management_system
+source cms/bin/activate
+pip install -r requirements.txt
+
+## Install postgres
+sudo su
+echo "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | \
+  sudo apt-key add -
+sudo apt-get update 
+apt-get install postgresql-9.6 
+
+
+
+---
+Citing referenced material — 
+Tutorial used: https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-16-04
