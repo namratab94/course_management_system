@@ -1,0 +1,23 @@
+language: python
+python:
+  # - "2.6"
+  - "2.7"
+  # - "3.2"
+  # - "3.3"
+  # - "3.4"
+  # PyPy versions
+  # - "pypy"  # PyPy2 2.5.0
+  # - "pypy3" # Pypy3 2.4.0
+  # - "pypy-5.3.1"
+# command to install dependencies
+install:
+  # - pip install .
+  - pip install -r requirements.txt
+# command to run tests
+script: 
+  - python tests.py
+virtualenv:
+  system_site_packages: true
+# env:
+#   - Flask==0.11.1
+#   - Flask-WTF==0.13.1
