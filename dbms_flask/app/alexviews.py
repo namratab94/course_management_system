@@ -48,10 +48,10 @@ Where Enroll.SID = {} and CompletesMaterial.time is Null AND Course.ID= {}
           cursor.execute(sql, params)
           numberMaterialsLeft = cursor.fetchall()
 
-	  if numberMaterialsLeft > 0
-		 results = true
+	 # if numberMaterialsLeft > 0
+	#	 results = true
 
-	  else 
+	  #else 
 
 
 	# Check if all materials for the course are complete
