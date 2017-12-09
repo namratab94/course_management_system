@@ -8,6 +8,8 @@ import json
 import bcrypt
 import pdb 
 
+import alexviews
+
 @app.route('/enroll', methods=['GET'])
 def index():
     if flask.session.get('logged_in'):
