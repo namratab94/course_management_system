@@ -2,3 +2,6 @@
 cmsproject/settings.pyc
 
 cms/
+dbms_flask/requirements.txt
+
+docs/parameterized_task_queries.sql
