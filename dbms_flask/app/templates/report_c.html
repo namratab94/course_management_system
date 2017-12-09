@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head><title>List Visible Questions and Number of Students Like </title>
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+
+table{
+    border-spacing: 15px;
+}
+</style>
+
+<body>
+<table style="width:100%">
+  <tr>
+     <th>QuestionID</th>
+     <th>QuestionText</th>
+     <th>CourseName</th>
+     <th>Number_Like</th>
+  </tr>
+ 
+ {% for item in results %}
+  <tr>
+ {% for value in item %}
+    <td>{{value}}</td>
+ {% endfor %}
+  </tr>
+ {% endfor %}
+</body>
+</html>  
