@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head><title>Query Result</title>
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+
+table{
+    border-spacing: 15px;
+}
+</style>
+
+<body>
+<table style="width:100%">
+  <tr>
+     <th>Student_ID</th>
+     <th>CourseName</th>
+     <th>PrimaryTopic</th>
+     <th>SecondaryTopic</th>
+     <th>Rate</th> 
+     <th>Status</th>
+  </tr>
+ 
+ {% for item in results %}
+  <tr>
+ {% for value in item %}
+    <td>{{value}}</td>
+ {% endfor %}
+  </tr>
+ {% endfor %}
+</body>
+</html>  
