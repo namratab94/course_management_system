@@ -14,7 +14,8 @@ install:
   # - pip install .
   - pip install -r requirements.txt
 # command to run tests
-script: py.test
+script: 
+  - python tests.py
 virtualenv:
   system_site_packages: true
 # env:
