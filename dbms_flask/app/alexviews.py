@@ -10,7 +10,7 @@ import pdb
 
 
 
-@app.route('/completeMaterial', methods=['GET'])
+@app.route('/task_f', methods=['GET'])
 def task_f_completeMaterial():
     if flask.session.get('logged_in'):
       try:
@@ -31,56 +31,38 @@ def task_f_completeMaterial():
 		(?, ?, ?, ?);
 		"""
           cursor.execute(sql, params)
-          materialRows = cursor.fetchall() 
 
-	# Check if all materials for the course are complete
-          params = (userParam, courseParam )
-          sql = """
-Select COUNT(*)
-From Material
-	Left  Join CompletesMaterial 
-		on Material.CID = CompletesMaterial.CCID and Material.ID = CompletesMaterial.MID
-	Inner Join Course on Course.ID = Material.CID
-	Left  Join Enroll  on Enroll.CID = Course.ID and Enroll.SID = CompletesMaterial.SID
-	Inner Join User   on User.ID = Enroll.SID
-Where Enroll.SID = {} and CompletesMaterial.time is Null AND Course.ID= {}
-		"""
-          cursor.execute(sql, params)
-          numberMaterialsLeft = cursor.fetchall()
-
-	 # if numberMaterialsLeft > 0
-	#	 results = true
-
-	  #else 
 
 
 	# Check if all materials for the course are complete
           params = (userParam, courseParam )
           sql = """
-Select COUNT(*)
-From Material
-	Left  Join CompletesMaterial 
-		on Material.CID = CompletesMaterial.CCID and Material.ID = CompletesMaterial.MID
-	Inner Join Course on Course.ID = Material.CID
-	Left  Join Enroll  on Enroll.CID = Course.ID and Enroll.SID = CompletesMaterial.SID
-	Inner Join User   on User.ID = Enroll.SID
-Where Enroll.SID = {} and CompletesMaterial.time is Null AND Course.ID= {}
+		Select COUNT(*)
+		From Material
+			Left  Join CompletesMaterial 
+				on Material.CID = CompletesMaterial.CCID and Material.ID = CompletesMaterial.MID
+			Inner Join Course on Course.ID = Material.CID
+			Left  Join Enroll  on Enroll.CID = Course.ID and Enroll.SID = CompletesMaterial.SID
+			Inner Join User   on User.ID = Enroll.SID
+		Where Enroll.SID = ? and CompletesMaterial.time is Null AND Course.ID= ?
 		"""
           cursor.execute(sql, params)
           numberMaterialsLeft = cursor.fetchall()
-   
 
+	  if (numberMaterialsLeft < 1):
+		 
+		# Check if all materials for the course are complete
+		  params = (userParam, courseParam )
+		  sql = """
+			INSERT INTO CompletesCourse VALUES
+			(?, '02:02pm', '2017-11-26', ?, NULL, NULL);
 
+			"""
+		  cursor.execute(sql, params)
 
           cursor.close()
-          return flask.render_template('task_f_completeMaterial.html',results=allrows)
+          return flask.render_template('task_f_completeMaterial.html',results=numberMaterialsLeft)
 
-# if course is completed
-#
-#INSERT INTO CompletesCourse VALUES
-# (3, '12:02pm', '2017-11-26', 000, NULL, NULL);
-#
-#
       except sqlite3.Error as err: 
           flask.abort(500)
 

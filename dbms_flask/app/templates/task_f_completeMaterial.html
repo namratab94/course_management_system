@@ -17,18 +17,6 @@ table{
 </style>
 
 <body>
-<table style="width:100%">
-  <tr>
-     <th>Student_ID</th>
-     <th>Course_ID</th>
-  </tr>
- 
- {% for item in results %}
-  <tr>
- {% for value in item %}
-    <td>{{value}}</td>
- {% endfor %}
-  </tr>
- {% endfor %}
+{{results}}
 </body>
 </html>  
