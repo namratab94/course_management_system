@@ -18,23 +18,20 @@ def task_f_completeMaterial():
         db.row_factory = sqlite3.Row
         with db:
           cursor = db.cursor()
-          params = (3,'12:02pm','2017-11-26',00,000 )
 
-          sql = 
-		"""
+
+	  # Complete the material
+          params = (3,'12:02pm','2017-11-26',00,000 )
+          sql = """
 		INSERT INTO CompletesMaterial VALUES
 		(?, ?, ?, ?);
 		"""
-
-#
-
-
-
-              cursor.execute("INSERT INTO Authentication VALUES (?,?,?,?)", params)
-
-#
+          cursor.execute("INSERT INTO Authentication VALUES (?,?,?,?)", params)
           cursor.execute(sql, params)
           allrows = cursor.fetchall() 
+
+
+
           cursor.close()
           return flask.render_template('task_f_completeMaterial.html',results=allrows)
 
