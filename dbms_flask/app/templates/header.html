@@ -28,7 +28,12 @@
 		    <li><a href="{{ url_for('task_h') }}">Task H</a></li>
 		    <li><a href="{{ url_for('report_a') }}">Report A</a></li>
 		    <li><a href="{{ url_for('report_b') }}">Report B</a></li>
+
+{% if session['logged_in'] %}
 		    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+{% else %}
+		    <li><a href="{{ url_for('logout') }}">Login</a></li>
+{% endif %}
 		  </ul>
 
 		</div>
