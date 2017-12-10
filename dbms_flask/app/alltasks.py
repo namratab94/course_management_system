@@ -1,16 +1,6 @@
 
 import sqlite3
 
-def index_process(database):
-      database = sqlite3.connect('project.db')
-      cursor = database.cursor()
-      sql = "select * from Enroll"
-      cursor.execute(sql)
-      allrows = cursor.fetchall()
-      cursor.close()
-      return allrows
-
-
 def register_form(database):
     fname = form.fname.data
     lname = form.lname.data
@@ -113,6 +103,15 @@ def task_c_process(database,studentID):
       cursor.close()
       return allrows
 
+def task_d(database, a, b):
+    with database:
+      cursor = database.cursor()
+      params = (a,b)
+      try:
+        cursor.execute("INSERT INTO ENROLL VALUES (?,?)", params)
+        return 'True'
+      except:
+        return
 
 
 # Report G

@@ -8,10 +8,10 @@ Run this flask application in a virtual environment on your system.
 
 2.Give a name to the virtual environment -- virtualenv flask
   
-Then flask can be activated by source ~{PRESENT_DIR}/bin/activate
+Then flask can be activated by source ~{PRESENT_DIR}/flask/bin/activate
 
 Then install the packages required for the flask application to run,:
-1. Navigate to the requirements file (cd ~{PRESENT_DIR}/dbms_project)
+1. Navigate to the requirements file (cd ~{PRESENT_DIR}/course_management_system)
 2. pip install -r requirements.txt
 
 Then finally run python main.py to open a web page listening at port 8888.(localhost:8888 on your webbrowser.)

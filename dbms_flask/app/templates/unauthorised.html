@@ -2,7 +2,15 @@
 
 {% include 'header.html' %}
 
-Sorry, you are not authorized to view this page.
+<form>
+	<div class="container-fluid">
+		Sorry, you are not authorized to view this page.
+	</div>
 
+	<input class="btn btn-primary btn-large btn-block" 
+		value="Continue" 
+		type="submit" 
+		onClick="location.href='/logout'">
+</form>
 
 </html>
