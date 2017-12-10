@@ -197,3 +197,62 @@ def report_b():
 
   else:
       return flask.render_template('report_input_b.html', form=form)
+
+
+
+
+
+
+
+@app.route('/report_c', methods = ['GET','POST'])
+def report_c():
+  form = TaskForm()
+  if flask.request.method == 'POST':
+    global db
+    db.row_factory = sqlite3.Row
+    with db:
+      return flask.render_template('report_c.html', results=alltasks.report_c(db, str(flask.request.form['Input'])))
+
+  else:
+      return flask.render_template('report_input_c.html', form=form)
+
+
+
+
+
+
+@app.route('/report_d', methods = ['GET','POST'])
+def report_d():
+  form = TaskForm()
+  if flask.request.method == 'POST':
+    global db
+    db.row_factory = sqlite3.Row
+    with db:
+      cid = int(flask.request.form['InputCourseID'])
+      mid = int(flask.request.form['InputMaterialID'])
+      qNum = int(flask.request.form['InputQuestion_Number'])
+      ans = int(flask.request.form['InputAnswser_to_Check'])
+      return flask.render_template('report_d.html', results=alltasks.report_d(db, cid, mid, qNum, ans))
+
+  else:
+      return flask.render_template('report_input_d.html', form=form)
+
+
+
+
+
+
+@app.route('/report_e', methods = ['GET'])
+def report_e():
+  form = TaskForm()
+  global db
+  db.row_factory = sqlite3.Row
+    with db:
+	return flask.render_template('report_e.html', results=alltasks.report_e(db))
+
+
+
+
+
+
+

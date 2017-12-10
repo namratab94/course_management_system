@@ -66,6 +66,11 @@ def admin_authenticate(database):
     cursor.close()
     return "Sucessfully Authenticated a faculty with ID = {}".format(fid)
 
+
+
+
+# Task C
+
 def task_c_process(database,studentID):
     database.row_factory = sqlite3.Row
     with database:
@@ -109,6 +114,10 @@ def task_c_process(database,studentID):
       return allrows
 
 
+
+# Report G
+
+
 def task_g(database, a, b):
   with database:
     cursor = database.cursor()
@@ -130,7 +139,12 @@ def task_g(database, a, b):
     cursor.close()
     return allrows
 
-def task_h(database, a):
+
+
+
+# Report H
+
+def task_h(database, studentID):
     database.row_factory = sqlite3.Row
     with database:
       cursor = database.cursor()
@@ -147,13 +161,19 @@ def task_h(database, a):
             Course AS c ON c.id=transactions.CID \
             WHERE \
             transactions.SID={} \
-            ORDER BY date".format(a)
+            ORDER BY date".format(studentID)
 
 
       cursor.execute(sql)
       allrows = cursor.fetchall()
       cursor.close()
       return allrows
+
+
+
+
+# Report A
+
 
 def report_a(database):
     database.row_factory = sqlite3.Row
@@ -185,7 +205,7 @@ def report_a(database):
 
 
 
-# Report C
+# Report B
 
 
 def report_b(database, a):
@@ -221,141 +241,100 @@ def report_b(database, a):
 
 # Report C
 
-@app.route('/report_c', methods = ['GET','POST'])
-def report_c():
-	form = Reportform()
-	if flask.session.get('logged_in'):
-		if flask.request.method == 'POST':
-			#from = Task()
-			try:
-				db = sqlite3.connect('project.db')
-				db.row_factory = sqlite3.Row
-				with db:
-					cursor = db.cursor()
-					sql = """ SELECT/ 
-	q.ID as QuestionID, q.QuestionText as QuestionText,/ 
-	c.Name as CourseName, count(q.ID) as Number_Like/
-FROM/
-	(Questions q inner join RelateToMaterial r on q.ID = r.QID/
-	inner join Course c on c.ID = r.RCID)/
-	left join LikesQuestion likeq on q.ID = likeq.QID/
-WHERE/ 
-	q.IsVisible = 1/
-GROUP BY/ 
-	QuestionID/
-ORDER BY/ 
-	Number_like DESC;""" 
-					cursor.execute(sql)
-					allrows = cursor.fetchall()
-					cursor.close()
-					return flask.render_template('report_c.html', results=allrows)
-				
-				except sqlite3.Error as err:
-					flask.abort(500)
-			else:
-				return flask.render_template('user_input.html', form=form)
-				
-		else:
-			return flask.render_template('login.html')	
-
-
-
-
-
+def report_c(db):
+	db = sqlite3.connect('project.db')
+	db.row_factory = sqlite3.Row
+	with db:
+		cursor = db.cursor()
+		sql = """ 
+			SELECT
+				q.ID as QuestionID, 
+				q.QuestionText as QuestionText, 
+				c.Name as CourseName, 
+				count(q.ID) as Number_Like
+			FROM
+				(Questions q 
+				inner join RelateToMaterial r on q.ID = r.QID
+				inner join Course c on c.ID = r.RCID)
+				left join LikesQuestion likeq on q.ID = likeq.QID
+			WHERE q.IsVisible = 1
+			GROUP BY QuestionID
+			ORDER BY Number_like DESC;
+			""" 
+		cursor.execute(sql)
+		allrows = cursor.fetchall()
+		cursor.close()
+		return allrows
+	
 # Report D
 
-@app.route('/report_d', methods = ['GET','POST'])
-def report_d():
-	form = Reportform()
-	if flask.session.get('logged_in'):
-		if flask.request.method == 'POST':
-			#from = Report()
-			try:
-				db = sqlite3.connect('project.db')
-				db.row_factory = sqlite3.Row
-				with db:
-					cursor = db.cursor()
-					sql = """
-SELECT MAX(Feedback='Right') as is_answer_correct/
-FROM/ 
-	(SELECT/ 
-		qq.MID as material_id,/ 
-		qq.CID as course_id,/ 
-		qq.NUMBER as question_number,/ 
-		Text as question_text,/ 
-		ID,/ 
-		A_Text as answer_to_check,/
-		Feedback/
-	FROM/ 
-		Quiz as q/ 
-		INNER JOIN Quiz_Questions as qq ON (q.MID=qq.MID AND q.QCID=qq.CID)/
-		INNER JOIN Quiz_Answers as qa ON (q.MID=qa.MID AND q.QCID=qa.CID)/
-	WHERE/ 
-		course_id={}/ 
-		AND material_id={}/ 
-		AND question_number={}/
-		AND answer_to_check={}/
-		
-	ORDER BY/ 
-		material_id, course_id, qq.NUMBER, ID/
-) SELECTed_answer;""".format(int(flask.request.form['InputCourseID']), int(flask.request.form['InputMaterialID']), 
-                             int(flask.request.form['InputQuestion_Number']),int(flask.request.form['InputAnswser_to_Check']))
-					cursor.execute(sql)
-					allrows = cursor.fetchall()
-					cursor.close()
-					return flask.render_template('report_d.html', results=allrows)
-				
-			except sqlite3.Error as err:
-					flask.abort(500)
-		else:
-			return flask.render_template('report_input_d.html', form=form)
-				
-	else:
-		return flask.render_template('login.html')			 
+def report_d(db, cid, mid, qNum, answerToCheck):
+	db = sqlite3.connect('project.db')
+	db.row_factory = sqlite3.Row
+	with db:
+		cursor = db.cursor()
+		sql = """
+			SELECT MAX(Feedback='Right') as is_answer_correct
+			FROM
+				(SELECT
+					qq.MID as material_id,
+					qq.CID as course_id,
+					qq.NUMBER as question_number,
+					Text as question_text,
+					ID,
+					A_Text as answer_to_check,
+					Feedback
+				FROM
+					Quiz as q
+					INNER JOIN Quiz_Questions as qq 
+						ON (q.MID=qq.MID AND q.QCID=qq.CID)
+					INNER JOIN Quiz_Answers as qa 
+						ON (q.MID=qa.MID AND q.QCID=qa.CID)
+				WHERE
+					course_id={}
+					AND material_id={}
+					AND question_number={}
+					AND answer_to_check={}
+				ORDER BY
+					material_id, course_id, qq.NUMBER, ID
+			) SELECTed_answer;
+			""".format()
 
-
-
+		cursor.execute(sql)
+		allrows = cursor.fetchall()
+		cursor.close()
+		return allrows
+			 
 
 
 
 # Report E
 
-@app.route('/report_e', methods = ['GET'])
-def report_e():
-	form = Reportform()
-	if flask.session.get('logged_in'):
-		#from = Report()
-		try:
-			db = sqlite3.connect('project.db')
-			db.row_factory = sqlite3.Row
-			with db:
-				cursor = db.cursor()
-				sql = """
-SELECT 
-printf("%s %s", u.FName, u.LName) as student_name, c.name as course_name, 
-julianday(cc.date)-julianday(p.date) as days_spent_to_complete
-FROM 
-User u
-LEFT JOIN Payment p ON p.CID=u.ID
-LEFT JOIN CompletesCourse cc ON cc.CID=u.ID
-INNER JOIN Course c ON p.CID=c.ID
-GROUP BY 
-u.ID,p.CID
-ORDER BY 
-u.FName, u.LName;
+def report_e(db):
+	db = sqlite3.connect('project.db')
+	db.row_factory = sqlite3.Row
+	with db:
+		cursor = db.cursor()
+		sql = """
+			SELECT 
+				printf("%s %s", u.FName, u.LName) as student_name, c.name as course_name, 
+				julianday(cc.date)-julianday(p.date) as days_spent_to_complete
+			FROM 
+				User u
+				LEFT JOIN Payment p ON p.CID=u.ID
+				LEFT JOIN CompletesCourse cc ON cc.CID=u.ID
+				INNER JOIN Course c ON p.CID=c.ID
+			GROUP BY 
+				u.ID,p.CID
+			ORDER BY 
+				u.FName, u.LName;
+			""".format()
 
-""".format(int(flask.request.form['InputCourseID']), int(flask.request.form['InputMaterialID']), 
-                     int(flask.request.form['InputQuestion_Number']),int(flask.request.form['InputAnswser_to_Check']))
-				cursor.execute(sql)
-				allrows = cursor.fetchall()
-				cursor.close()
-				return flask.render_template('report_e.html', results=allrows)
-			
-		except sqlite3.Error as err:
-				flask.abort(500)		
-	else:
-		return flask.render_template('login.html')			 
-
+		cursor.execute(sql)
+		allrows = cursor.fetchall()
+		cursor.close()
+		return allrows
+			 
 
 
 
