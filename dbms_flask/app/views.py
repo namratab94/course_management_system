@@ -275,6 +275,8 @@ def getCountries(database):
       sql = "SELECT DISTINCT User.Country FROM User"
       cursor.execute(sql)
       allrows = cursor.fetchall()
+      for i in allrows:
+         print i
       cursor.close()
       return allrows
 
