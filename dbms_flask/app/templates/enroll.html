@@ -1,0 +1,17 @@
+<html>
+
+{% include 'header.html' %}
+
+{% if result == "Successfully Enrolled" %}
+Congratulations you are registered for the course. Happy learning.!
+
+{% elif result == "Already Enrolled" %}
+You are already enrolled to the class. You can login to view your courses.
+
+{% else %}
+Sorry.! there is an internal issue. Please login after sometime.
+
+{% endif %}
+
+
+</html>

@@ -142,8 +142,12 @@ def task_d():
         db.row_factory = sqlite3.Row
         with db:
           response = alltasks.task_d(db, int(flask.request.form['InputStudentID']), int(flask.request.form['InputCourseID']))
-          if response:
-            return "Sucessfully Enrolled"
+          if response == 'Already Enrolled':
+            return flask.render_template('enroll.html', result=response)
+          elif response == 'Successfully Enrolled':
+            return flask.render_template('enroll.html', result=response)
+          else:
+            return flask.render_template('enroll.html', result=response)
     else:
         return flask.render_template('task_input_d.html', form=form)
 

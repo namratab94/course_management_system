@@ -108,10 +108,16 @@ def task_d(database, a, b):
       cursor = database.cursor()
       params = (a,b)
       try:
+        cursor.execute("SELECT * from Enroll")
+        allrows = cursor.fetchall()
+        for item in allrows:
+          if item[0] == a and item[1] == b:
+            return "Already Enrolled" 
+        
         cursor.execute("INSERT INTO ENROLL VALUES (?,?)", params)
-        return 'True'
+        return 'Successfully Enrolled'
       except:
-        return
+        'Unable to Enroll'
 
 
 # Report G
