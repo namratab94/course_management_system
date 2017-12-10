@@ -12,6 +12,7 @@ import pdb
 
 user = ''
 roles_user = []
+db = ''
 total_roles = ['student','faculty','admin']
 
 def required_roles(*role):
@@ -25,122 +26,127 @@ def required_roles(*role):
     return wrapped
   return wrapper
 
-@app.route('/enroll', methods=['GET'])
-def index():
-    if flask.session.get('logged_in'):
+def required_login(f):
+  @wraps(f)
+  def decorated_function(*args, **kwargs):
+    if 'logged_in' not in flask.session: 
+        return flask.redirect(flask.url_for('login'))
+
+    return f(*args)
+  return decorated_function
+
+def required_database(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
       try:
+        global db
         db = sqlite3.connect('project.db')
-        db.row_factory = sqlite3.Row
-        with db:
-          cursor = db.cursor()
-          sql = "select * from Enroll"
-          cursor.execute(sql)
-          allrows = cursor.fetchall() 
-          cursor.close()
-          return flask.render_template('index.html',results=allrows)
-
-      except sqlite3.Error as err: 
-          flask.abort(500)
-
-    else:
-        return flask.render_template('login.html')
-
-@app.route('/register', methods=['GET','POST'])
-@required_roles('admin')
-def register_form():
-    if flask.session.get('logged_in'):    
-        form = RegistrationForm()
-        if flask.request.method == 'POST' and form.validate_on_submit():
-          fname = form.fname.data
-          lname = form.lname.data
-          street = form.street.data
-          city = form.city.data
-          pcode = form.pcode.data
-          country = form.country.data
-          email = form.email.data
-          password = form.password.data.encode('utf-8')
-    
-          try:
-            db = sqlite3.connect('project.db')
-            db.row_factory = sqlite3.Row
-            with db:
-              cursor = db.cursor()
-              sql = "select * from user"
-              cursor.execute(sql)
-              allrows = cursor.fetchall()
-              ids = []
-              for value in allrows:
-                ids.append(value[0])
-              new_id = ids[len(ids) -1] + 1
-              salt = bcrypt.gensalt()
-              hashed = bcrypt.hashpw(password, salt)
-              params = (new_id, fname, lname, street, city, pcode, country, email, salt, hashed, 'NULL')
-              cursor.execute("INSERT INTO User VALUES (?,?,?,?,?,?,?,?,?,?,?)", params)
-              cursor.close()
-              return 'Successfully Registered' +' '+ fname
-
-          except sqlite3.Error as err:
-              print("Error connecting to db: {}".format(err))
-        
-        else:
-            return flask.render_template('registration_form.html',form=form)
-
-    else:
-        return flask.render_template('login.html')         
-
-@app.route('/authenticate', methods=['GET'])
-@required_roles('admin')
-def admin_authenticate():
-    if flask.session.get('logged_in'):   
-      try:
-        db = sqlite3.connect('project.db')
-        db.row_factory = sqlite3.Row
-        with db:
-          cursor = db.cursor()
-          sql = "select * from faculty"
-          cursor.execute(sql)
-          allrows = cursor.fetchall()
-          ids = set() 
-          for faculty in allrows:
-              if faculty[1] and faculty[2]:
-                  ids.add(faculty[0])
-
-          aids = set()
-          sql = "select * from Authentication"
-          cursor.execute(sql)
-          allrows = cursor.fetchall()
-          for auth in allrows:
-              aids.add(auth[0])
-       
-          intersection = ids.intersection(aids)
-          for fid in intersection:
-              ids.remove(fid)
-      
-          for fid in ids:
-              params = (fid, 9, '2017-10-01', '10:00am')
-              cursor.execute("INSERT INTO Authentication VALUES (?,?,?,?)", params)
-      
-          cursor.close()
-          return "Sucessfully Authenticated a faculty with ID = {}".format(fid)
-       
       except sqlite3.Error as err:
           flask.abort(500)
 
-    else:
-        return flask.render_template('login.html')
+      return f(*args, **kwargs)
+    return decorated_function
 
+@app.route('/enroll', methods=['GET'])
+@required_login
+@required_database
+def index():
+    global db
+    db.row_factory = sqlite3.Row
+    with db:
+      db = sqlite3.connect('project.db')
+      cursor = db.cursor()
+      sql = "select * from Enroll"
+      cursor.execute(sql)
+      allrows = cursor.fetchall() 
+      cursor.close()
+      return flask.render_template('index.html',results=allrows)
+
+@app.route('/register', methods=['GET','POST'])
+@required_login
+@required_database
+@required_roles('admin')
+def register_form():
+  form = RegistrationForm()
+  if flask.request.method == 'POST' and form.validate_on_submit():
+    fname = form.fname.data
+    lname = form.lname.data
+    street = form.street.data
+    city = form.city.data
+    pcode = form.pcode.data
+    country = form.country.data
+    email = form.email.data
+    password = form.password.data.encode('utf-8')
+    global db
+    db.row_factory = sqlite3.Row
+    with db:
+      cursor = db.cursor()
+      sql = "select * from user"
+      cursor.execute(sql)
+      allrows = cursor.fetchall()
+      ids = []
+      for value in allrows:
+        ids.append(value[0])
+
+      new_id = ids[len(ids) -1] + 1
+      salt = bcrypt.gensalt()
+      hashed = bcrypt.hashpw(password, salt)
+      params = (new_id, fname, lname, street, city, pcode, country, email, salt, hashed, 'NULL')
+      cursor.execute("INSERT INTO User VALUES (?,?,?,?,?,?,?,?,?,?,?)", params)
+      cursor.close()
+      return 'Successfully Registered' +' '+ fname
+       
+  else:
+    return flask.render_template('registration_form.html',form=form)
+
+
+@app.route('/authenticate', methods=['GET'])
+@required_login
+@required_database
+@required_roles('admin')
+
+def admin_authenticate():
+  global db      
+  db.row_factory = sqlite3.Row
+  with db:
+    cursor = db.cursor()
+    sql = "select * from faculty"
+    cursor.execute(sql)
+    allrows = cursor.fetchall()
+    ids = set() 
+    for faculty in allrows:
+      if faculty[1] and faculty[2]:
+        ids.add(faculty[0])
+
+    aids = set()
+    sql = "select * from Authentication"
+    cursor.execute(sql)
+    allrows = cursor.fetchall()
+    for auth in allrows:
+      aids.add(auth[0])
+       
+    intersection = ids.intersection(aids)
+    for fid in intersection:
+      ids.remove(fid)
+      
+    for fid in ids:
+      params = (fid, 9, '2017-10-01', '10:00am')
+      cursor.execute("INSERT INTO Authentication VALUES (?,?,?,?)", params)
+      
+    cursor.close()
+    return "Sucessfully Authenticated a faculty with ID = {}".format(fid)
+       
 @app.route('/')
 def home():
-    #flask.session['logged_in'] = False 
     if not flask.session.get('logged_in'):
         return flask.render_template('login.html')
     else:
         return flask.render_template('layout.html')
 
 @app.route('/login', methods=['POST'])
+@required_database
 def login():
-    admins = ['Jacob','Martin','John','Arvind','Lucas','Rado','Chen','Monica','Lily','Aditya']
-    db = sqlite3.connect('project.db')
+    global db
     db.row_factory = sqlite3.Row
     global user 
     user = flask.request.form['username']
@@ -179,18 +185,17 @@ def logout():
     return home()
 
 @app.route('/task_c', methods = ['GET','POST'])
+@required_login
+@required_database
 @required_roles('student')
 def task_c():
     form = TaskForm()
-    if flask.session.get('logged_in'):
-      if flask.request.method == 'POST':
-        #form = Task()
-        try:
-          db = sqlite3.connect('project.db')
-          db.row_factory = sqlite3.Row
-          with db:
-            cursor = db.cursor()
-            sql = "Select StudentID, CourseName, PrimaryTopic, SecondaryTopic, Rate, Status\
+    if flask.request.method == 'POST':
+        global db
+        db.row_factory = sqlite3.Row
+        with db:
+          cursor = db.cursor()
+          sql = "Select StudentID, CourseName, PrimaryTopic, SecondaryTopic, Rate, Status\
                  From\
 (Select Course.ID as CourseID, Course.name as CourseName, AVG(CompletesCourse.rating) as Rate,Topic.Name as PrimaryTopic, SecondaryTopic\
 	From  COURSE\
@@ -223,18 +228,14 @@ def task_c():
 	on c.CourseID = b.CourseID\
 	order by Rate Desc".format(int(flask.request.form['Input']), int(flask.request.form['Input']), int(flask.request.form['Input']))
 
-            cursor.execute(sql)
-            allrows = cursor.fetchall()
-            cursor.close()
-            return flask.render_template('task_c.html', results=allrows)
-        
-        except sqlite3.Error as err:
-          flask.abort(500)
-      else:
-        return flask.render_template('task_input_c.html', form=form)
+          cursor.execute(sql)
+          allrows = cursor.fetchall()
+          cursor.close()
+          return flask.render_template('task_c.html', results=allrows)
 
     else:
-        return flask.render_template('login.html')
+        return flask.render_template('task_input_c.html', form=form)
+
 
 @app.route('/task_g', methods = ['GET','POST'])
 @required_roles('student')
