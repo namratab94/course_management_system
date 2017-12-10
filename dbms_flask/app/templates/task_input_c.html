@@ -16,8 +16,10 @@
 {% include 'header.html' %}
 
 <form method="post" action="/task_c">
+Enter the ID of a student to get a list of their relevant courses:
+<p>
   {{ form.hidden_tag() }}
-  {{ form.Input() }}
+  Student ID:{{ form.Input() }}
   {{ form.submit }}
 </form>
 </body>

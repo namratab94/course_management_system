@@ -52,7 +52,17 @@ table{
 	background-color: #FFF;
 	padding: 20px;
 	border-radius: 5px
+    	border-spacing: 15px;
+	border: 1px solid black;
+	border-collapse: collapse;
 }
+th, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+	padding: 5px;
+	text-align: left;
+}
+
 .login-form {
 	text-align: center;
 }
