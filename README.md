@@ -4,17 +4,26 @@
 
 ## We are going to run this flask application in a virtual environment on your system.
 
-1. To install flask on your local instance -- 
+0. Preparation:
+  a. Install [git](https://git-scm.com/downloads) and Python if not already installed.
+  b. In your computer's terminal, clone this repository (and login to github if necessary):
+     ```
+     git clone https://github.com/namratab94/course_management_system.git
+     cd course_management_system
+     ```
+ 
+
+1. Install flask on your local instance.
 ```
-pip install virtualenv
+sudo pip install virtualenv
 ```
 
-2. Give a name to the virtual environment --
+2. Give a name to the virtual environment.
 ```
 virtualenv flask
 ```
 
-3. Then flask can be activated by source
+3. Activate the flask environment.
 ```
 # Navigate to your course_management_system directory
 flask/bin/activate
