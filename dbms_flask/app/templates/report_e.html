@@ -1,26 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head><title>Student Time Spent</title>
-<style>
-table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-th, td {
-    padding: 5px;
-    text-align: left;
-}
 
-table{
-    border-spacing: 15px;
-}
-</style>
 
 <body>
 
 {% include 'header.html' %}
-<table style="width:100%">
-Average amount of time spent by students
+<table>
+Average Amount of Time Spent by Students on Courses
  
  {% for item in results %}
   <tr>

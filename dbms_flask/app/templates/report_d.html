@@ -1,28 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head><title>Used To Check a Single Answer to a Single Question </title>
-<style>
-table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-th, td {
-    padding: 5px;
-    text-align: left;
-}
 
-table{
-    border-spacing: 15px;
-}
-</style>
 
 <body>
 
 {% include 'header.html' %}
-<table style="width:100%">
-  <tr>
-     <th>Is_Answer_Correct</th>
-  </tr>
+<table>
+
+Did the student get the correct answer? (1=Yes, 0=No)
  
  {% for item in results %}
   <tr>

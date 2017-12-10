@@ -17,9 +17,11 @@
 
 <form method="post" action="/task_d">
 Enter the ID of a student and course ID to enroll:
+
+<p>
   {{ form.hidden_tag() }}
-  {{ form.InputStudentID() }}
-  {{ form.InputCourseID() }}
+  StudentID: {{ form.InputStudentID() }}
+  CourseID: {{ form.InputCourseID() }}
   {{ form.submit }}
 </form>
 </body>

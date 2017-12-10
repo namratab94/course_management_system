@@ -276,6 +276,8 @@ def getCountries(database):
       cursor.execute(sql)
       allrows = cursor.fetchall()
       cursor.close()
+      for country in allrows:
+	country = country + " "
       return allrows
 
 
