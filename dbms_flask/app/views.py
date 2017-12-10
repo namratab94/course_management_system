@@ -48,6 +48,15 @@ def required_database(f):
       return f(*args, **kwargs)
     return decorated_function
 
+@app.route('/enroll', methods=['GET'])
+@required_login
+@required_database
+def index():
+    global db
+    db.row_factory = sqlite3.Row
+    with db:
+      return flask.render_template('index.html',results=alltasks.index_process(db))
+ 
 
 @app.route('/register', methods=['GET','POST'])
 @required_login
@@ -110,7 +119,7 @@ def login():
 
 @app.route("/unauthorised")
 def unauthorised():
-	return flask.render_template('unauthorised.html')
+  return flask.render_template('unauthorised.html')
 
 @app.route("/logout")
 def logout():
@@ -129,27 +138,6 @@ def task_c():
         return flask.render_template('task_c.html', results=alltasks.task_c_process(db, int(flask.request.form['Input'])))
     else:
         return flask.render_template('task_input_c.html', form=form)
-
-
-@app.route('/task_d', methods = ['GET', 'POST'])
-@required_login
-@required_database
-@required_roles('admin')
-def task_d():
-    form = TaskdForm()
-    if flask.request.method == 'POST':
-        global db
-        db.row_factory = sqlite3.Row
-        with db:
-          response = alltasks.task_d(db, int(flask.request.form['InputStudentID']), int(flask.request.form['InputCourseID']))
-          if response == 'Already Enrolled':
-            return flask.render_template('enroll.html', result=response)
-          elif response == 'Successfully Enrolled':
-            return flask.render_template('enroll.html', result=response)
-          else:
-            return flask.render_template('enroll.html', result=response)
-    else:
-        return flask.render_template('task_input_d.html', form=form)
 
 
 @app.route('/task_g', methods = ['GET','POST'])
@@ -209,56 +197,15 @@ def report_b():
 
   else:
       return flask.render_template('report_input_b.html', form=form)
+    
 
-
-
-
-
-
-
-@app.route('/report_c', methods = ['GET','POST'])
-def report_c():
-  global db
-  db.row_factory = sqlite3.Row
-  with db:
-    return flask.render_template('report_c.html', results=alltasks.report_c(db))
-
-
-
-
-
-
-@app.route('/report_d', methods = ['GET','POST'])
-def report_d():
-  form = ReportdForm()
-  if flask.request.method == 'POST':
+@app.route('/report_f', methods = ['GET'])
+@required_login
+@required_database
+@required_roles('student')
+def report_f():
+  if flask.request.method == 'GET':
     global db
     db.row_factory = sqlite3.Row
     with db:
-      cid = int(flask.request.form['InputCourseID'])
-      mid = int(flask.request.form['InputMaterialID'])
-      qNum = int(flask.request.form['InputQuestion_Number'])
-      ans = int(flask.request.form['InputAnswser_to_Check'])
-      return flask.render_template('report_d.html', results=alltasks.report_d(db, cid, mid, qNum, ans))
-
-  else:
-      return flask.render_template('report_input_d.html', form=form)
-
-
-
-
-
-
-@app.route('/report_e', methods = ['GET'])
-def report_e():
-  global db
-  db.row_factory = sqlite3.Row
-  with db:
-    return flask.render_template('report_e.html', results=alltasks.report_e(db))
-
-
-
-
-
-
-
+      return flask.render_template('report_f.html', results=alltasks.report_f(db))
