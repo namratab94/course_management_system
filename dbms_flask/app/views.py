@@ -119,7 +119,7 @@ def login():
 
 @app.route("/unauthorised")
 def unauthorised():
-  return "You are Unauthorised to Perform this Operation..!"
+	return flask.render_template('unauthorised.html')
 
 @app.route("/logout")
 def logout():

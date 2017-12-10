@@ -12,6 +12,10 @@
 </script>
 </head>
 <body>
+
+{% include 'header.html' %}
+
+
 <form method="post" action="/report_b">
   {{ form.hidden_tag() }}
   {{ form.Input() }}
