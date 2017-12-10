@@ -54,7 +54,7 @@ def  faculty_authenticate(database):
       params = (a, 9, '2017-10-01', '10:00am')
       cursor.execute("INSERT INTO Authentication VALUES (?,?,?,?)", params)
       cursor.close()
-      return "Successfully Authenticated a faculty with ID = {}".format(ids[0])
+      return "Successfully Authenticated a faculty with ID = {}".format(a)
 
     else:
       return "There isn't any user that needs to be authenticated as faculty"
@@ -473,17 +473,4 @@ def report_f(database):
       allrows = cursor.fetchall()
       cursor.close()
       return allrows
-<<<<<<< HEAD
-=======
 
-
-
-
-
-
-
-
-
-
-
->>>>>>> 623a6d8c7bead04f2a8495c990a52037824467e6
