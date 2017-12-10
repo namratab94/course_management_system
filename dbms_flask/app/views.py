@@ -11,6 +11,10 @@ import alltasks
 from userroles import user_roles
 import pdb 
 
+<<<<<<< HEAD
+import task_f
+import task_e
+=======
 user = ''
 roles_user = []
 db = ''
@@ -26,6 +30,7 @@ def required_roles(*role):
       return f(*args, **kwargs)
     return wrapped
   return wrapper
+>>>>>>> master
 
 def required_login(f):
   @wraps(f)
