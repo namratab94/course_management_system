@@ -4,21 +4,24 @@
 
 ## We are going to run this flask application in a virtual environment on your system.
 
-1. Preparation:
-  * Install [git](https://git-scm.com/downloads), Python, and pip if not already installed.
-  * In your computer's terminal, clone this repository (and login to github if necessary):
+## Prerequisites:
+* Git
+* Python
+* Pip (a.k.a python-pip)
+
+## Setting up the project
+1. In your computer's terminal, clone this repository (and login to github if necessary):
      ```
      git clone https://github.com/namratab94/course_management_system.git
      cd course_management_system
      ```
- 
 
-2. Install flask on your local instance.
+2. Install Virtual Environments on your local instance.
 ```
 sudo pip install virtualenv
 ```
 
-3. Give a name to the virtual environment.
+3. Load the Flask virtual environment.
 ```
 virtualenv flask
 ```
@@ -35,12 +38,14 @@ flask/bin/activate
 pip install -r requirements.txt
 ```
 
-6. To start the server at port 8888:
+## Running the Project
+
+1. To start the server at port 8888:
 ```
 python main.py
 ```
 
-7. Open your web browser and go to [localhost:8888](localhost:8888).
+2. Open your web browser and go to [localhost:8888](localhost:8888).
   a. The login credentials are 
     * Username: Rado
     * Password: ddd
