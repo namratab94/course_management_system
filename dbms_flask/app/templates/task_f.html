@@ -1,22 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head><title>Material Completed</title>
-<style>
-table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-th, td {
-    padding: 5px;
-    text-align: left;
-}
 
-table{
-    border-spacing: 15px;
-}
-</style>
 
 <body>
+
+
+{% include 'header.html' %}
+
 Your material has been marked as complete. If the number below is 0, you also have been marked as completing the course.
 {{results}}
 </body>
