@@ -197,3 +197,15 @@ def report_b():
 
   else:
       return flask.render_template('report_input_b.html', form=form)
+	  
+
+@app.route('/report_f', methods = ['GET'])
+@required_login
+@required_database
+@required_roles('student')
+def report_f():
+  if flask.request.method == 'GET':
+    global db
+    db.row_factory = sqlite3.Row
+    with db:
+      return flask.render_template('report_f.html', results=alltasks.report_f(db))
