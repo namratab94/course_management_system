@@ -246,7 +246,24 @@ def report_b():
       return flask.render_template('report_b.html', results=alltasks.report_b(db, str(flask.request.form['Input'])))
 
   else:
-      return flask.render_template('report_input_b.html', form=form)
+      listOfCountries = getCountries(db);
+      return flask.render_template('report_input_b.html', form=form, results=listOfCountries)
+
+
+
+
+
+def getCountries(database):
+    database.row_factory = sqlite3.Row
+    with database:
+      cursor = database.cursor()
+      sql = "SELECT DISTINCT User.Country FROM User"
+      cursor.execute(sql)
+      allrows = cursor.fetchall()
+      cursor.close()
+      return allrows
+
+
 
 
 
