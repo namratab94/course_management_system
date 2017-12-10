@@ -17,8 +17,9 @@
 
 <form method="post" action="/task_h">
 Enter a user ID to see account history!
+<p>
   {{ form.hidden_tag() }}
-  {{ form.Input() }}
+  User ID:{{ form.Input() }}
   {{ form.submit }}
 </form>
 </body>

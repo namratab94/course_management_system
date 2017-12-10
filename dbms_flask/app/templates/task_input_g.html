@@ -16,10 +16,11 @@
 {% include 'header.html' %}
 
 <form method="post" action="/task_g">
-Enter a student and a course they have completed to receive a certificate!
+Enter a student ID and the ID of a course they have completed to receive a certificate!
   {{ form.hidden_tag() }}
-  {{ form.Input1() }}
-  {{ form.Input2() }}
+<p>
+  Student ID:{{ form.Input1() }}
+  Course ID:{{ form.Input2() }}
   {{ form.submit }}
 </form>
 </body>
