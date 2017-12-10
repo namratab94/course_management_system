@@ -230,7 +230,7 @@ def report_c():
 
 @app.route('/report_d', methods = ['GET','POST'])
 def report_d():
-  form = TaskDForm()
+  form = ReportdForm()
   if flask.request.method == 'POST':
     global db
     db.row_factory = sqlite3.Row
