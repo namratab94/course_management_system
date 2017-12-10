@@ -5,8 +5,8 @@
 ## We are going to run this flask application in a virtual environment on your system.
 
 1. Preparation:
-  a. Install [git](https://git-scm.com/downloads), Python, and pip if not already installed.
-  b. In your computer's terminal, clone this repository (and login to github if necessary):
+  * Install [git](https://git-scm.com/downloads), Python, and pip if not already installed.
+  * In your computer's terminal, clone this repository (and login to github if necessary):
      ```
      git clone https://github.com/namratab94/course_management_system.git
      cd course_management_system
