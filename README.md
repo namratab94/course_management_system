@@ -1,67 +1,60 @@
 [![Build Status](https://travis-ci.com/namratab94/course_management_system.svg?token=DHZaauRyh5MCfRFSXQbj&branch=master)](https://travis-ci.com/namratab94/course_management_system)
 
-DBMS - Project
+# DBMS - Project
 
-Run this flask application in a virtual environment on your system.
+## We are going to run this flask application in a virtual environment on your system.
 
-1.To install flask on your local instance -- pip install virtualenv
+## Prerequisites:
+* Git
+* Python
+* Pip (a.k.a python-pip)
 
-2.Give a name to the virtual environment -- virtualenv flask
-  
-Then flask can be activated by source ~{PRESENT_DIR}/flask/bin/activate
+## Setting up the project
+1. In your computer's terminal, clone this repository (and login to github if necessary):
 
-Then install the packages required for the flask application to run,:
-1. Navigate to the requirements file (cd ~{PRESENT_DIR}/course_management_system)
-2. pip install -r requirements.txt
-
-Then finally run python main.py to open a web page listening at port 8888.(localhost:8888 on your webbrowser.)
-
-1. The login credentials are 
-2. Username: Rado
-   Password: ddd
-
-# Course Management System
-
-Steps to setup the project:
-
- * 
- * Ctrl+Shift+S / Cmd+Shift+S to choose to save as Markdown or HTML
- * Drag and drop a file into here to load it
- * File contents are saved in the URL so you can share files
- * 
-Basic useful feature list:
-
- * Ctrl+S / Cmd+S to save the file
- * Ctrl+Shift+S / Cmd+Shift+S to choose to save as Markdown or HTML
- * Drag and drop a file into here to load it
- * File contents are saved in the URL so you can share files
-
-
-I'm no good at writing sample / filler text, so go write something yourself.
-
-Look, a list!
-
- * foo
- * bar
- * baz
-
-And here's some code! :+1:
-
-```javascript
-$(function(){
-  $('div').html('I am a div.');
-});
+For Ubuntu:
+```
+git clone https://github.com/namratab94/course_management_system.git
 ```
 
-This is [on GitHub](https://github.com/jbt/markdown-editor) so let me know if I've b0rked it somewhere.
+2. Install Virtual Environments on your local instance.
 
+For Ubuntu:
+```
+sudo pip install virtualenv
+```
 
-Props to Mr. Doob and his [code editor](http://mrdoob.com/projects/code-editor/), from which
-the inspiration to this, and some handy implementation hints, came.
+3. Load the Flask virtual environment.
 
-### Stuff used to make this:
+For Ubuntu:
+```
+virtualenv flask
+```
 
- * [markdown-it](https://github.com/markdown-it/markdown-it) for Markdown parsing
- * [CodeMirror](http://codemirror.net/) for the awesome syntax-highlighted editor
- * [highlight.js](http://softwaremaniacs.org/soft/highlight/en/) for syntax highlighting in output code blocks
- * [js-deflate](https://github.com/dankogai/js-deflate) for gzipping of data to make it fit in URLs
+4. Activate the flask environment.
+
+For Ubuntu:
+```
+# Navigate to your course_management_system directory
+flask/bin/activate
+```
+
+5. Then install the packages required for the flask application to run:
+
+For Ubuntu:
+```
+# Navigate to the requirements file (cd ~course_management_system/dbms_project)
+pip install -r requirements.txt
+```
+
+## Running the Project
+
+1. To start the server at port 8888:
+```
+cd course_management_system/dbms_flask/
+python main.py
+```
+
+2. Open your web browser and go to [localhost:8888](localhost:8888). The login credentials are: 
+    * Username: Rado
+    * Password: ddd
