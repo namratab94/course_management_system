@@ -191,9 +191,17 @@ def task_c():
     form = TaskForm()
     if flask.request.method == 'POST':
         global db
-        db.row_factory = sqlite3.Row
-        with db:
-          cursor = db.cursor()
+          return flask.render_template('task_c.html', results=task_c_process(db, int(flask.request.form['Input']))
+
+    else:
+        return flask.render_template('task_input_c.html', form=form)
+
+
+def task_c_process(database,studentID):
+
+        database.row_factory = sqlite3.Row
+        with database:
+          cursor = database.cursor()
           sql = "Select StudentID, CourseName, PrimaryTopic, SecondaryTopic, Rate, Status\
                  From\
 (Select Course.ID as CourseID, Course.name as CourseName, AVG(CompletesCourse.rating) as Rate,Topic.Name as PrimaryTopic, SecondaryTopic\
@@ -225,16 +233,12 @@ def task_c():
     Inner Join Enroll on User.ID = Enroll.SID\
     Where User.ID = {}) As c\
 	on c.CourseID = b.CourseID\
-	order by Rate Desc".format(int(flask.request.form['Input']), int(flask.request.form['Input']), int(flask.request.form['Input']))
+	order by Rate Desc".format(studentID)
 
           cursor.execute(sql)
           allrows = cursor.fetchall()
           cursor.close()
-          return flask.render_template('task_c.html', results=allrows)
-
-    else:
-        return flask.render_template('task_input_c.html', form=form)
-
+	  return allrows
 
 @app.route('/task_g', methods = ['GET','POST'])
 @required_login
