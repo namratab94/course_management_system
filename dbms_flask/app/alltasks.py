@@ -182,6 +182,12 @@ def report_a(database):
       cursor.close()
       return allrows
 
+
+
+
+# Report C
+
+
 def report_b(database, a):
     database.row_factory = sqlite3.Row
     with database:
@@ -210,3 +216,173 @@ def report_b(database, a):
       allrows = cursor.fetchall()
       cursor.close()
       return allrows
+
+
+
+# Report C
+
+@app.route('/report_c', methods = ['GET','POST'])
+def report_c():
+	form = Reportform()
+	if flask.session.get('logged_in'):
+		if flask.request.method == 'POST':
+			#from = Task()
+			try:
+				db = sqlite3.connect('project.db')
+				db.row_factory = sqlite3.Row
+				with db:
+					cursor = db.cursor()
+					sql = """ SELECT/ 
+	q.ID as QuestionID, q.QuestionText as QuestionText,/ 
+	c.Name as CourseName, count(q.ID) as Number_Like/
+FROM/
+	(Questions q inner join RelateToMaterial r on q.ID = r.QID/
+	inner join Course c on c.ID = r.RCID)/
+	left join LikesQuestion likeq on q.ID = likeq.QID/
+WHERE/ 
+	q.IsVisible = 1/
+GROUP BY/ 
+	QuestionID/
+ORDER BY/ 
+	Number_like DESC;""" 
+					cursor.execute(sql)
+					allrows = cursor.fetchall()
+					cursor.close()
+					return flask.render_template('report_c.html', results=allrows)
+				
+				except sqlite3.Error as err:
+					flask.abort(500)
+			else:
+				return flask.render_template('user_input.html', form=form)
+				
+		else:
+			return flask.render_template('login.html')	
+
+
+
+
+
+# Report D
+
+@app.route('/report_d', methods = ['GET','POST'])
+def report_d():
+	form = Reportform()
+	if flask.session.get('logged_in'):
+		if flask.request.method == 'POST':
+			#from = Report()
+			try:
+				db = sqlite3.connect('project.db')
+				db.row_factory = sqlite3.Row
+				with db:
+					cursor = db.cursor()
+					sql = """
+SELECT MAX(Feedback='Right') as is_answer_correct/
+FROM/ 
+	(SELECT/ 
+		qq.MID as material_id,/ 
+		qq.CID as course_id,/ 
+		qq.NUMBER as question_number,/ 
+		Text as question_text,/ 
+		ID,/ 
+		A_Text as answer_to_check,/
+		Feedback/
+	FROM/ 
+		Quiz as q/ 
+		INNER JOIN Quiz_Questions as qq ON (q.MID=qq.MID AND q.QCID=qq.CID)/
+		INNER JOIN Quiz_Answers as qa ON (q.MID=qa.MID AND q.QCID=qa.CID)/
+	WHERE/ 
+		course_id={}/ 
+		AND material_id={}/ 
+		AND question_number={}/
+		AND answer_to_check={}/
+		
+	ORDER BY/ 
+		material_id, course_id, qq.NUMBER, ID/
+) SELECTed_answer;""".format(int(flask.request.form['InputCourseID']), int(flask.request.form['InputMaterialID']), 
+                             int(flask.request.form['InputQuestion_Number']),int(flask.request.form['InputAnswser_to_Check']))
+					cursor.execute(sql)
+					allrows = cursor.fetchall()
+					cursor.close()
+					return flask.render_template('report_d.html', results=allrows)
+				
+			except sqlite3.Error as err:
+					flask.abort(500)
+		else:
+			return flask.render_template('report_input_d.html', form=form)
+				
+	else:
+		return flask.render_template('login.html')			 
+
+
+
+
+
+
+# Report E
+
+@app.route('/report_e', methods = ['GET','POST'])
+def report_e():
+	form = Reportform()
+	if flask.session.get('logged_in'):
+		if flask.request.method == 'POST':
+			#from = Report()
+			try:
+				db = sqlite3.connect('project.db')
+				db.row_factory = sqlite3.Row
+				with db:
+					cursor = db.cursor()
+					sql = """
+SELECT MAX(Feedback='Right') as is_answer_correct/
+FROM/ 
+	(SELECT/ 
+		qq.MID as material_id,/ 
+		qq.CID as course_id,/ 
+		qq.NUMBER as question_number,/ 
+		Text as question_text,/ 
+		ID,/ 
+		A_Text as answer_to_check,/
+		Feedback/
+	FROM/ 
+		Quiz as q/ 
+		INNER JOIN Quiz_Questions as qq ON (q.MID=qq.MID AND q.QCID=qq.CID)/
+		INNER JOIN Quiz_Answers as qa ON (q.MID=qa.MID AND q.QCID=qa.CID)/
+	WHERE/ 
+		course_id={}/ 
+		AND material_id={}/ 
+		AND question_number={}/
+		AND answer_to_check={}/
+		
+	ORDER BY/ 
+		material_id, course_id, qq.NUMBER, ID/
+) SELECTed_answer;""".format(int(flask.request.form['InputCourseID']), int(flask.request.form['InputMaterialID']), 
+                             int(flask.request.form['InputQuestion_Number']),int(flask.request.form['InputAnswser_to_Check']))
+					cursor.execute(sql)
+					allrows = cursor.fetchall()
+					cursor.close()
+					return flask.render_template('report_e.html', results=allrows)
+				
+			except sqlite3.Error as err:
+					flask.abort(500)
+		else:
+			return flask.render_template('report_input_e.html', form=form)
+				
+	else:
+		return flask.render_template('login.html')			 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head><title>Used To Check a Single Answer to a Single Question </title>
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+
+table{
+    border-spacing: 15px;
+}
+</style>
+
+<body>
+<table style="width:100%">
+  <tr>
+     <th>Is_Answer_Correct</th>
+  </tr>
+ 
+ {% for item in results %}
+  <tr>
+ {% for value in item %}
+    <td>{{value}}</td>
+ {% endfor %}
+  </tr>
+ {% endfor %}
+</body>
+</html>  
