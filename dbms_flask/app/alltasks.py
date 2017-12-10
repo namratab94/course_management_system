@@ -11,6 +11,31 @@ def index_process(database):
       return allrows
 
 
+def register_form(database):
+    fname = form.fname.data
+    lname = form.lname.data
+    street = form.street.data
+    city = form.city.data
+    pcode = form.pcode.data
+    country = form.country.data
+    email = form.email.data
+    password = form.password.data.encode('utf-8')
+    with database:
+      cursor = database.cursor()
+      sql = "select * from user"
+      cursor.execute(sql)
+      allrows = cursor.fetchall()
+      ids = []
+      for value in allrows:
+        ids.append(value[0])
+
+      new_id = ids[len(ids) -1] + 1
+      salt = bcrypt.gensalt()
+      hashed = bcrypt.hashpw(password, salt)
+      params = (new_id, fname, lname, street, city, pcode, country, email, salt, hashed, 'NULL')
+      cursor.execute("INSERT INTO User VALUES (?,?,?,?,?,?,?,?,?,?,?)", params)
+      cursor.close()
+      return 'Successfully Registered' +' '+ fname
 
 def admin_authenticate():
   global db
