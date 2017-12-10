@@ -28,7 +28,19 @@ To get report B, enter the name of a country:
   {{ form.submit }}
 
 <p>
-Here's a list of countries to choose from: {{ results }}
+
+<table>
+  <tr>
+     <th>Country/th>
+  </tr>
+ 
+ {% for item in results %}
+  <tr>
+ {% for value in item %}
+    <td>{{value}}</td>
+ {% endfor %}
+  </tr>
+ {% endfor %}
 </form>
 </body>
 </html>
