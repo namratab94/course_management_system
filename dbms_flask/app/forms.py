@@ -8,7 +8,8 @@ class RegistrationForm(flask_wtf.Form):
   city         = wtforms.TextField('City')
   pcode        = wtforms.TextField('Pin Code')
   country      = wtforms.TextField('Country')
-  email        = wtforms.TextField("Email",[wtforms.validators.Required("Please enter your email address."), wtforms.validators.Email("Please enter your email address.")])
+  email        = wtforms.TextField("Email",[wtforms.validators.Required("Please enter your email address."),
+                 wtforms.validators.Email("Please enter your email address.")])
   password     = wtforms.TextField('Password')
   submit       = wtforms.SubmitField('Register')
 
