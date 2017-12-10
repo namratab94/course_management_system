@@ -1,5 +1,6 @@
 
 import sqlite3
+import pdb
 
 def register_form(database):
     fname = form.fname.data
@@ -27,7 +28,7 @@ def register_form(database):
       cursor.close()
       return 'Successfully Registered' +' '+ fname
 
-def admin_authenticate(database):
+def  faculty_authenticate(database):
   with database:
     cursor = database.cursor()
     sql = "select * from faculty"
@@ -48,19 +49,34 @@ def admin_authenticate(database):
     intersection = ids.intersection(aids)
     for fid in intersection:
       ids.remove(fid)
-
-    for fid in ids:
-      params = (fid, 9, '2017-10-01', '10:00am')
+     
+    if ids:
+      params = (ids[0], 9, '2017-10-01', '10:00am')
       cursor.execute("INSERT INTO Authentication VALUES (?,?,?,?)", params)
+      cursor.close()
+      return "Successfully Authenticated a faculty with ID = {}".format(ids[0])
 
+    else:
+      return "There isn't any user that needs to be authenticated as faculty"
+
+
+def admin_authenticate(database, a):
+  with database:
+    cursor = database.cursor()
+    aids = set()
+    sql = "select * from Admin"
+    cursor.execute(sql)
+    allrows = cursor.fetchall()
+    for item in allrows:
+      if a == item[0]:
+        return "You are already an admin"
+
+    params = (a, 9, '2017-10-01', '10:00am')
+    cursor.execute("INSERT INTO Admin VALUES (?,?,?,?)", params)
     cursor.close()
-    return "Sucessfully Authenticated a faculty with ID = {}".format(fid)
-
-
-
+    return "Sucessfully authorised User:ID = {} as admin".format(a)
 
 # Task C
-
 def task_c_process(database,studentID):
     database.row_factory = sqlite3.Row
     with database:

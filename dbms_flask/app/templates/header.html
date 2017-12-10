@@ -21,7 +21,9 @@
 		<div class="container-fluid">
 
 		  <ul class="nav navbar-nav">
-		    <li><a href="{{ url_for('register_form') }}">Register</a></li>
+		    <li><a href="{{ url_for('register_form') }}">Register User</a></li>
+                    <li><a href="{{ url_for('faculty_authenticate') }}">Authenticate Faculty</a></li>
+                    <li><a href="{{ url_for('admin_authenticate') }}">Authenticate Admin</a></li>
 		    <li><a href="{{ url_for('task_c') }}">Task C</a></li>
                     <li><a href="{{ url_for('task_d') }}">Task D</a></li>
 		    <li><a href="{{ url_for('task_g') }}">Task G</a></li>

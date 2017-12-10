@@ -62,15 +62,29 @@ def register_form():
   else:
     return flask.render_template('registration_form.html',form=form)
 
-@app.route('/authenticate', methods=['GET'])
+@app.route('/faculty_authenticate', methods=['GET'])
+@required_login
+@required_database
+@required_roles('admin')
+def faculty_authenticate():
+  global db      
+  db.row_factory = sqlite3.Row
+  return flask.render_template('task_b.html',results=alltasks.faculty_authenticate(db))
+
+@app.route('/admin_authenticate', methods=['GET', 'POST'])
 @required_login
 @required_database
 @required_roles('admin')
 def admin_authenticate():
-  global db      
-  db.row_factory = sqlite3.Row
-  alltasks.admin_authenticate(db)
-      
+  form = TaskbForm()
+  if flask.request.method == 'POST':
+    global db
+    db.row_factory = sqlite3.Row
+    return flask.render_template('task_b.html', results = alltasks.admin_authenticate(db, int(flask.request.form['InputID'])))
+  else:
+    return flask.render_template('task_input_b.html', form=form)
+
+
 @app.route('/')
 def home():
     if not flask.session.get('logged_in'):
