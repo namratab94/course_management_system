@@ -8,9 +8,8 @@ class RegistrationForm(flask_wtf.Form):
   city         = wtforms.TextField('City')
   pcode        = wtforms.TextField('Pin Code')
   country      = wtforms.TextField('Country')
-  # email        = wtforms.TextField('Email')
-  email = wtforms.TextField("Email",[wtforms.validators.Required("Please enter your email address."),
-    wtforms.validators.Email("Please enter your email address.")])
+  email        = wtforms.TextField("Email",[wtforms.validators.Required("Please enter your email address."),
+                 wtforms.validators.Email("Please enter your email address.")])
   password     = wtforms.TextField('Password')
   submit       = wtforms.SubmitField('Register')
 
@@ -39,10 +38,14 @@ class TaskfForm(flask_wtf.Form):
   InputCourseID = wtforms.TextField('InputCourseID')
   submit = wtforms.SubmitField('Submit')
 
-class TaskDForm(flask_wtf.Form):
+class ReportdForm(flask_wtf.Form):
   InputCourseID = wtforms.TextField('InputCourseID')
   InputMaterialID = wtforms.TextField('InputMaterialID')
   InputQuestion_Number = wtforms.TextField('InputQuestion_Number')
   InputAnswser_to_Check = wtforms.TextField('InputAnswser_to_Check')
   submit = wtforms.SubmitField('Submit')
 
+class TaskdForm(flask_wtf.Form):
+  InputStudentID = wtforms.TextField('InputStudentID')
+  InputCourseID  = wtforms.TextField('InputCourseID')
+  submit         = wtforms.SubmitField('Submit')

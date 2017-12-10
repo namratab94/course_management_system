@@ -268,7 +268,7 @@ def report_c():
 
 @app.route('/report_d', methods = ['GET','POST'])
 def report_d():
-  form = TaskDForm()
+  form = ReportdForm()
   if flask.request.method == 'POST':
     global db
     db.row_factory = sqlite3.Row
@@ -293,6 +293,19 @@ def report_e():
   db.row_factory = sqlite3.Row
   with db:
     return flask.render_template('report_e.html', results=alltasks.report_e(db))
+
+
+
+@app.route('/report_f', methods = ['GET'])
+@required_login
+@required_database
+@required_roles('student')
+def report_f():
+  if flask.request.method == 'GET':
+    global db
+    db.row_factory = sqlite3.Row
+    with db:
+      return flask.render_template('report_f.html', results=alltasks.report_f(db))
 
 
 

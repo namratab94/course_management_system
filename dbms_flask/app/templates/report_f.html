@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head><title>Query Result</title>
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+
+table{
+    border-spacing: 15px;
+}
+</style>
+
+<body>
+{% include 'header.html' %}
+<table style="width:100%">
+  <tr>
+     <th>Courese_Name</th>
+     <th>Question</th>
+     <th>Answer</th>
+     <th>Likes</th>
+     <th>PostedBy</th> 
+  </tr>
+ 
+ {% for item in results %}
+  <tr>
+ {% for value in item %}
+    <td>{{value}}</td>
+ {% endfor %}
+  </tr>
+ {% endfor %}
+</body>
+</html>  
