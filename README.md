@@ -11,10 +11,10 @@
 
 ## Setting up the project
 1. In your computer's terminal, clone this repository (and login to github if necessary):
-     ```
-     git clone https://github.com/namratab94/course_management_system.git
-     cd course_management_system
-     ```
+```
+git clone https://github.com/namratab94/course_management_system.git
+cd course_management_system
+```
 
 2. Install Virtual Environments on your local instance.
 ```
