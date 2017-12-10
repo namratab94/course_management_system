@@ -8,8 +8,9 @@ class RegistrationForm(flask_wtf.Form):
   city         = wtforms.TextField('City')
   pcode        = wtforms.TextField('Pin Code')
   country      = wtforms.TextField('Country')
-  email        = wtforms.TextField('Email') 
-  submit = wtforms.SubmitField('Register User')
+  email        = wtforms.TextField('Email')
+  password     = wtforms.TextField('Password')
+  submit       = wtforms.SubmitField('Register')
 
 class DateForm(flask_wtf.Form):
   start_date = wtforms.DateField('Start Date', format='%m/%d/%Y', validators=[wtforms.validators.DataRequired()])
@@ -24,6 +25,7 @@ class TaskgForm(flask_wtf.Form):
   Input1 = wtforms.TextField('Input1')
   Input2 = wtforms.TextField('Input2')
   submit = wtforms.SubmitField('Submit')
+<<<<<<< HEAD
 
 class TaskEForm(flask_wtf.Form):
   InputUser = wtforms.TextField('InputUser')
@@ -35,3 +37,5 @@ class TaskFForm(flask_wtf.Form):
   InputMaterial = wtforms.TextField('InputMaterial')
   InputCourse = wtforms.TextField('InputCourse')
   submit = wtforms.SubmitField('Submit')
+=======
+>>>>>>> master

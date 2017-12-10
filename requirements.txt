@@ -1,9 +1,13 @@
+bcrypt==3.1.4
+cffi==1.11.2
 click==6.6
 Flask==0.11.1
 Flask-WTF==0.13.1
 itsdangerous==0.24
 Jinja2==2.8
 MarkupSafe==0.23
+pycparser==2.18
+six==1.11.0
 travis==0.0.3
 Werkzeug==0.11.11
 WTForms==2.1

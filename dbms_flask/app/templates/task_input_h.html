@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>MOCMON Usage Report</title>
+<title>User Input</title>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -12,16 +12,9 @@
 </script>
 </head>
 <body>
-<form method="post" action="/register">
+<form method="post" action="/task_h">
   {{ form.hidden_tag() }}
-  {{ form.fname() }}
-  {{ form.lname() }}
-  {{ form.street() }}
-  {{ form.city() }}
-  {{ form.pcode() }}
-  {{ form.country() }}
-  {{ form.email() }}
-  {{ form.password() }}
+  {{ form.Input() }}
   {{ form.submit }}
 </form>
 </body>
