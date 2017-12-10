@@ -1,47 +1,16 @@
-def index():
-    global db
-    db.row_factory = sqlite3.Row
-    with db:
-      db = sqlite3.connect('project.db')
-      cursor = db.cursor()
+
+import sqlite3
+
+def index_process(database):
+      database = sqlite3.connect('project.db')
+      cursor = database.cursor()
       sql = "select * from Enroll"
       cursor.execute(sql)
       allrows = cursor.fetchall()
       cursor.close()
-      return flask.render_template('index.html',results=allrows)
+      return allrows
 
-def register_form():
-  form = RegistrationForm()
-  if flask.request.method == 'POST' and form.validate_on_submit():
-    fname = form.fname.data
-    lname = form.lname.data
-    street = form.street.data
-    city = form.city.data
-    pcode = form.pcode.data
-    country = form.country.data
-    email = form.email.data
-    password = form.password.data.encode('utf-8')
-    global db
-    db.row_factory = sqlite3.Row
-    with db:
-      cursor = db.cursor()
-      sql = "select * from user"
-      cursor.execute(sql)
-      allrows = cursor.fetchall()
-      ids = []
-      for value in allrows:
-        ids.append(value[0])
 
-      new_id = ids[len(ids) -1] + 1
-      salt = bcrypt.gensalt()
-      hashed = bcrypt.hashpw(password, salt)
-      params = (new_id, fname, lname, street, city, pcode, country, email, salt, hashed, 'NULL')
-      cursor.execute("INSERT INTO User VALUES (?,?,?,?,?,?,?,?,?,?,?)", params)
-      cursor.close()
-      return 'Successfully Registered' +' '+ fname
-
-  else:
-    return flask.render_template('registration_form.html',form=form)
 
 def admin_authenticate():
   global db
