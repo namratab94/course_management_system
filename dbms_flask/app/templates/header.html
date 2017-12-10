@@ -21,7 +21,10 @@
 		<div class="container-fluid">
 
 		  <ul class="nav navbar-nav">
-		    <li><a href="{{ url_for('register_form') }}">Register</a></li>
+
+		    <li><a href="{{ url_for('register_form') }}">Register User</a></li>
+                    <li><a href="{{ url_for('faculty_authenticate') }}">Authenticate Faculty</a></li>
+                    <li><a href="{{ url_for('admin_authenticate') }}">Authenticate Admin</a></li>
 		    <li><a href="{{ url_for('task_c') }}">My Courses</a></li>
                     <li><a href="{{ url_for('task_d') }}">Enroll in a Course</a></li>
 		    <li><a href="{{ url_for('task_e') }}">Course Detail</a></li>
@@ -46,6 +49,7 @@
 		    <li><a href="{{ url_for('report_d') }}">Quiz Grader</a></li>
 		    <li><a href="{{ url_for('report_e') }}">Time Spent</a></li>
 		    <li><a href="{{ url_for('report_f') }}">Most Popular Visible Questions</a></li>
+
 
 {% if session['logged_in'] %}
 		    <li><a href="{{ url_for('logout') }}">Logout</a></li>
