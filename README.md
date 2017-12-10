@@ -18,7 +18,7 @@
 
 2. Install Virtual Environments on your local instance.
 ```
-sudo pip install virtualenv
+pip install virtualenv
 ```
 
 3. Load the Flask virtual environment.
