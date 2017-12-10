@@ -11,6 +11,7 @@ import alltasks
 from userroles import user_roles
 import pdb 
 
+
 user = ''
 roles_user = []
 db = ''
@@ -26,6 +27,7 @@ def required_roles(*role):
       return f(*args, **kwargs)
     return wrapped
   return wrapper
+
 
 def required_login(f):
   @wraps(f)
@@ -164,6 +166,42 @@ def task_d():
             return flask.render_template('enroll.html', result=response)
     else:
         return flask.render_template('task_input_d.html', form=form)
+
+
+@app.route('/task_e', methods = ['GET', 'POST'])
+@required_login
+@required_database
+@required_roles('admin')
+def task_e():
+    form = TaskeForm()
+    if flask.request.method == 'POST':
+        global db
+        db.row_factory = sqlite3.Row
+        with db:
+          sid = int(flask.request.form['InputStudentID'])
+	  cid =  int(flask.request.form['InputCourseID'])
+          response = alltasks.task_e(db,sid, cid)
+          return flask.render_template('task_e.html', result=response)
+    else:
+        return flask.render_template('task_input_e.html', form=form)
+
+
+@app.route('/task_f', methods = ['GET', 'POST'])
+@required_login
+@required_database
+@required_roles('admin')
+def task_f():
+    form = TaskfForm()
+    if flask.request.method == 'POST':
+        global db
+        db.row_factory = sqlite3.Row
+        uid = int(flask.request.form['InputUserID'])
+        mid = int(flask.request.form['InputMaterialID'])
+        cid = int(flask.request.form['InputCourseID'])
+        response = alltasks.task_f(db,uid, mid, cid)
+        return flask.render_template('task_f.html', result=response)
+    else:
+        return flask.render_template('task_input_f.html', form=form)
 
 
 @app.route('/task_g', methods = ['GET','POST'])

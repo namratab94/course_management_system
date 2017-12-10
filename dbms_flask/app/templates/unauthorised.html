@@ -7,10 +7,11 @@
 		Sorry, you are not authorized to view this page.
 	</div>
 
-	<input class="btn btn-primary btn-large btn-block" 
-		value="Continue" 
-		type="submit" 
-		onClick="location.href='/logout'">
+	<a href="{{ url_for('logout') }}"
+	 class="btn btn-primary btn-large btn-block">
+	Continue
+	</a>
+
 </form>
 
 </html>

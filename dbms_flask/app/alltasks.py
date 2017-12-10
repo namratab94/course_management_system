@@ -136,6 +136,121 @@ def task_d(database, a, b):
         'Unable to Enroll'
 
 
+# Task E
+def task_e(database, a, b):
+    with database:
+      cursor = database.cursor()
+      params = (a,b)
+      try:
+        cursor.execute("SELECT * from Enroll")
+        allrows = cursor.fetchall()
+        for item in allrows:
+          if item[0] == a and item[1] == b:
+            return "Already Enrolled" 
+        
+        cursor.execute("INSERT INTO ENROLL VALUES (?,?)", params)
+        return 'Successfully Enrolled'
+      except:
+        'Unable to Enroll'
+
+
+#
+def task_e(db, uid, cid):
+	db.row_factory = sqlite3.Row
+	with db:
+		cursor = db.cursor()
+		sql = """
+			Select User.ID as UserID, 
+				User.FName as FirstName, 
+				User.LName as LastName, 
+				Course.name as CourseName,
+				Material.Name as MaterialName, 
+				Material.ID as MaterialID,
+				CompletesMaterial.time as CompleteTime, 
+				'Complete' as Status
+			From Material
+				Inner Join CompletesMaterial 
+					on Material.CID = CompletesMaterial.CCID 
+						and Material.ID = CompletesMaterial.MID
+				Inner Join Course on Course.ID = Material.CID
+				Inner Join Enroll on Enroll.CID = Course.ID 
+						and Enroll.SID = CompletesMaterial.SID
+				Inner Join User   on User.ID = Enroll.SID
+			Where CompletesMaterial.SID = {} AND Course.ID= {}
+
+			Union
+
+			Select 
+				User.ID as UserID, 
+				User.FName as FirstName, 
+				User.LName as LastName, 
+				Course.name as CourseName,
+				Material.Name as MaterialName,
+				Material.ID as MaterialID,
+				CompletesMaterial.time as CompleteTime, 
+				'UnComplete' as Status
+			From Material
+				Left  Join CompletesMaterial 
+					on Material.CID = CompletesMaterial.CCID 
+						and Material.ID = CompletesMaterial.MID
+				Inner Join Course on Course.ID = Material.CID
+				Left  Join Enroll  on Enroll.CID = Course.ID 
+						and Enroll.SID = CompletesMaterial.SID
+				Inner Join User   on User.ID = Enroll.SID
+			Where Enroll.SID = {} and CompletesMaterial.time is Null AND Course.ID= {}
+			Order by Material.ID 
+	""".format(uid, cid, uid,cid)
+		
+		cursor.execute(sql)
+		allrows = cursor.fetchall()
+		cursor.close()
+		return allrows
+	
+				
+	
+	
+
+
+# Task F
+
+def task_f(db, userParam, materialParam, courseParam):
+	db.row_factory = sqlite3.Row
+	with db:
+	  cursor = db.cursor()
+
+	  # Complete the material
+	  params = (userParam,'12:02pm','2017-11-26',materialParam,courseParam )
+	  sql = """
+		INSERT INTO CompletesMaterial VALUES
+		(?, ?, ?, ?, ?);
+		"""
+	  cursor.execute(sql, params)
+
+	# Check if all materials for the course are complete
+	  params = (userParam, courseParam )
+	  sql = """
+		Select COUNT(*)
+		From Material
+			Left  Join CompletesMaterial 
+				on Material.CID = CompletesMaterial.CCID 
+					and Material.ID = CompletesMaterial.MID
+			Inner Join Course 
+				on Course.ID = Material.CID
+			Left  Join Enroll  
+				on Enroll.CID = Course.ID 
+					and Enroll.SID = CompletesMaterial.SID
+			Inner Join User   on User.ID = Enroll.SID
+		Where Enroll.SID = ? and CompletesMaterial.time is Null AND Course.ID= ?
+		"""
+	  cursor.execute(sql, params)
+	  numberMaterialsLeft = cursor.fetchall()
+	  cursor.close()
+	  return numberMaterialsLeft
+
+
+
+
+
 # Report G
 
 
