@@ -37,11 +37,9 @@ def register_form(database):
       cursor.close()
       return 'Successfully Registered' +' '+ fname
 
-def admin_authenticate():
-  global db
-  db.row_factory = sqlite3.Row
-  with db:
-    cursor = db.cursor()
+def admin_authenticate(database):
+  with database:
+    cursor = database.cursor()
     sql = "select * from faculty"
     cursor.execute(sql)
     allrows = cursor.fetchall()
@@ -68,14 +66,11 @@ def admin_authenticate():
     cursor.close()
     return "Sucessfully Authenticated a faculty with ID = {}".format(fid)
 
-def task_c():
-    form = TaskForm()
-    if flask.request.method == 'POST':
-        global db
-        db.row_factory = sqlite3.Row
-        with db:
-          cursor = db.cursor()
-          sql = "Select StudentID, CourseName, PrimaryTopic, SecondaryTopic, Rate, Status\
+def task_c_process(database,studentID):
+    database.row_factory = sqlite3.Row
+    with database:
+      cursor = database.cursor()
+      sql = "Select StudentID, CourseName, PrimaryTopic, SecondaryTopic, Rate, Status\
                  From\
 (Select Course.ID as CourseID, Course.name as CourseName, AVG(CompletesCourse.rating) as Rate,Topic.Name as PrimaryTopic, SecondaryTopic\
         From  COURSE\
@@ -106,23 +101,18 @@ def task_c():
     Inner Join Enroll on User.ID = Enroll.SID\
     Where User.ID = {}) As c\
         on c.CourseID = b.CourseID\
-        order by Rate Desc".format(int(flask.request.form['Input']), int(flask.request.form['Input']), int(flask.request.form['Input']))
-          cursor.execute(sql)
-          allrows = cursor.fetchall()
-          cursor.close()
-          return flask.render_template('task_c.html', results=allrows)
+        order by Rate Desc".format(int(studentID),int(studentID),int(studentID))
 
-    else:
-        return flask.render_template('task_input_c.html', form=form)
+      cursor.execute(sql)
+      allrows = cursor.fetchall()
+      cursor.close()
+      return allrows
 
-def task_g():
-    form = TaskgForm()
-    if flask.request.method == 'POST':
-      global db
-      db.row_factory = sqlite3.Row
-      with db:
-        cursor = db.cursor()
-        sql = "SELECT printf('Congratulations %s %s! You have completed the %s course on %s.', \
+
+def task_g(database, a, b):
+  with database:
+    cursor = database.cursor()
+    sql = "SELECT printf('Congratulations %s %s! You have completed the %s course on %s.', \
                 u.FName, \
                 u.LName, \
                 c.name, \
@@ -133,24 +123,18 @@ def task_g():
                 INNER JOIN User AS u ON u.id=d.sid \
                 INNER JOIN Payment As p on u.id = p.sid \
                 WHERE \
-                d.SID = {} AND c.ID = {}".format(int(flask.request.form['Input1']),int(flask.request.form['Input2']))
+                d.SID = {} AND c.ID = {}".format(a,b)
 
-        cursor.execute(sql)
-        allrows = cursor.fetchall()
-        cursor.close()
-        return flask.render_template('task_g.html', results=allrows)
+    cursor.execute(sql)
+    allrows = cursor.fetchall()
+    cursor.close()
+    return allrows
 
-    else:
-        return flask.render_template('task_input_g.html', form=form)
-
-def task_h():
-    form = TaskForm()
-    if flask.request.method == 'POST':
-      global db
-      db.row_factory = sqlite3.Row
-      with db:
-        cursor = db.cursor()
-        sql = "SELECT \
+def task_h(database, a):
+    database.row_factory = sqlite3.Row
+    with database:
+      cursor = database.cursor()
+      sql = "SELECT \
             date, action, code as payment_confirmation, name as course_title, cost as course_cost \
             FROM \
             (SELECT \
@@ -163,23 +147,18 @@ def task_h():
             Course AS c ON c.id=transactions.CID \
             WHERE \
             transactions.SID={} \
-            ORDER BY date".format(int(flask.request.form['Input']))
+            ORDER BY date".format(a)
 
 
-        cursor.execute(sql)
-        allrows = cursor.fetchall()
-        cursor.close()
-        return flask.render_template('task_h.html', results=allrows)
+      cursor.execute(sql)
+      allrows = cursor.fetchall()
+      cursor.close()
+      return allrows
 
-    else:
-        return flask.render_template('task_input_h.html', form=form)
-
-def report_a():
-  if flask.request.method == 'GET':
-    global db
-    db.row_factory = sqlite3.Row
-    with db:
-      cursor = db.cursor()
+def report_a(database):
+    database.row_factory = sqlite3.Row
+    with database:
+      cursor = database.cursor()
       sql = "SELECT \
             StudentID, CourseID, StudentFirstName, StudentLastName, \
             sum(CoursePrice) as StudentCost \
@@ -201,15 +180,12 @@ def report_a():
       cursor.execute(sql)
       allrows = cursor.fetchall()
       cursor.close()
-      return flask.render_template('report_a.html', results=allrows)
+      return allrows
 
-def report_b():
-  form = TaskForm()
-  if flask.request.method == 'POST':
-    global db
-    db.row_factory = sqlite3.Row
-    with db:
-      cursor = db.cursor()
+def report_b(database, a):
+    database.row_factory = sqlite3.Row
+    with database:
+      cursor = database.cursor()
       sql = "SELECT \
         u.Country as Country, u.City as City, \
         cast(cast(count(en.CID) as \
@@ -228,11 +204,9 @@ def report_b():
         GROUP BY \
         City\
         ORDER BY\
-        City DESC".format(str(flask.request.form['Input']))
+        City DESC".format(a)
+
       cursor.execute(sql)
       allrows = cursor.fetchall()
       cursor.close()
-      return flask.render_template('report_b.html', results=allrows)
-
-  else:
-      return flask.render_template('report_input_b.html', form=form)
+      return allrows
