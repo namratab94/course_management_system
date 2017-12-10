@@ -12,17 +12,42 @@
 </script>
 </head>
 <body>
+
+
+{% include 'header.html' %}
+
+
 <form method="post" action="/register">
-  {{ form.hidden_tag() }}
-  {{ form.fname() }}
-  {{ form.lname() }}
-  {{ form.street() }}
-  {{ form.city() }}
-  {{ form.pcode() }}
-  {{ form.country() }}
-  {{ form.email() }}
-  {{ form.password() }}
-  {{ form.submit }}
+  <div>
+    {{ form.hidden_tag() }}
+  </div>
+  <div>
+    First Name: {{ form.fname() }}
+  </div>
+  <div>
+    Last Name: {{ form.lname() }}
+  </div>
+  <div>
+    Street: {{ form.street() }}
+  </div>
+  <div>
+    City: {{ form.city() }}
+  </div>
+  <div>
+    Zipcode: {{ form.pcode() }}
+  </div>
+  <div>
+    Country: {{ form.country() }}
+  </div>
+  <div>
+    Email address: {{ form.email() }}
+  </div>
+  <div>
+    Password: {{ form.password() }}
+  </div>
+  <div>
+    {{ form.submit }}
+  </div>
 </form>
 </body>
 </html>
