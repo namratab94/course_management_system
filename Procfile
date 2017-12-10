@@ -1,1 +1,1 @@
-web: python dbms_flask/main.py
+web: gunicorn app:app --log-file=-
