@@ -5,6 +5,26 @@ box-sizing: border-box;
 	background: black;
 	color: white;
 }
+
+.trainly-sidebar{
+	height: 100%;
+	width: 20%;
+	background-color: black;
+	z-index:0;
+	overflow:auto;
+	position: absolute!important;
+	list-style:none;
+	color: #F0F0F6
+}
+
+li{
+	list-style:none;
+	margin: 5px;
+	padding: 5px;
+}
+a{
+	color: white;
+}
  
 *:focus {
 	outline: none;
@@ -21,6 +41,10 @@ html {
 	height: 100%;
 
 }
+
+
+
+
 .login {
 	margin: 20px auto;
 	width: 300px;
