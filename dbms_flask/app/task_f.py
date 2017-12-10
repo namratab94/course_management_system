@@ -8,24 +8,23 @@ import json
 import bcrypt
 import pdb 
 
-
-
 @app.route('/task_f', methods=['GET', 'POST'])
 def task_f():
     if flask.session.get('logged_in'):
-	form = TaskFForm()
+	form=TaskFForm()
 	if flask.request.method == 'POST':
 	      try:
 		db = sqlite3.connect('project.db')
 		db.row_factory = sqlite3.Row
 		with db:
 		  cursor = db.cursor()
-		  userParam = 3
-		  courseParam = 2
+		  userParam = form.InputUser
+		  materialParam = form.InputMaterial
+		  courseParam = form.InputCourse
 
 		  # Complete the material
 		  #TODO: use current date and time
-		  params = (userParam,'12:02pm','2017-11-26',00,000 )
+		  params = (userParam,'12:02pm','2017-11-26',materialParam,courseParam )
 		  sql = """
 			INSERT INTO CompletesMaterial VALUES
 			(?, ?, ?, ?, ?);
@@ -47,9 +46,10 @@ def task_f():
 		  cursor.execute(sql, params)
 		  numberMaterialsLeft = cursor.fetchall()
 
+
+	
+		# Check if all materials for the course are complete
 		  if (numberMaterialsLeft < 1):
-			 
-			# Check if all materials for the course are complete
 			  params = (userParam, courseParam )
 			  sql = """
 				INSERT INTO CompletesCourse VALUES
@@ -57,11 +57,13 @@ def task_f():
 
 				"""
 			  cursor.execute(sql, params)
+			  resultString = "Material %s and course %s have been marked complete." % (courseParam, materialParam)
+		  else:
+		  	resultString = "Material %s has been marked complete." % materialParam
 
 		  cursor.close()
-		  return flask.render_template('task_f_completeMaterial.html',results=1)
+		  return flask.render_template('task_f.html', result=resultString)
 
-		
 	      except sqlite3.Error as err: 
 		  flask.abort(500)
 	else:
