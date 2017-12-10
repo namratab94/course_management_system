@@ -7,6 +7,7 @@ import sys
 import sqlite3
 import json
 import bcrypt
+import alltasks
 from userroles import user_roles
 import pdb 
 
@@ -50,55 +51,13 @@ def required_database(f):
 @app.route('/enroll', methods=['GET'])
 @required_login
 @required_database
-def index():
-    global db
-    db.row_factory = sqlite3.Row
-    with db:
-      db = sqlite3.connect('project.db')
-      cursor = db.cursor()
-      sql = "select * from Enroll"
-      cursor.execute(sql)
-      allrows = cursor.fetchall() 
-      cursor.close()
-      return flask.render_template('index.html',results=allrows)
-
+index()
+ 
 @app.route('/register', methods=['GET','POST'])
 @required_login
 @required_database
 @required_roles('admin')
-def register_form():
-  form = RegistrationForm()
-  if flask.request.method == 'POST' and form.validate_on_submit():
-    fname = form.fname.data
-    lname = form.lname.data
-    street = form.street.data
-    city = form.city.data
-    pcode = form.pcode.data
-    country = form.country.data
-    email = form.email.data
-    password = form.password.data.encode('utf-8')
-    global db
-    db.row_factory = sqlite3.Row
-    with db:
-      cursor = db.cursor()
-      sql = "select * from user"
-      cursor.execute(sql)
-      allrows = cursor.fetchall()
-      ids = []
-      for value in allrows:
-        ids.append(value[0])
-
-      new_id = ids[len(ids) -1] + 1
-      salt = bcrypt.gensalt()
-      hashed = bcrypt.hashpw(password, salt)
-      params = (new_id, fname, lname, street, city, pcode, country, email, salt, hashed, 'NULL')
-      cursor.execute("INSERT INTO User VALUES (?,?,?,?,?,?,?,?,?,?,?)", params)
-      cursor.close()
-      return 'Successfully Registered' +' '+ fname
-       
-  else:
-    return flask.render_template('registration_form.html',form=form)
-
+register_form()
 
 @app.route('/authenticate', methods=['GET'])
 @required_login
@@ -238,18 +197,17 @@ def task_c():
 
 
 @app.route('/task_g', methods = ['GET','POST'])
+@required_login
+@required_database
 @required_roles('student')
 def task_g():
     form = TaskgForm()
-    if flask.session.get('logged_in'):
-      if flask.request.method == 'POST':
-        #form = Task()
-        try:
-          db = sqlite3.connect('project.db')
-          db.row_factory = sqlite3.Row
-          with db:
-            cursor = db.cursor()
-            sql = "SELECT printf('Congratulations %s %s! You have completed the %s course on %s.', \
+    if flask.request.method == 'POST':
+      global db
+      db.row_factory = sqlite3.Row
+      with db:
+        cursor = db.cursor()
+        sql = "SELECT printf('Congratulations %s %s! You have completed the %s course on %s.', \
 		u.FName, \
 		u.LName, \
 		c.name, \
@@ -262,33 +220,27 @@ def task_g():
         	WHERE \
 		d.SID = {} AND c.ID = {}".format(int(flask.request.form['Input1']),int(flask.request.form['Input2']))
              
-            cursor.execute(sql)
-            allrows = cursor.fetchall()
-            cursor.close()
-            return flask.render_template('task_g.html', results=allrows)
-
-        except sqlite3.Error as err:
-          flask.abort(500)
-      else:
-        return flask.render_template('task_input_g.html', form=form)
+        cursor.execute(sql)
+        allrows = cursor.fetchall()
+        cursor.close()
+        return flask.render_template('task_g.html', results=allrows)
 
     else:
-        return flask.render_template('login.html')
+        return flask.render_template('task_input_g.html', form=form)
 
 
 @app.route('/task_h', methods = ['GET','POST'])
+@required_login
+@required_database
 @required_roles('student')
 def task_h():
     form = TaskForm()
-    if flask.session.get('logged_in'):
-      if flask.request.method == 'POST':
-        #form = Task()
-        try:
-          db = sqlite3.connect('project.db')
-          db.row_factory = sqlite3.Row
-          with db:
-            cursor = db.cursor()
-            sql = "SELECT \
+    if flask.request.method == 'POST':
+      global db
+      db.row_factory = sqlite3.Row
+      with db:
+        cursor = db.cursor()
+        sql = "SELECT \
 	    date, action, code as payment_confirmation, name as course_title, cost as course_cost \
             FROM \
 	    (SELECT \
@@ -304,30 +256,25 @@ def task_h():
             ORDER BY date".format(int(flask.request.form['Input']))
 
 
-            cursor.execute(sql)
-            allrows = cursor.fetchall()
-            cursor.close()
-            return flask.render_template('task_h.html', results=allrows)
-
-        except sqlite3.Error as err:
-          flask.abort(500)
-      else:
-        return flask.render_template('task_input_h.html', form=form)
+        cursor.execute(sql)
+        allrows = cursor.fetchall()
+        cursor.close()
+        return flask.render_template('task_h.html', results=allrows)
 
     else:
-        return flask.render_template('login.html')
+        return flask.render_template('task_input_h.html', form=form)
 
 @app.route('/report_a', methods = ['GET'])
+@required_login
+@required_database
 @required_roles('student')
 def report_a():
-    if flask.session.get('logged_in'):
-      if flask.request.method == 'GET':
-        try:
-          db = sqlite3.connect('project.db')
-          db.row_factory = sqlite3.Row
-          with db:
-            cursor = db.cursor()
-            sql = "SELECT \
+  if flask.request.method == 'GET':     
+    global db
+    db.row_factory = sqlite3.Row
+    with db:
+      cursor = db.cursor()
+      sql = "SELECT \
 	    StudentID, CourseID, StudentFirstName, StudentLastName, \
 	    sum(CoursePrice) as StudentCost \
             FROM \
@@ -345,29 +292,24 @@ def report_a():
 	   StudentID \
            ORDER BY \
 	   StudentCost"
-            cursor.execute(sql)
-            allrows = cursor.fetchall()
-            cursor.close()
-            return flask.render_template('report_a.html', results=allrows)
+      cursor.execute(sql)
+      allrows = cursor.fetchall()
+      cursor.close()
+      return flask.render_template('report_a.html', results=allrows)
 
-        except sqlite3.Error as err:
-          flask.abort(500)
-        
-    else:
-        return flask.render_template('login.html')
 
 @app.route('/report_b', methods = ['GET', 'POST'])
+@required_login
+@required_database
 @required_roles('student')
 def report_b():
-    if flask.session.get('logged_in'):
-      form = TaskForm()
-      if flask.request.method == 'POST':
-        try:
-          db = sqlite3.connect('project.db')
-          db.row_factory = sqlite3.Row
-          with db:
-            cursor = db.cursor()
-            sql = "SELECT \
+  form = TaskForm()
+  if flask.request.method == 'POST':
+    global db
+    db.row_factory = sqlite3.Row
+    with db:
+      cursor = db.cursor()
+      sql = "SELECT \
 	u.Country as Country, u.City as City, \
 	cast(cast(count(en.CID) as \
 		double)/cast(count(Isin.CID) as double) * 100 as varchar(20))+ '%' as \
@@ -381,21 +323,15 @@ def report_b():
 	LEFT JOIN CompletesCourse comc on comc.SID = en.SID and comc.CID = en.CID\
 	INNER JOIN Course c on c.ID = Isin.CID\
         WHERE \
-	Country = '{}'\
+	Country like '{}'\
         GROUP BY \
 	City\
         ORDER BY\
 	City DESC".format(str(flask.request.form['Input'])) 
-            cursor.execute(sql)
-            allrows = cursor.fetchall()
-            cursor.close()    
-            return flask.render_template('report_b.html', results=allrows)
+      cursor.execute(sql)
+      allrows = cursor.fetchall()
+      cursor.close()    
+      return flask.render_template('report_b.html', results=allrows)
 
-        except sqlite3.Error as err:
-          flask.abort(500)
-
-      else:
-          return flask.render_template('report_input_b.html', form=form) 
-
-    else:
-        return flask.render_template('login.html')
+  else:
+      return flask.render_template('report_input_b.html', form=form)
