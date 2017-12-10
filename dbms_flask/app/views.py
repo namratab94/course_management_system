@@ -48,15 +48,6 @@ def required_database(f):
       return f(*args, **kwargs)
     return decorated_function
 
-@app.route('/enroll', methods=['GET'])
-@required_login
-@required_database
-def index():
-    global db
-    db.row_factory = sqlite3.Row
-    with db:
-      return flask.render_template('index.html',results=alltasks.index_process(db))
- 
 
 @app.route('/register', methods=['GET','POST'])
 @required_login
@@ -138,6 +129,23 @@ def task_c():
         return flask.render_template('task_c.html', results=alltasks.task_c_process(db, int(flask.request.form['Input'])))
     else:
         return flask.render_template('task_input_c.html', form=form)
+
+
+@app.route('/task_d', methods = ['GET', 'POST'])
+@required_login
+@required_database
+@required_roles('admin')
+def task_d():
+    form = TaskdForm()
+    if flask.request.method == 'POST':
+        global db
+        db.row_factory = sqlite3.Row
+        with db:
+          response = alltasks.task_d(db, int(flask.request.form['InputStudentID']), int(flask.request.form['InputCourseID']))
+          if response:
+            return "Sucessfully Enrolled"
+    else:
+        return flask.render_template('task_input_d.html', form=form)
 
 
 @app.route('/task_g', methods = ['GET','POST'])
