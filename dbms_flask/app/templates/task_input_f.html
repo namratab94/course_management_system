@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>User Input</title>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script>
+    $(function() {
+        $( ".dtpick" ).datepicker();
+    });
+</script>
+</head>
+<body>
+
+{% include 'header.html' %}
+
+<h3> Please input the material and course IDs. </h3>
+<form method="post" action="/task_f">
+  {{ form.hidden_tag() }}
+  I, user {{ form.InputUserID }}
+  have completed the material {{ form.InputMaterialID }}
+  from course {{ form.InputCourseID }}.
+  {{ form.submit }}
+</form>
+</body>
+</html>
