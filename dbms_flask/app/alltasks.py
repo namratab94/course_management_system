@@ -1,4 +1,3 @@
-
 import sqlite3
 import pdb
 
@@ -51,7 +50,8 @@ def  faculty_authenticate(database):
       ids.remove(fid)
      
     if ids:
-      params = (ids[0], 9, '2017-10-01', '10:00am')
+      a = ids.pop()
+      params = (a, 9, '2017-10-01', '10:00am')
       cursor.execute("INSERT INTO Authentication VALUES (?,?,?,?)", params)
       cursor.close()
       return "Successfully Authenticated a faculty with ID = {}".format(ids[0])
@@ -101,20 +101,21 @@ def task_c_process(database,studentID):
     From User\
     Inner Join CompletesCourse ON User.ID = CompletesCourse.SID\
     Where\
-        User.ID = {} Union Select\
+        User.ID = ? Union Select\
         User.ID as StudentID, CID as CourseID, 'interest' as Status\
     From User\
     Inner Join IsInterest ON User.ID = IsInterest.SID\
     Where\
-        User.ID = {} Union Select\
+        User.ID = ? Union Select\
         User.ID as StudentID, CID as CourseID, 'enroll' as Status\
     From User\
     Inner Join Enroll on User.ID = Enroll.SID\
-    Where User.ID = {}) As c\
+    Where User.ID = ?) As c\
         on c.CourseID = b.CourseID\
-        order by Rate Desc".format(int(studentID),int(studentID),int(studentID))
+        order by Rate Desc"
 
-      cursor.execute(sql)
+      params = [int(studentID),int(studentID),int(studentID)] 
+      cursor.execute(sql, params)
       allrows = cursor.fetchall()
       cursor.close()
       return allrows
@@ -134,26 +135,6 @@ def task_d(database, a, b):
         return 'Successfully Enrolled'
       except:
         'Unable to Enroll'
-
-
-# Task E
-def task_e(database, a, b):
-    with database:
-      cursor = database.cursor()
-      params = (a,b)
-      try:
-        cursor.execute("SELECT * from Enroll")
-        allrows = cursor.fetchall()
-        for item in allrows:
-          if item[0] == a and item[1] == b:
-            return "Already Enrolled" 
-        
-        cursor.execute("INSERT INTO ENROLL VALUES (?,?)", params)
-        return 'Successfully Enrolled'
-      except:
-        'Unable to Enroll'
-
-
 #
 def task_e(db, uid, cid):
 	db.row_factory = sqlite3.Row
@@ -176,7 +157,7 @@ def task_e(db, uid, cid):
 				Inner Join Enroll on Enroll.CID = Course.ID 
 						and Enroll.SID = CompletesMaterial.SID
 				Inner Join User   on User.ID = Enroll.SID
-			Where CompletesMaterial.SID = {} AND Course.ID= {}
+			Where CompletesMaterial.SID = ? AND Course.ID= ?
 
 			Union
 
@@ -197,19 +178,15 @@ def task_e(db, uid, cid):
 				Left  Join Enroll  on Enroll.CID = Course.ID 
 						and Enroll.SID = CompletesMaterial.SID
 				Inner Join User   on User.ID = Enroll.SID
-			Where Enroll.SID = {} and CompletesMaterial.time is Null AND Course.ID= {}
+			Where Enroll.SID = ? and CompletesMaterial.time is Null AND Course.ID= ?
 			Order by Material.ID 
-	""".format(uid, cid, uid,cid)
-		
-		cursor.execute(sql)
+	"""
+                params = [uid, cid, uid,cid]
+		cursor.execute(sql, params)
 		allrows = cursor.fetchall()
 		cursor.close()
 		return allrows
 	
-				
-	
-	
-
 
 # Task F
 
@@ -247,12 +224,7 @@ def task_f(db, userParam, materialParam, courseParam):
 	  cursor.close()
 	  return numberMaterialsLeft
 
-
-
-
-
 # Report G
-
 
 def task_g(database, a, b):
   with database:
@@ -268,15 +240,13 @@ def task_g(database, a, b):
                 INNER JOIN User AS u ON u.id=d.sid \
                 INNER JOIN Payment As p on u.id = p.sid \
                 WHERE \
-                d.SID = {} AND c.ID = {}".format(a,b)
+                d.SID = ? AND c.ID = ?"
 
-    cursor.execute(sql)
+    params = [a,b]
+    cursor.execute(sql,params)
     allrows = cursor.fetchall()
     cursor.close()
     return allrows
-
-
-
 
 # Report H
 
@@ -296,17 +266,14 @@ def task_h(database, studentID):
             INNER JOIN  \
             Course AS c ON c.id=transactions.CID \
             WHERE \
-            transactions.SID={} \
-            ORDER BY date".format(studentID)
+            transactions.SID=? \
+            ORDER BY date"
 
-
-      cursor.execute(sql)
+      params = [studentID]
+      cursor.execute(sql,params)
       allrows = cursor.fetchall()
       cursor.close()
       return allrows
-
-
-
 
 # Report A
 
@@ -362,13 +329,14 @@ def report_b(database, a):
         LEFT JOIN CompletesCourse comc on comc.SID = en.SID and comc.CID = en.CID\
         INNER JOIN Course c on c.ID = Isin.CID\
         WHERE \
-        Country like '{}'\
+        Country like ?\
         GROUP BY \
         City\
         ORDER BY\
-        City DESC".format(a)
+        City DESC"
 
-      cursor.execute(sql)
+      params = [a]
+      cursor.execute(sql, params)
       allrows = cursor.fetchall()
       cursor.close()
       return allrows
@@ -427,22 +395,21 @@ def report_d(database, cid, mid, qNum, answerToCheck):
 					INNER JOIN Quiz_Answers as qa 
 						ON (q.MID=qa.MID AND q.QCID=qa.CID)
 				WHERE
-					course_id={}
-					AND material_id={}
-					AND question_number={}
-					AND answer_to_check={}
+					course_id=?
+					AND material_id=?
+					AND question_number=?
+					AND answer_to_check=?
 				ORDER BY
 					material_id, course_id, qq.NUMBER, ID
 			) SELECTed_answer;
-			""".format(cid,mid,qNum,answerToCheck)
+			"""
 
-		cursor.execute(sql)
+                params = [cid,mid,qNum,answerToCheck]
+		cursor.execute(sql, params)
 		allrows = cursor.fetchall()
 		cursor.close()
 		return allrows
 			 
-
-
 
 # Report E
 
@@ -506,6 +473,8 @@ def report_f(database):
       allrows = cursor.fetchall()
       cursor.close()
       return allrows
+<<<<<<< HEAD
+=======
 
 
 
@@ -517,3 +486,4 @@ def report_f(database):
 
 
 
+>>>>>>> 623a6d8c7bead04f2a8495c990a52037824467e6

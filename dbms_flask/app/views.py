@@ -105,8 +105,9 @@ def login():
     roles_user = user_roles[user]
     with db:
       cursor = db.cursor()
-      sql = "select Salt, Hash, FName from User where FName = '{}'".format(flask.request.form['username'])
-      cursor.execute(sql)
+      sql = "select Salt, Hash, FName from User where FName = ?"
+      params = [str(flask.request.form['username'])]
+      cursor.execute(sql, params)
       allrows = cursor.fetchall()
  
     if allrows:
