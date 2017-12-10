@@ -473,3 +473,17 @@ def report_f(database):
       allrows = cursor.fetchall()
       cursor.close()
       return allrows
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> 623a6d8c7bead04f2a8495c990a52037824467e6

@@ -21,21 +21,35 @@
 		<div class="container-fluid">
 
 		  <ul class="nav navbar-nav">
+
 		    <li><a href="{{ url_for('register_form') }}">Register User</a></li>
                     <li><a href="{{ url_for('faculty_authenticate') }}">Authenticate Faculty</a></li>
                     <li><a href="{{ url_for('admin_authenticate') }}">Authenticate Admin</a></li>
-		    <li><a href="{{ url_for('task_c') }}">Task C</a></li>
-                    <li><a href="{{ url_for('task_d') }}">Task D</a></li>
-		    <li><a href="{{ url_for('task_e') }}">Task E</a></li>
-		    <li><a href="{{ url_for('task_f') }}">Task F</a></li>
-		    <li><a href="{{ url_for('task_g') }}">Task G</a></li>
-		    <li><a href="{{ url_for('task_h') }}">Task H</a></li>
-		    <li><a href="{{ url_for('report_a') }}">Report A</a></li>
-		    <li><a href="{{ url_for('report_b') }}">Report B</a></li>
-		    <li><a href="{{ url_for('report_c') }}">Report C</a></li>
-		    <li><a href="{{ url_for('report_d') }}">Report D</a></li>
-		    <li><a href="{{ url_for('report_e') }}">Report E</a></li>
-		    <li><a href="{{ url_for('report_f') }}">Report F</a></li>
+		    <li><a href="{{ url_for('task_c') }}">My Courses</a></li>
+                    <li><a href="{{ url_for('task_d') }}">Enroll in a Course</a></li>
+		    <li><a href="{{ url_for('task_e') }}">Course Detail</a></li>
+		    <li><a href="{{ url_for('task_f') }}">Complete Material</a></li>
+		    <li><a href="{{ url_for('task_g') }}">Course Certificate</a></li>
+		    <li><a href="{{ url_for('task_h') }}">My History</a></li>
+
+		  </ul>
+
+		</div>
+	</div>
+
+
+	<div class="navbar navbar-default">
+		<div class="container-fluid">
+
+		  <ul class="nav navbar-nav">
+
+		    <li><a href="{{ url_for('report_a') }}">Report: Intro Level Costs</a></li>
+		    <li><a href="{{ url_for('report_b') }}">User Transfers by Country</a></li>
+		    <li><a href="{{ url_for('report_c') }}">Most Liked Questions</a></li>
+		    <li><a href="{{ url_for('report_d') }}">Quiz Grader</a></li>
+		    <li><a href="{{ url_for('report_e') }}">Time Spent</a></li>
+		    <li><a href="{{ url_for('report_f') }}">Most Popular Visible Questions</a></li>
+
 
 {% if session['logged_in'] %}
 		    <li><a href="{{ url_for('logout') }}">Logout</a></li>

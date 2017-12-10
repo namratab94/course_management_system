@@ -14,12 +14,14 @@
  <body>
 
 {% include 'header.html' %}
- <form method="post" action="/task_e">
+ <form method="post" action="/report_d">
+For a given question (in a given course/material), enter the student's answer to grade it.
+
    {{ form.hidden_tag() }}
-   {{ form.InputCourseID() }}
-   {{ form.InputMaterialID() }}
-   {{ form.InputQuestion_Number() }}
-   {{ form.InputAnswser_to_Check() }}
+   CourseID:{{ form.InputCourseID() }}
+   MaterialID:{{ form.InputMaterialID() }}
+   Question Number:{{ form.InputQuestion_Number() }}
+   Answer to Check:{{ form.InputAnswser_to_Check() }}
    {{ form.submit }}
  </form>
  </body>
