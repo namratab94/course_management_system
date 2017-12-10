@@ -6,9 +6,13 @@ box-sizing: border-box;
 	outline: none;
 }
 body {
-font-family: Arial;
-background-color: #3498DB;
-padding: 50px;
+	font-family: Arial;
+	    background: white; /* For browsers that do not support gradients */
+	    background: -webkit-linear-gradient(white, grey); /* For Safari 5.1 to 6.0 */
+	    background: -o-linear-gradient(white, grey); /* For Opera 11.1 to 12.0 */
+	    background: -moz-linear-gradient(white, grey); /* For Firefox 3.6 to 15 */
+	    background: linear-gradient(white, grey); /* Standard syntax (must be last) */
+	padding: 50px;
 }
 .login {
 margin: 20px auto;
