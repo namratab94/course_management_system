@@ -191,8 +191,7 @@ def task_c():
     form = TaskForm()
     if flask.request.method == 'POST':
         global db
-          return flask.render_template('task_c.html', results=task_c_process(db, int(flask.request.form['Input']))
-
+        return flask.render_template('task_c.html', results=task_c_process(db, int(flask.request.form['Input'])))
     else:
         return flask.render_template('task_input_c.html', form=form)
 
