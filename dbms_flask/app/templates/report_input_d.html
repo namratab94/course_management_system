@@ -12,6 +12,8 @@
  </script>
  </head>
  <body>
+
+{% include 'header.html' %}
  <form method="post" action="/task_e">
    {{ form.hidden_tag() }}
    {{ form.InputCourseID() }}

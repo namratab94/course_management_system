@@ -241,11 +241,11 @@ def report_b(database, a):
 
 # Report C
 
-def report_c(db):
-	db = sqlite3.connect('project.db')
-	db.row_factory = sqlite3.Row
-	with db:
-		cursor = db.cursor()
+def report_c(database):
+	database = sqlite3.connect('project.db')
+	database.row_factory = sqlite3.Row
+	with database:
+		cursor = database.cursor()
 		sql = """ 
 			SELECT
 				q.ID as QuestionID, 
@@ -268,11 +268,11 @@ def report_c(db):
 	
 # Report D
 
-def report_d(db, cid, mid, qNum, answerToCheck):
-	db = sqlite3.connect('project.db')
-	db.row_factory = sqlite3.Row
-	with db:
-		cursor = db.cursor()
+def report_d(database, cid, mid, qNum, answerToCheck):
+	database = sqlite3.connect('project.db')
+	database.row_factory = sqlite3.Row
+	with database:
+		cursor = database.cursor()
 		sql = """
 			SELECT MAX(Feedback='Right') as is_answer_correct
 			FROM
@@ -298,7 +298,7 @@ def report_d(db, cid, mid, qNum, answerToCheck):
 				ORDER BY
 					material_id, course_id, qq.NUMBER, ID
 			) SELECTed_answer;
-			""".format()
+			""".format(cid,mid,qNum,answerToCheck)
 
 		cursor.execute(sql)
 		allrows = cursor.fetchall()
@@ -310,11 +310,11 @@ def report_d(db, cid, mid, qNum, answerToCheck):
 
 # Report E
 
-def report_e(db):
-	db = sqlite3.connect('project.db')
-	db.row_factory = sqlite3.Row
-	with db:
-		cursor = db.cursor()
+def report_e(database):
+	database = sqlite3.connect('project.db')
+	database.row_factory = sqlite3.Row
+	with database:
+		cursor = database.cursor()
 		sql = """
 			SELECT 
 				printf("%s %s", u.FName, u.LName) as student_name, c.name as course_name, 
@@ -328,7 +328,7 @@ def report_e(db):
 				u.ID,p.CID
 			ORDER BY 
 				u.FName, u.LName;
-			""".format()
+			"""
 
 		cursor.execute(sql)
 		allrows = cursor.fetchall()

@@ -206,15 +206,10 @@ def report_b():
 
 @app.route('/report_c', methods = ['GET','POST'])
 def report_c():
-  form = TaskForm()
-  if flask.request.method == 'POST':
-    global db
-    db.row_factory = sqlite3.Row
-    with db:
-      return flask.render_template('report_c.html', results=alltasks.report_c(db, str(flask.request.form['Input'])))
-
-  else:
-      return flask.render_template('report_input_c.html', form=form)
+  global db
+  db.row_factory = sqlite3.Row
+  with db:
+    return flask.render_template('report_c.html', results=alltasks.report_c(db))
 
 
 
@@ -223,7 +218,7 @@ def report_c():
 
 @app.route('/report_d', methods = ['GET','POST'])
 def report_d():
-  form = TaskForm()
+  form = TaskDForm()
   if flask.request.method == 'POST':
     global db
     db.row_factory = sqlite3.Row
@@ -244,11 +239,10 @@ def report_d():
 
 @app.route('/report_e', methods = ['GET'])
 def report_e():
-  form = TaskForm()
   global db
   db.row_factory = sqlite3.Row
-    with db:
-	return flask.render_template('report_e.html', results=alltasks.report_e(db))
+  with db:
+    return flask.render_template('report_e.html', results=alltasks.report_e(db))
 
 
 
