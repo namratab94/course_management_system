@@ -21,12 +21,12 @@
 1. Check Prerequisites:
 
 If you are on a Window's machine, please perform the following:
-   * [MINGW](http://www.mingw.org/)
-   * [Git](https://git-scm.com/)
-   * [Python](https://www.python.org/)
+   * Install [MINGW](http://www.mingw.org/) if not already installed.
+   * Install [Git](https://git-scm.com/) if not already installed.
+   * Install [Python](https://www.python.org/) if not already installed.
+   * Add the corresponding bin directories to your PATH variable if not already added.
    * Open MINGW.
-   * Add the corresponding bin directories to your PATH variable.
-   * Run git, python, and pip commands to check they are installed.
+   * Run git, python, and pip commands to verify installation.
    
 
 If you are on a Mac or Ubuntu, install the prerequisites through your favorite package manager.
