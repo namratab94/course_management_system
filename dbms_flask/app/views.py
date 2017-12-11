@@ -60,7 +60,16 @@ def register_form():
   if flask.request.method == 'POST' and form.validate_on_submit():
     global db
     db.row_factory = sqlite3.Row
-    alltasks.register_form(db)
+    fname = form.fname.data
+    lname = form.lname.data
+    street = form.street.data
+    city = form.city.data
+    pcode = form.pcode.data
+    country = form.country.data
+    email = form.email.data
+    password = form.password.data.encode('utf-8')
+    result = alltasks.register_form(db, fname, lname, street,city, pcode, country, email, password)
+    return flask.render_template('registration_out.html', results=result)
   else:
     return flask.render_template('registration_form.html',form=form)
 

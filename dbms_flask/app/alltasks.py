@@ -1,16 +1,18 @@
 import sqlite3
 import pdb
 
+
+import os
+import sys
+import json
+import bcrypt
+import alltasks
+from userroles import user_roles
+import pdb 
+
+
 # Task A
-def register_form(database):
-    fname = form.fname.data
-    lname = form.lname.data
-    street = form.street.data
-    city = form.city.data
-    pcode = form.pcode.data
-    country = form.country.data
-    email = form.email.data
-    password = form.password.data.encode('utf-8')
+def register_form(database, fname, lname, street, city, pcode, country, email, password):
     with database:
       cursor = database.cursor()
       sql = "select * from user"
