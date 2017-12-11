@@ -190,7 +190,7 @@ def task_e():
 @app.route('/task_f', methods = ['GET', 'POST'])
 @required_login
 @required_database
-@required_roles('admin')
+@required_roles('student')
 def task_f():
     form = TaskfForm()
     if flask.request.method == 'POST':

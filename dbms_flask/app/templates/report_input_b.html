@@ -29,33 +29,6 @@ To get report B, enter the name of a country:
 
 <p>
 
-<table>
-  <tr>
-     <th>Country/th>
-  </tr>
-
-
- <select>
-
-
- {% for item in results %}
- {% for value in item %}
-  <option value="{{item}}">{{item}}</option>
- {% endfor %}
- {% endfor %}
-
-</select>
-
-
-.......................
- {% for item in results %}
-  <tr>
- {% for value in item %}
-    <td>{{value}}</td>
- {% endfor %}
-  </tr>
- {% endfor %}
-
 </form>
 </body>
 </html>

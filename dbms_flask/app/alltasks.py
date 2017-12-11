@@ -179,7 +179,7 @@ def task_e(db, uid, cid):
 						and Enroll.SID = CompletesMaterial.SID
 				Inner Join User   on User.ID = Enroll.SID
 			Where Enroll.SID = ? and CompletesMaterial.time is Null AND Course.ID= ?
-			Order by Material.ID 
+			Order by MaterialID 
 	"""
                 params = [uid, cid, uid,cid]
 		cursor.execute(sql, params)
@@ -221,6 +221,18 @@ def task_f(db, userParam, materialParam, courseParam):
 		"""
 	  cursor.execute(sql, params)
 	  numberMaterialsLeft = cursor.fetchall()
+
+
+	  if numberMaterialsLeft < 1:
+		# Check if all materials for the course are complete
+		  params = (userParam, courseParam )
+		  sql = """
+			INSERT INTO CompletesCourse VALUES
+			(?, '12:02pm','2017-11-26', ?, NULL, NULL);
+			"""
+		  cursor.execute(sql, params)
+
+
 	  cursor.close()
 	  return numberMaterialsLeft
 
