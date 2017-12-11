@@ -2,7 +2,13 @@
 
 # DBMS - Project
 
-## We are going to run this flask application in a virtual environment on your system.
+### Presentation Videos
+* [Steps to Setup](https://youtu.be/zeQ39YhgZeo)
+* [Demo](https://youtu.be/kLBtOrOzFjw)
+* [Presentation](https://youtu.be/tozAT0Fex3o)
+
+
+## How to Use:
 
 ## Prerequisites:
 * Git
@@ -22,6 +28,10 @@ git clone https://github.com/namratab94/course_management_system.git
 For Ubuntu:
 ```
 sudo pip install virtualenv
+```
+For Mac:
+```
+pip install virtualenv
 ```
 
 3. Load the Flask virtual environment.
