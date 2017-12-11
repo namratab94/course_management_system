@@ -189,7 +189,7 @@ def task_e(db, userParam):
 						and Enroll.SID = CompletesMaterial.SID
 				Inner Join User   on User.ID = Enroll.SID
 			Where Enroll.SID = ? and CompletesMaterial.time is Null 
-			Order by Material.ID;
+			Order by Status, Material.Name;
 	"""
 		cursor.execute(sql, params)
 		allrows = cursor.fetchall()
