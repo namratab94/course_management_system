@@ -45,7 +45,7 @@ For Ubuntu:
 sudo pip install virtualenv
 ```
 
-For Mac:
+For Windows/Mac:
 ```
 pip install virtualenv
 ```
@@ -88,10 +88,12 @@ sudo pip install -r requirements.txt
 
 1. To start the server at port 8888:
 ```
-cd course_management_system/dbms_flask/
+# Navigate to your course_management_system/dbms_flask/ folder.
 python main.py
 ```
 
-2. Open your web browser and go to [localhost:8888](localhost:8888). This will load the login page. The login credentials are: 
+2. Open your web browser and go to [localhost:8888](localhost:8888). 
+
+This will load the login page. The login credentials are: 
     * Username: Rado
     * Password: ddd
