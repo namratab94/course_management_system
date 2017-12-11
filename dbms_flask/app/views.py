@@ -9,8 +9,6 @@ import json
 import bcrypt
 import alltasks
 from userroles import user_roles
-import pdb 
-
 
 user = ''
 roles_user = []
@@ -33,7 +31,7 @@ def required_login(f):
   @wraps(f)
   def decorated_function(*args, **kwargs):
     if 'logged_in' not in flask.session: 
-        return flask.redirect(flask.url_for('login'))
+        return flask.render_template('login.html')
 
     return f(*args)
   return decorated_function
@@ -277,6 +275,8 @@ def report_b():
 
 
 
+
+
 def getCountries(database):
     database.row_factory = sqlite3.Row
     with database:
@@ -298,6 +298,9 @@ def getCountries(database):
 
 
 @app.route('/report_c', methods = ['GET','POST'])
+@required_login
+@required_database
+@required_roles('student')
 def report_c():
   global db
   db.row_factory = sqlite3.Row
@@ -310,6 +313,9 @@ def report_c():
 
 
 @app.route('/report_d', methods = ['GET','POST'])
+@required_login
+@required_database
+@required_roles('student')
 def report_d():
   form = ReportdForm()
   if flask.request.method == 'POST':
@@ -331,6 +337,9 @@ def report_d():
 
 
 @app.route('/report_e', methods = ['GET'])
+@required_login
+@required_database
+@required_roles('student')
 def report_e():
   global db
   db.row_factory = sqlite3.Row
