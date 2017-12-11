@@ -143,7 +143,7 @@ Inner Join CompletesMaterial on Material.CID = CompletesMaterial.CCID and Materi
 Inner Join Course on Course.ID = Material.CID
 Inner Join Enroll on Enroll.CID = Course.ID and Enroll.SID = CompletesMaterial.SID
 Inner Join User   on User.ID = Enroll.SID
-Where CompletesMaterial.SID = 1
+Where CompletesMaterial.SID = ?
 
 Union 
 

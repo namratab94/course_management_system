@@ -177,7 +177,7 @@ def task_e(db, userParam):
 				Material.Name as MaterialName,
 				Material.ID as MaterialID,
 				CompletesMaterial.time as CompleteTime, 
-				'UnComplete' as Status
+				'InComplete' as Status
 			From Material
 				Left  Join CompletesMaterial 
 					on Material.CID = CompletesMaterial.CCID 
