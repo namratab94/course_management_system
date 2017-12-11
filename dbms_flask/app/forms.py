@@ -1,6 +1,10 @@
 import flask_wtf
 import wtforms
 
+#This file is implementation to generate the user forms to give input by user.
+#Each task and report query has different class method to generate form based on the 
+#input requirement.
+
 class RegistrationForm(flask_wtf.Form):
   fname        = wtforms.TextField('First Name')
   lname        = wtforms.TextField('Last Name')

@@ -6,7 +6,8 @@ import bcrypt
 import alltasks
 from userroles import user_roles
 
-
+#This file consists of actual logic of all task and report queries. The queries are queried against sqlite database
+#and returns the response back to user..
 
 # Task A
 def register_form(database, fname, lname, street, city, pcode, country, email, password):
@@ -491,4 +492,3 @@ def report_f(database):
       allrows = cursor.fetchall()
       cursor.close()
       return allrows
-

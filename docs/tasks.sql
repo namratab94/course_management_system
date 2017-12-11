@@ -156,7 +156,7 @@ Left  Join Enroll on Enroll.CID = Course.ID and Enroll.SID = CompletesMaterial.S
 Inner Join User   on User.ID = Enroll.SID
 Where Enroll.SID = ? and CompletesMaterial.time is Null 
 
-Order by Material.ID 
+Order by Status, Material.Name
 
 /*****************************************************************************/
 

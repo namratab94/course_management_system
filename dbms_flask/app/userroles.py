@@ -1,3 +1,6 @@
+
+#Static method defining user roles
+
 user_roles = {'Alice':['student'],\
 'Bob':['student'],\
 'Charlotte':['student'],\

@@ -15,6 +15,7 @@ roles_user = []
 db = ''
 total_roles = ['student','faculty','admin']
 
+#Decorator function to check if the task is executed by the authorised user
 def required_roles(*role):
   def wrapper(f):
     @wraps(f)
@@ -27,6 +28,7 @@ def required_roles(*role):
   return wrapper
 
 
+#Decorator function to check if the user is logged in before executing the task
 def required_login(f):
   @wraps(f)
   def decorated_function(*args, **kwargs):
@@ -35,6 +37,9 @@ def required_login(f):
 
     return f(*args)
   return decorated_function
+
+#Decorator function gets connection object to the sqlite3 database and throw an exception if there
+#are any issues in connecting to it
 
 def required_database(f):
     @wraps(f)
@@ -49,6 +54,7 @@ def required_database(f):
     return decorated_function
 
 
+#This task requires admin role, this will register a new user into the application.
 @app.route('/register', methods=['GET','POST'])
 @required_login
 @required_database
@@ -71,6 +77,7 @@ def register_form():
   else:
     return flask.render_template('registration_form.html',form=form)
 
+#This task will authorise a user to become faculty if he has title and affiliation
 @app.route('/faculty_authenticate', methods=['GET'])
 @required_login
 @required_database
@@ -80,6 +87,8 @@ def faculty_authenticate():
   db.row_factory = sqlite3.Row
   return flask.render_template('task_b.html',results=alltasks.faculty_authenticate(db))
 
+
+#This task will authenticate a fellow user requested to become admin
 @app.route('/admin_authenticate', methods=['GET', 'POST'])
 @required_login
 @required_database
@@ -101,6 +110,8 @@ def home():
     else:
         return flask.render_template('layout.html')
 
+
+#This is the login page to the application
 @app.route('/login', methods=['POST'])
 @required_database
 def login():
@@ -132,16 +143,20 @@ def login():
           flask.flash('wrong password')
     return home()
 
+
+#Returns unauthorised exception when user is executing admin required tasks
 @app.route("/unauthorised")
 def unauthorised():
 	return flask.render_template('unauthorised.html')
 
+#logout implementation
 @app.route("/logout")
 def logout():
     flask.session['logged_in'] = False
     user = '' 
     return home()
 
+#Task C implementation, with input as StudentID
 @app.route('/task_c', methods = ['GET','POST'])
 @required_login
 @required_database
@@ -155,6 +170,7 @@ def task_c():
         return flask.render_template('task_input_c.html', form=form)
 
 
+#Task D implementation, with input studentId and courseId
 @app.route('/task_d', methods = ['GET', 'POST'])
 @required_login
 @required_database
@@ -176,6 +192,8 @@ def task_d():
         return flask.render_template('task_input_d.html', form=form)
 
 
+#Task E implementation, for a student enrolled in a course provides
+#list materials, in order,inndicating the line of demarcation between completed/not completed
 @app.route('/task_e', methods = ['GET', 'POST'])
 @required_login
 @required_database
@@ -194,6 +212,7 @@ def task_e():
         return flask.render_template('task_input_e.html', form=TaskeForm())
 
 
+#Task F, Mark course material as having been completed by a student(possibly resulting in course completion)
 @app.route('/task_f', methods = ['GET', 'POST'])
 @required_login
 @required_database
@@ -212,6 +231,8 @@ def task_f():
         return flask.render_template('task_input_f.html', form=form)
 
 
+#This function implements task g, Provide a certificate of completion for a student (assuming 
+#s/he has successfully completed all materials)
 @app.route('/task_g', methods = ['GET','POST'])
 @required_login
 @required_database
@@ -228,6 +249,9 @@ def task_g():
         return flask.render_template('task_input_g.html', form=form)
 
 
+#This function implements task h, Provide an account history for a user: dates of 
+#enrollment/completion for each course, amount paid (with confirmation code),
+#and total spent.
 @app.route('/task_h', methods = ['GET','POST'])
 @required_login
 @required_database
@@ -243,6 +267,8 @@ def task_h():
     else:
         return flask.render_template('task_input_h.html', form=form)
 
+
+#This function implements report query a
 @app.route('/report_a', methods = ['GET'])
 @required_login
 @required_database
@@ -255,6 +281,7 @@ def report_a():
       return flask.render_template('report_a.html', results=alltasks.report_a(db))
 
 
+#This function implements report query b
 @app.route('/report_b', methods = ['GET', 'POST'])
 @required_login
 @required_database
@@ -273,10 +300,6 @@ def report_b():
 
 
 
-
-
-
-
 def getCountries(database):
     database.row_factory = sqlite3.Row
     with database:
@@ -290,13 +313,7 @@ def getCountries(database):
       return allrows
 
 
-
-
-
-
-
-
-
+#This function implements report query c
 @app.route('/report_c', methods = ['GET','POST'])
 @required_login
 @required_database
@@ -308,10 +325,7 @@ def report_c():
     return flask.render_template('report_c.html', results=alltasks.report_c(db))
 
 
-
-
-
-
+#This function implements report query d
 @app.route('/report_d', methods = ['GET','POST'])
 @required_login
 @required_database
@@ -332,10 +346,7 @@ def report_d():
       return flask.render_template('report_input_d.html', form=form)
 
 
-
-
-
-
+#This function implements report query e
 @app.route('/report_e', methods = ['GET'])
 @required_login
 @required_database
@@ -347,7 +358,7 @@ def report_e():
     return flask.render_template('report_e.html', results=alltasks.report_e(db))
 
 
-
+#This function implements report query f
 @app.route('/report_f', methods = ['GET'])
 @required_login
 @required_database
@@ -358,10 +369,4 @@ def report_f():
     db.row_factory = sqlite3.Row
     with db:
       return flask.render_template('report_f.html', results=alltasks.report_f(db))
-
-
-
-
-
-
 
