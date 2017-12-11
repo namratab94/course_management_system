@@ -32,13 +32,13 @@ If you are on a Window's machine, please perform the following:
 If you are on a Mac or Ubuntu, install the prerequisites through your favorite package manager.
 
 
-1. In your computer's terminal, clone this repository. This may require a github login.
+2. In your computer's terminal, clone this repository. This may require a github login.
 
 ```
 git clone https://github.com/namratab94/course_management_system.git
 ```
 
-2. Install Virtual Environments on your local instance.
+3. Install Virtual Environments on your local instance.
 
 For Ubuntu:
 ```
@@ -50,13 +50,13 @@ For Mac:
 pip install virtualenv
 ```
 
-3. Load the Flask virtual environment.
+4. Load the Flask virtual environment.
 ```
 # Navigate to the course_management_system directory
 virtualenv flask
 ```
 
-4. Activate the flask environment.
+5. Activate the flask environment.
 
 For Ubuntu/Mac:
 ```
@@ -70,7 +70,7 @@ For Windows:
 flask/bin/activate.bat
 ```
 
-5. Then install the packages required for the flask application to run:
+6. Then install the packages required for the flask application to run:
 
 For Mac/Windows:
 ```
