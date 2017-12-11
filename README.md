@@ -95,5 +95,5 @@ python main.py
 2. Open your web browser and go to [localhost:8888](localhost:8888). 
 
 This will load the login page. The login credentials are: 
-    * Username: Rado
-    * Password: ddd
+* Username: Rado
+* Password: ddd
