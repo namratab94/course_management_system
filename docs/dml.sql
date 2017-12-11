@@ -1,34 +1,34 @@
 INSERT INTO User VALUES
-(0,		'Alice',		'Wonder', 		'17 Elmer St.', 'Cambridge', '02139', 'USA', 'awonder@thor.com',	'1234', NULL),
-(1,		'Bob',			'Smith',  		'90 John Ave.', 'Winthrop', '02152', 'USA', 'bsmith@example.com',	'password1234', NULL),
-(2,		'Charlotte',	'Chambers', 	'34 Merry St.', 'Winthrop', '02153', 'USA', 'cchambers@plants.com',	'pa55word', NULL),
-(3,		'Devin',		'Smith',  		'17 Light St.', 'Boston', '02155', 'USA', 'dsmith01@example.com',	'bunny', NULL),
-(4,		'Evelyn',		'Adams',  		'55 Rivera St.', 'Rio', '15673', 'Brazil', 'eadamsbest@barbs.com','kdfjaweroifhi2830dc', NULL),
-(5,		'Fiona',		'Levinson',  	        '17 Jenkins St.', 'Boston', '02155', 'USA', 'support@sample.com',	'ShortBicycleLeafMoleculeFuji', NULL),
+(0,		        'Alice',		'Wonder', 		'17 Elmer St.', 'Cambridge', '02139', 'USA', 'awonder@thor.com', '$2b$12$UvZzZ1SPrXgSuwJgWq.ij.',	'$2b$12$UvZzZ1SPrXgSuwJgWq.ij.MO/9XdOlBUg1gavhr/c3JyUKcJWm236', NULL),
+(1,		        'Bob',			'Smith',  		'90 John Ave.', 'Winthrop', '02152', 'USA', 'bsmith@example.com', '$2b$12$313qedn0RObKEGkBa98Tz.',	'$2b$12$313qedn0RObKEGkBa98Tz.61dFIjM30ZoLfRRHFZaGER4WM6glTUq', NULL),
+(2,		        'Charlotte',	'Chambers', 	'34 Merry St.', 'Winthrop', '02153', 'USA', 'cchambers@plants.com', '$2b$12$ckEdliDX4NJVYs30Md12wu', '$2b$12$ckEdliDX4NJVYs30Md12wuZy2jOBiucyz9Shnfk/r/lot8TfzUJdO', NULL),
+(3,		        'Devin',		'Smith',  		'17 Light St.', 'Boston', '02155', 'USA', 'dsmith01@example.com', '$2b$12$.OoBh18QWoV3.ZiEYFGQHO',	'$2b$12$.OoBh18QWoV3.ZiEYFGQHOC4CHMJRIZINHu2.DbfiC31jYBQlcEpi', NULL),
+(4,		        'Evelyn',		'Adams',  		'55 Rivera St.', 'Rio', '15673', 'Brazil', 'eadamsbest@barbs.com', '$2b$12$0cQi0JqAcXuJYoXfsJFYve',  '$2b$12$0cQi0JqAcXuJYoXfsJFYveKRoTndhqVvYGzduGFKWye2wi.UHHzuu', NULL),
+(5,		        'Fiona',		'Levinson',  	'17 Jenkins St.', 'Boston', '02155', 'USA', 'support@sample.com', '$2b$12$FJHp8FCsif5YZV/6qQL2w.', ' $2b$12$FJHp8FCsif5YZV/6qQL2w.EoD4lizoaSKsMBpBig6yFmkWxgzJ9NW', NULL),
 
 /* Faculty */
-(6,		'Gina',			'Smith',  		'55 Elmer St.', 'Cambridge', '02139', 'USA', 'gina_honorable@yahoo.com', 'password', NULL),
-(7,		'Alex',			'Manuel',  		'17 First St.', 'Boston', '02155', 'USA', 'AMMH@example.com', 'ShortBicycleLeafMoleculeFuji', NULL),
-(8,		'Katie',		'Johnson',  	        '36 Second St.', 'Boston', '02155', 'USA', 'kat_the_rat@gmail.com', 'dfj8204dfn2i03ghf', NULL),
-(11,            'Kathy',                'Green',                '10 Plaintiff St.', 'Sommerville', '02138', 'USA', 'kathy_green@gmail.com', 'asdf24fRFED#23', NULL),
-(12,            'Joe',                  'Tribiyani',            '17 Houston St.', 'NewYork', '10002', 'USA', 'joe_tribiyani@gmail.com', 'FDF234gfrasdfg', NULL),
-(13,            'Michael',              'Scofield',             '20 Jersey St.', 'Boston', '02155', 'USA', 'michael_scofield@gmail.com', 'ShortBicycleLeafMoleculeFuji', NULL),
-(14,            'Sara',                 'Tancredi',             '40 Willow St.', 'Boston', '02155', 'USA', 'sara_tancredi@gmail.com', 'passsssssss', NULL),
-(15,            'Rachael',              'Green',                '100 Comm Ave.', 'Boston', '02155', 'USA', 'rachael_green@gmail.com', '190191', NULL),
-(16,            'Ross',                 'Geller',               '85 Alliston St.', 'Boston', '02215', 'USA', 'ross_geller@gmail.com', '8878', NULL),
-(17,            'Jeremy',               'Freudberg',            '90 College St.', 'Boston', '02155', 'USA', 'jeremy_freudberg@gmail.com', '555555555', NULL),
+(6,		        'Gina',			'Smith',  		'55 Elmer St.', 'Cambridge', '02139', 'USA', 'gina_honorable@yahoo.com', '$2b$12$8SjrtEkQl3XXuRFVRNiLr.', '$2b$12$8SjrtEkQl3XXuRFVRNiLr.MuNtL41xdtZHKDNojEbbepJitjMI5Zu', NULL),
+(7,		        'Alex',			'Manuel',  		'17 First St.', 'Boston', '02155', 'USA', 'AMMH@example.com', '$2b$12$9PELubl9qdbJJVAZoOs8uO', '$2b$12$9PELubl9qdbJJVAZoOs8uOogkj25NZt/O9D09BmyBXK/zGbmbnLRK', NULL),
+(8,		        'Katie',		'Johnson',  	'36 Second St.', 'Boston', '02155', 'USA', 'kat_the_rat@gmail.com', '$2b$12$euoyRl5DsJgX1Fquy/sYae', '$2b$12$euoyRl5DsJgX1Fquy/sYaehXLfPPIxxhozwkGLNBWvN0gbuDZ7KGm', NULL),
+(11,            'Kathy',        'Green',                '10 Plaintiff St.', 'Sommerville', '02138', 'USA', 'kathy_green@gmail.com', '$2b$12$DB8rHBC7eRayQLaurNvE4e', '$2b$12$DB8rHBC7eRayQLaurNvE4eXPRtspOoOSXY9o68XyXw6pCxP0vukie', NULL),
+(12,            'Joe',          'Tribiyani',            '17 Houston St.', 'NewYork', '10002', 'USA', 'joe_tribiyani@gmail.com', '$2b$12$0Nsu17f7rMMAByAOd4/afe',  '$2b$12$0Nsu17f7rMMAByAOd4/afe8HAPlFJ0n1VtgIrQJjImJtvmLX86iRC', NULL),
+(13,            'Michael',      'Scofield',             '20 Jersey St.', 'Boston', '02155', 'USA', 'michael_scofield@gmail.com', '$2b$12$sjv5Op4ZlD.QsFKGClMFPu', '$2b$12$sjv5Op4ZlD.QsFKGClMFPuV7nPIb2YwFueLSRbPO391N32j30r9Ea', NULL),
+(14,            'Sara',         'Tancredi',             '40 Willow St.', 'Boston', '02155', 'USA', 'sara_tancredi@gmail.com', '$2b$12$EUfmBlCC0lj2gpN0gPn1Wu', '$2b$12$EUfmBlCC0lj2gpN0gPn1WuO1oy5YRoDzhPFQC4ntXgJbmN6XnHNQG', NULL),
+(15,            'Rachael',      'Green',                '100 Comm Ave.', 'Boston', '02155', 'USA', 'rachael_green@gmail.com', '$2b$12$DnAWrHqvwuat/0dHIJ07yu', '$2b$12$DnAWrHqvwuat/0dHIJ07yu6D/4Jsa.OTCIM3eQQU06of1fBbSFhp6', NULL),
+(16,            'Ross',                 'Geller',               '85 Alliston St.', 'Boston', '02215', 'USA', 'ross_geller@gmail.com', '$2b$12$loBMPAUyJVs281z0nKSt0e', '$2b$12$loBMPAUyJVs281z0nKSt0e6qWxlA8FL9jPXwjHLNhvPQIq3e2JV72', NULL),
+(17,            'Jeremy',               'Freudberg',            '90 College St.', 'Boston', '02155', 'USA', 'jeremy_freudberg@gmail.com', '$2b$12$DD3zLbloLT0zKA3YFOhKG.', '$2b$12$DD3zLbloLT0zKA3YFOhKG.9R8jctd1puvdP31FiWC3HDTAnbIstW2', NULL),
 
 /* Admin and faculty */
-(9,		'Jacob',		'Jacobson',  	        '58 Third St.', 'Montreal', '02155', 'Canada', 'jj@freeemails.com', 'abcd', NULL),
-(10,	        'Martin',		'Martinson',	        '5 Elmer St.', 'Boston', '02155', 'USA', 'mars_curtain_seller@sellers.com', 'aaaaaa', NULL),
-(18,            'John',                 'Martin',               '59 Elmer St.', 'Raleigh', '27513', 'USA', 'john_martin@monster.com', 'asdfasdfasdf', NULL),
-(19,            'Arvind',               'Swamy',                '18 Peterborough', 'Malden', '02148', 'USA', 'arvind_swamy@gmail.com', 'myfaasdfjkasldfa', NULL),
-(20,            'Lucas',                'Xuong',                '20 Lincon St.', 'Boston', '02155', 'USA', 'lucas_xuong@gmail.com', 'mrmagic', NULL),
-(21,            'Rado',                 'Gates',                '15 Glen St.', 'Natick', '01760', 'USA', 'rado_gates@gmail.com', 'ddd', NULL),
-(22,            'Chen',                 'Jashua',               '21 Judith Rd.', 'Natick', '01760', 'USA', 'chen_jashua@gmail.com', 'rerere', NULL),
-(23,            'Monica',               'Sturrman',             '30 Beech Rd.', 'Brookline', '02445', 'USA', 'monica_sturrman@yahoo.com', 'FHU**$)FH#$F)Q@EDHShji', NULL),
-(24,            'Lily',                 'Maverick',             '32 Brattle St.', 'Cambridge', '02139', 'USA', 'lily_maverick@rediff.com', 'masterofdisguise', NULL),
-(25,            'Aditya',               'Veda',                 '98 East Broadway', 'South Boston', '02156', 'USA', 'aditya_veda@gmail.com', 'ffffffffffffffff', NULL);
+(9,		        'Jacob',		        'Jacobson',  	        '58 Third St.', 'Montreal', '02155', 'Canada', 'jj@freeemails.com', '$2b$12$WIuFIdjKY86SM.W1492N8.', '$2b$12$WIuFIdjKY86SM.W1492N8.kNcGcA4REEJWtpEiTxytWqtRYdM1Jk6', NULL),
+(10,	        'Martin',		        'Martinson',	        '5 Elmer St.', 'Boston', '02155', 'USA', 'mars_curtain_seller@sellers.com', '$2b$12$Cm16cXjPUp6u1bZVsrCx5u', '$2b$12$Cm16cXjPUp6u1bZVsrCx5uh2VG3jdOX7cZoc.v0DSqMc6UowcJ4wK', NULL),
+(18,            'John',                 'Martin',               '59 Elmer St.', 'Raleigh', '27513', 'USA', 'john_martin@monster.com', '$2b$12$Unx/jpdO8fvSJhMbaK20Xe', '$2b$12$Unx/jpdO8fvSJhMbaK20Xetzw4c3WQNISJY//j9uSnJFzXSxAHqjG', NULL),
+(19,            'Arvind',               'Swamy',                '18 Peterborough', 'Malden', '02148', 'USA', 'arvind_swamy@gmail.com', '$2b$12$0cId6xG7MTNVyLLV.sT1dO', '$2b$12$0cId6xG7MTNVyLLV.sT1dOh7s6RNtiArFRSffvILGKx7zht34xbjC', NULL),
+(20,            'Lucas',                'Xuong',                '20 Lincon St.', 'Boston', '02155', 'USA', 'lucas_xuong@gmail.com', '$2b$12$Iddj1G.SGPZKM9Pwd8ALmO', '$2b$12$Iddj1G.SGPZKM9Pwd8ALmOMFMXOzBCmxvCcEXNWJItEyrQnU2.QGi', NULL),
+(21,            'Rado',                 'Gates',                '15 Glen St.', 'Natick', '01760', 'USA', 'rado_gates@gmail.com', '$2b$12$0baGUX4tO2Uz84nLsQSUJu', '$2b$12$0baGUX4tO2Uz84nLsQSUJuC8jf5GaOigqVE.2hnLX7O/2xTb1A1Xm', NULL),
+(22,            'Chen',                 'Jashua',               '21 Judith Rd.', 'Natick', '01760', 'USA', 'chen_jashua@gmail.com', '$2b$12$vZgPOWj8/DjARBGbPLRPO.', '$2b$12$vZgPOWj8/DjARBGbPLRPO.RZC8WIr/p8tNg7MNKhKVgxi6O90YJ4u', NULL),
+(23,            'Monica',               'Sturrman',             '30 Beech Rd.', 'Brookline', '02445', 'USA', 'monica_sturrman@yahoo.com', '$2b$12$KVgFesmQm6LpfGZ7yxRXp.', '$2b$12$KVgFesmQm6LpfGZ7yxRXp.09mdOxFtuoB33HbFXSDFY67qP5gYkgC', NULL),
+(24,            'Lily',                 'Maverick',             '32 Brattle St.', 'Cambridge', '02139', 'USA', 'lily_maverick@rediff.com', '$2b$12$ljko9oEYUhvdK.UAOswH5O', '$2b$12$ljko9oEYUhvdK.UAOswH5OIuu8PKk7N9ENsPq7hZHphkJ.Q5m.ts2', NULL),
+(25,            'Aditya',               'Veda',                 '98 East Broadway', 'South Boston', '02156', 'USA', 'aditya_veda@gmail.com', '$2b$12$3qrd9U3sNcwh1GhzzpP.Me', '$2b$12$3qrd9U3sNcwh1GhzzpP.MeKsAV8S66TxJ1Y.tueu9xS2ZAf1Wljjm', NULL);
 
 INSERT INTO ContactInfo VALUES
 (0, '207-612-9990'),
@@ -91,8 +91,7 @@ INSERT INTO Admin VALUES
 (21, 18, '2017-10-01', '10:00am'),
 (22, 9, '2017-10-01', '10:00am'),
 (23, 10, '2017-10-01', '10:00am'),
-(24, 18, '2017-10-01', '10:00am'),
-(25, 10, '2017-10-01', '10:00am');
+(24, 18, '2017-10-01', '10:00am');
 
 INSERT INTO Authentication VALUES
 (6, 10, '2017-10-01', '10:00am'),
@@ -112,8 +111,7 @@ INSERT INTO Authentication VALUES
 (21, 9, '2017-10-01', '10:00am'),
 (22, 10, '2017-10-01', '10:00am'),
 (23, 9, '2017-10-01', '10:00am'),
-(24, 10, '2017-10-01', '10:00am'),
-(25, 10, '2017-10-01', '10:00am');
+(24, 10, '2017-10-01', '10:00am');
 
 INSERT INTO Topic VALUES
 (0, 'Biology'),
@@ -285,7 +283,7 @@ INSERT INTO File VALUES
 ('https://examples.com/11', 1024, 'pdf', 2, 10);
 
 INSERT INTO CompletesMaterial VALUES
-(1, '8:00pm', '2017-11-20', 0, 00),
+(1, null, null, 0, 00),
 (1, '9:00pm', '2017-11-20', 1, 00),
 (1, '10:00pm','2017-11-20', 2, 00),
 (1, '8:00pm', '2017-11-21', 0, 01),
