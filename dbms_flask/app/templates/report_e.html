@@ -7,8 +7,14 @@
 
 {% include 'header.html' %}
 <table>
-Average Amount of Time Spent by Students on Courses
- 
+	Average Amount of Time Spent by Students on Courses
+
+	<tr>
+	 <th> Student</th>
+	 <th> Course </th>
+	 <th> Time Spent</th>
+	</tr>
+
  {% for item in results %}
   <tr>
  {% for value in item %}

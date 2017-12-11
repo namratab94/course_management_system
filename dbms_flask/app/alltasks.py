@@ -1,6 +1,7 @@
 import sqlite3
 import pdb
 
+# Task A
 def register_form(database):
     fname = form.fname.data
     lname = form.lname.data
@@ -26,6 +27,8 @@ def register_form(database):
       cursor.execute("INSERT INTO User VALUES (?,?,?,?,?,?,?,?,?,?,?)", params)
       cursor.close()
       return 'Successfully Registered' +' '+ fname
+
+# Task B
 
 def  faculty_authenticate(database):
   with database:
@@ -120,6 +123,8 @@ def task_c_process(database,studentID):
       cursor.close()
       return allrows
 
+
+# Task D
 def task_d(database, a, b):
     with database:
       cursor = database.cursor()
@@ -135,11 +140,14 @@ def task_d(database, a, b):
         return 'Successfully Enrolled'
       except:
         'Unable to Enroll'
-#
-def task_e(db, uid, cid):
+
+
+# Task E
+def task_e(db, userParam):
 	db.row_factory = sqlite3.Row
 	with db:
 		cursor = db.cursor()
+	  	params = [userParam, userParam ]
 		sql = """
 			Select User.ID as UserID, 
 				User.FName as FirstName, 
@@ -157,7 +165,7 @@ def task_e(db, uid, cid):
 				Inner Join Enroll on Enroll.CID = Course.ID 
 						and Enroll.SID = CompletesMaterial.SID
 				Inner Join User   on User.ID = Enroll.SID
-			Where CompletesMaterial.SID = ? AND Course.ID= ?
+			Where Enroll.SID = ?
 
 			Union
 
@@ -178,10 +186,9 @@ def task_e(db, uid, cid):
 				Left  Join Enroll  on Enroll.CID = Course.ID 
 						and Enroll.SID = CompletesMaterial.SID
 				Inner Join User   on User.ID = Enroll.SID
-			Where Enroll.SID = ? and CompletesMaterial.time is Null AND Course.ID= ?
-			Order by MaterialID 
+			Where Enroll.SID = ? and CompletesMaterial.time is Null 
+			Order by Material.ID;
 	"""
-                params = [uid, cid, uid,cid]
 		cursor.execute(sql, params)
 		allrows = cursor.fetchall()
 		cursor.close()

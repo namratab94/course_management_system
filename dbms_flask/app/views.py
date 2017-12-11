@@ -174,17 +174,17 @@ def task_d():
 @required_database
 @required_roles('admin')
 def task_e():
-    form = TaskeForm()
     if flask.request.method == 'POST':
         global db
         db.row_factory = sqlite3.Row
         with db:
           sid = int(flask.request.form['InputStudentID'])
-	  cid =  int(flask.request.form['InputCourseID'])
-          response = alltasks.task_e(db,sid, cid)
-          return flask.render_template('task_e.html', result=response)
+	  print("SID IS %s" % sid)
+	  result = alltasks.task_e(db,sid)
+          print("RESULT IS %s" % result)
+          return flask.render_template('task_e.html', results=result)
     else:
-        return flask.render_template('task_input_e.html', form=form)
+        return flask.render_template('task_input_e.html', form=TaskeForm())
 
 
 @app.route('/task_f', methods = ['GET', 'POST'])
@@ -200,7 +200,7 @@ def task_f():
         mid = int(flask.request.form['InputMaterialID'])
         cid = int(flask.request.form['InputCourseID'])
         response = alltasks.task_f(db,uid, mid, cid)
-        return flask.render_template('task_f.html', result=response)
+        return flask.render_template('task_f.html', results=response)
     else:
         return flask.render_template('task_input_f.html', form=form)
 

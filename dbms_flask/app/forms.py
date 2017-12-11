@@ -29,7 +29,6 @@ class TaskgForm(flask_wtf.Form):
 
 class TaskeForm(flask_wtf.Form):
   InputStudentID = wtforms.TextField('InputStudentID')
-  InputCourseID = wtforms.TextField('InputCourseID')
   submit = wtforms.SubmitField('Submit')
 
 class TaskfForm(flask_wtf.Form):

@@ -1,0 +1,17 @@
+<html>
+
+{% include 'header.html' %}
+
+<form>
+	<div class="container-fluid">
+		The user you entered is not in that course.
+	</div>
+
+	<a href="{{ url_for('logout') }}"
+	 class="btn btn-primary btn-large btn-block">
+	Continue
+	</a>
+
+</form>
+
+</html>
